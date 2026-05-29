@@ -4,6 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://pcma1mnvk7u2" path="res://props/sprites/Props.png" id="1_siw38"]
 [ext_resource type="PackedScene" uid="uid://w5gedwn5m48d" path="res://scenes/hitbox/hit_box.tscn" id="2_nxykt"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nxykt"]
+size = Vector2(31, 29)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_siw38"]
 size = Vector2(24, 16)
 
@@ -19,8 +22,9 @@ vframes = 3
 [node name="HitBox" parent="." unique_id=1594258603 instance=ExtResource("2_nxykt")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=1004370164]
-position = Vector2(0, 9)
-shape = SubResource("RectangleShape2D_siw38")
+position = Vector2(0.5, 2.5)
+shape = SubResource("RectangleShape2D_nxykt")
+debug_color = Color(0.96535945, 0.89165515, 0, 0.82500005)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=74586513]
 collision_layer = 16

@@ -25,17 +25,13 @@ centered = false
 metadata/_edit_lock_ = true
 
 [node name="Plant" parent="." unique_id=2052458996 instance=ExtResource("4_lbhrr")]
-position = Vector2(599, 526)
-scale = Vector2(2, 2)
+position = Vector2(852, 476)
 
 [node name="Plant2" parent="." unique_id=1361619018 instance=ExtResource("4_lbhrr")]
-position = Vector2(1256, 757)
-scale = Vector2(2, 2)
+position = Vector2(1036, 739)
 
 [node name="Plant3" parent="." unique_id=431438510 instance=ExtResource("4_lbhrr")]
-position = Vector2(596, 773)
-scale = Vector2(2, 2)
+position = Vector2(849, 723)
 
 [node name="Plant4" parent="." unique_id=353244120 instance=ExtResource("4_lbhrr")]
-position = Vector2(1337, 536)
-scale = Vector2(2, 2)
+position = Vector2(1117, 518)
