@@ -6,24 +6,29 @@ class_name Player extends CharacterBody2D
 
 const DIR_4 = [Vector2.RIGHT, Vector2.DOWN, Vector2.LEFT, Vector2.UP]
 var direction : Vector2 = Vector2.ZERO
-var cardinal_direction : Vector2 = Vector2.ZERO
+var cardinal_direction : Vector2 = Vector2.DOWN
 
-signal DirectionChanged(new_direction : Vector2)
+signal direction_changed(new_direction : Vector2)
 
 func _ready():
+	PlayerManager.player = self
 	state_machine.Initialize(self)
 
 func _process(_delta: float) -> void:
-	direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	direction = Vector2(
+		Input.get_axis("left", "right"),
+		Input.get_axis("up", "down")
+	).normalized()
+	pass
 
 func _physics_process(_delta: float) -> void:
 	move_and_slide()
 
-func UpdateAnimation(state : String) -> void:
+func update_animation(state : String) -> void:
 	animation_player.play(state)
 	pass
 
-func SetDirection() -> bool:
+func set_direction() -> bool:
 	if direction == Vector2.ZERO:
 		return false
 
@@ -34,15 +39,15 @@ func SetDirection() -> bool:
 		return false
 
 	cardinal_direction = new_dir
-	DirectionChanged.emit(new_dir)
+	direction_changed.emit(new_dir)
 	sprite.scale.x = -1 if cardinal_direction == Vector2.LEFT else 1
 	return true
 
 
-func AnimDirection() -> String:
-	if direction.y < 0:
-		return "up"
-	elif direction.y > 0:
+func anim_direction() -> String:
+	if cardinal_direction == Vector2.DOWN:
 		return "down"
+	elif cardinal_direction == Vector2.UP:
+		return "up"
 	else:
 		return "side"
