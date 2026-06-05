@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c2sr5vbogdqjl" path="res://props/plants/plant.gd" id="1_nxykt"]
 [ext_resource type="Texture2D" uid="uid://pcma1mnvk7u2" path="res://props/sprites/Props.png" id="1_siw38"]
-[ext_resource type="PackedScene" uid="uid://w5gedwn5m48d" path="res://scenes/hitbox/hit_box.tscn" id="2_nxykt"]
+[ext_resource type="PackedScene" uid="uid://w5gedwn5m48d" path="res://generalnodes/hitbox/hit_box.tscn" id="2_nxykt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nxykt"]
 size = Vector2(31, 29)

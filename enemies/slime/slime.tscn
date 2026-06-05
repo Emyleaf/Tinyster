@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://b2aypx00i23wq"]
 
 [ext_resource type="Script" uid="uid://dm50qe8hgp0ho" path="res://enemies/scripts/enemy.gd" id="1_6326o"]
-[ext_resource type="Texture2D" uid="uid://bifnm001bqeaw" path="res://assets/player/sprites/Shadow.png" id="1_j284o"]
+[ext_resource type="Texture2D" uid="uid://bifnm001bqeaw" path="res://player/Sprites/Shadow.png" id="1_j284o"]
 [ext_resource type="Texture2D" uid="uid://bbvw8ixq8x24c" path="res://enemies/slime/Slime.png" id="2_6326o"]
-[ext_resource type="PackedScene" uid="uid://b7e5y80fvd4ia" path="res://scenes/hurtbox/hurt_box.tscn" id="2_v3fw7"]
-[ext_resource type="PackedScene" uid="uid://w5gedwn5m48d" path="res://scenes/hitbox/hit_box.tscn" id="3_0oddt"]
+[ext_resource type="PackedScene" uid="uid://b7e5y80fvd4ia" path="res://generalnodes/hurtbox/hurt_box.tscn" id="2_v3fw7"]
+[ext_resource type="PackedScene" uid="uid://w5gedwn5m48d" path="res://generalnodes/hitbox/hit_box.tscn" id="3_0oddt"]
 [ext_resource type="Script" uid="uid://2ohc36m0d0x4" path="res://enemies/scripts/enemy_state_machine.gd" id="4_57eei"]
 [ext_resource type="Script" uid="uid://bgoktucdsh87j" path="res://enemies/scripts/states/enemy_state_idle.gd" id="5_2ui2u"]
 [ext_resource type="Script" uid="uid://3oq1eouo0dne" path="res://enemies/scripts/states/enemy_state_wander.gd" id="6_bkm6f"]
@@ -58,6 +58,18 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ShadowSprite2D:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.925761, 0.6680919, 0.25081274, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_cba7r"]
@@ -139,6 +151,18 @@ tracks/5/keys = {
 "clips": PackedStringArray("destroy"),
 "times": PackedFloat32Array(0.05)
 }
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("ShadowSprite2D:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.925761, 0.6680919, 0.25081274, 1), Color(0.9255881, 0.6681772, 0.25030932, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_beew1"]
 resource_name = "destroy_side"
@@ -219,6 +243,18 @@ tracks/5/keys = {
 "clips": PackedStringArray("destroy"),
 "times": PackedFloat32Array(0.05)
 }
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("ShadowSprite2D:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.925761, 0.6680919, 0.25081274, 1), Color(0.9255881, 0.6681772, 0.25030932, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_7tnrn"]
 resource_name = "destroy_up"
@@ -298,6 +334,18 @@ tracks/5/loop_wrap = true
 tracks/5/keys = {
 "clips": PackedStringArray("destroy"),
 "times": PackedFloat32Array(0.05)
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("ShadowSprite2D:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.925761, 0.6680919, 0.25081274, 1), Color(0.9255881, 0.6681772, 0.25030932, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_6326o"]
