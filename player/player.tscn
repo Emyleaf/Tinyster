@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://jg4so0mogday" path="res://player/scripts/states/state_idle.gd" id="4_dqkch"]
 [ext_resource type="Script" uid="uid://vr1ly68oy86b" path="res://player/scripts/player_statemachine.gd" id="5_8t03j"]
 [ext_resource type="Script" uid="uid://bw62xw5e78se0" path="res://player/scripts/states/state_walk.gd" id="5_qlg0r"]
+[ext_resource type="Script" uid="uid://decrvbol66wqn" path="res://player/scripts/player_camera.gd" id="5_wodsf"]
 [ext_resource type="Script" uid="uid://ddxh4k0ivhynm" path="res://player/scripts/states/state_attack.gd" id="6_tuyoq"]
 [ext_resource type="AudioStream" uid="uid://cllqmuqk1beib" path="res://player/audio/SwordSwoosh.wav" id="8_smehm"]
 [ext_resource type="Script" uid="uid://bba4rkyv8agg5" path="res://player/scripts/player_interactions_host.gd" id="10_d2wvv"]
@@ -517,6 +518,7 @@ libraries/ = SubResource("AnimationLibrary_fjrip")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1714882786]
 position_smoothing_enabled = true
+script = ExtResource("5_wodsf")
 
 [node name="StateMachine" type="Node" parent="." unique_id=1213747249]
 script = ExtResource("5_8t03j")
