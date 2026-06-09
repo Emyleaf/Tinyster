@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bc43nb82i14c0" path="res://dungeon/art/monster_room_icon.png" id="2_hl4ru"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_irn7p"]
+size = Vector2(200, 200)
 
 [sub_resource type="Animation" id="Animation_stk4v"]
 length = 0.001

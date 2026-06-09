@@ -21,15 +21,16 @@ var room: Room : set = set_room
 
 func _ready() -> void:
 	var test_room := Room.new()
-	test_room.type = Room.Type.CAMPFIRE
+	test_room.type = Room.Type.MONSTER
 	test_room.position = Vector2(100,100)
 	room = test_room
 	
-	await get_tree().create_timer(3).timeout
+	await get_tree().create_timer(1).timeout
 	available = true
 
-func set_available(value: bool) -> void:
-	available = value
+func set_available(new_value: bool) -> void:
+	available = new_value
+	
 	if available:
 		animation_player.play("highlight")
 	elif not room.selected:
@@ -46,7 +47,7 @@ func show_selected() -> void:
 	line_2d.modulate = Color.WHITE
 
 
-func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if not available or not event.is_action_pressed("left_mouse"):
 		return
 
