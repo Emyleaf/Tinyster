@@ -5,7 +5,7 @@ signal selected(room:Room)
 
 const ICONS := {
 	Room.Type.NOT_ASSIGNED: [null, Vector2.ONE],
-	Room.Type.MONSTER: [preload("res://dungeon/art/monster_room_icon.png"), Vector2.ONE],
+	Room.Type.MONSTER: [preload("res://dungeon/art/monster_room_icon.png"), Vector2(0.4,0.4)],
 	Room.Type.TREASURE: [preload("res://dungeon/art/treasure_room_icon.png"), Vector2.ONE],
 	Room.Type.CAMPFIRE: [preload("res://dungeon/art/campfire_room_icon.png"), Vector2(0.6, 0.6)],
 	Room.Type.SHOP: [preload("res://dungeon/art/shop_room_icon.png"), Vector2(0.6, 0.6)],
@@ -18,15 +18,6 @@ const ICONS := {
 
 var available := false : set = set_available
 var room: Room : set = set_room
-
-func _ready() -> void:
-	var test_room := Room.new()
-	test_room.type = Room.Type.MONSTER
-	test_room.position = Vector2(100,100)
-	room = test_room
-	
-	await get_tree().create_timer(1).timeout
-	available = true
 
 func set_available(new_value: bool) -> void:
 	available = new_value

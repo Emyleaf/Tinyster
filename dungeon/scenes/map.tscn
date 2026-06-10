@@ -1,14 +1,39 @@
 [gd_scene format=3 uid="uid://d0tgltkm5w12x"]
 
 [ext_resource type="Script" uid="uid://0n16fxsfron3" path="res://dungeon/map_generator.gd" id="1_ngjdg"]
+[ext_resource type="Script" uid="uid://cf3e1fkyxmaa1" path="res://dungeon/scenes/map.gd" id="1_ymosu"]
 
-[node name="Map" type="Control" unique_id=1054283802]
-layout_mode = 3
+[sub_resource type="Gradient" id="Gradient_ngjdg"]
+colors = PackedColorArray(0.9260588, 0.8450189, 0.56234866, 1, 0.47657922, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ymosu"]
+gradient = SubResource("Gradient_ngjdg")
+width = 50
+
+[node name="Map" type="Node2D" unique_id=1183846057]
+script = ExtResource("1_ymosu")
+
+[node name="Visuals" type="Node2D" parent="." unique_id=36885506]
+
+[node name="Lines" type="Node2D" parent="Visuals" unique_id=354533293]
+unique_name_in_owner = true
+
+[node name="Rooms" type="Node2D" parent="Visuals" unique_id=347758185]
+unique_name_in_owner = true
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=239799493]
+offset = Vector2(128, 72)
+
+[node name="MapGenerator" type="Node" parent="." unique_id=605795777]
+script = ExtResource("1_ngjdg")
+
+[node name="MapBackground" type="CanvasLayer" parent="." unique_id=1074705406]
+layer = -1
+
+[node name="Background" type="TextureRect" parent="MapBackground" unique_id=634582826]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="MapGenerator" type="Node" parent="." unique_id=605795777]
-script = ExtResource("1_ngjdg")
+texture = SubResource("GradientTexture1D_ymosu")

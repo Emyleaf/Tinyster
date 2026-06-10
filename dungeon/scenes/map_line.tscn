@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bw30i2pfo5msk"]
+
+[ext_resource type="Texture2D" uid="uid://bn3tlx14g8tnp" path="res://dungeon/art/line.png" id="1_fem3m"]
+
+[node name="MapLine" type="Line2D" unique_id=310631242]
+texture_repeat = 2
+texture = ExtResource("1_fem3m")
+texture_mode = 1

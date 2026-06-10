@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxylliunuevd5"
-path="res://.godot/imported/shop_room_icon.png-8723a4f18dfa29aa6f335796f8b842dc.ctex"
+uid="uid://bn3tlx14g8tnp"
+path="res://.godot/imported/line.png-0beb1449ec1bc37ad53d8a40952045c4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://dungeon/art/shop_room_icon.png"
-dest_files=["res://.godot/imported/shop_room_icon.png-8723a4f18dfa29aa6f335796f8b842dc.ctex"]
+source_file="res://dungeon/art/line.png"
+dest_files=["res://.godot/imported/line.png-0beb1449ec1bc37ad53d8a40952045c4.ctex"]
 
 [params]
 
