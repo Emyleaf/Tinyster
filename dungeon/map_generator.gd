@@ -43,7 +43,7 @@ func _generate_initial_grid() -> Array[Array]:
 		for j in MAP_WIDTH:
 			var current_room := Room.new()
 			var offset := Vector2(randf(), randf()) * PLACEMENT_RANDOMNESS
-			current_room.position = Vector2(j * X_DIST, i * -Y_DIST ) * offset
+			current_room.position = Vector2(j * X_DIST, i * -Y_DIST ) + offset
 			current_room.row = i
 			current_room.column = j
 			current_room.next_rooms = []
@@ -173,27 +173,12 @@ func _set_room_randomly(room_to_set:Room) -> void:
 
 	room_to_set.type = type_candidate
 	
-func _room_has_parent_of_type(room:Room, type:Room.Type) -> bool:
-	var parents : Array[Room] = []
-	if room.column > 0 and room.row > 0:
-		var parent_candidate := map_data[room.row-1][room.column-1] as Room
-		if parent_candidate.next_rooms.has(room):
-			parents.append(parent_candidate)
-		
-	if room.row > 0:
-		var parent_candidate := map_data[room.row-1][room.column] as Room
-		if parent_candidate.next_rooms.has(room):
-			parents.append(parent_candidate)
-
-	if room.column < MAP_WIDTH-1 and room.row > 0:
-		var parent_candidate := map_data[room.row-1][room.column+1] as Room
-		if parent_candidate.next_rooms.has(room):
-			parents.append(parent_candidate)
-			
-	for parent:Room in parents:
-		if parent.type == type:
+func _room_has_parent_of_type(room: Room, type: Room.Type) -> bool:
+	if room.row == 0:
+		return false
+	for parent: Room in map_data[room.row - 1]:
+		if parent.next_rooms.has(room) and parent.type == type:
 			return true
-			
 	return false
 
 func _get_random_room_type_by_weight() -> Room.Type :
