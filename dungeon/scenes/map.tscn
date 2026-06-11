@@ -11,9 +11,11 @@ gradient = SubResource("Gradient_ngjdg")
 width = 50
 
 [node name="Map" type="Node2D" unique_id=1183846057]
+scale = Vector2(4, 4)
 script = ExtResource("1_ymosu")
 
 [node name="Visuals" type="Node2D" parent="." unique_id=36885506]
+scale = Vector2(1.2, 1.2)
 
 [node name="Lines" type="Node2D" parent="Visuals" unique_id=354533293]
 unique_name_in_owner = true
@@ -23,6 +25,7 @@ unique_name_in_owner = true
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=239799493]
 offset = Vector2(128, 72)
+zoom = Vector2(0.8, 0.8)
 
 [node name="MapGenerator" type="Node" parent="." unique_id=605795777]
 script = ExtResource("1_ngjdg")

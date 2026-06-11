@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c2841bq0xgbym"]
+
+[ext_resource type="Script" uid="uid://dvsagj73qtbbm" path="res://dungeon/scenes/room_base.gd" id="1_1ot30"]
+
+[node name="RoomBase" type="Node2D" unique_id=716438338]
+script = ExtResource("1_1ot30")

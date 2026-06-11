@@ -1,58 +1,19 @@
-[gd_scene format=4 uid="uid://bsbe7wll3uofc"]
+[gd_scene format=3 uid="uid://bsbe7wll3uofc"]
 
+[ext_resource type="Script" uid="uid://bvt8qw3ql1bfy" path="res://generalnodes/game.gd" id="1_sgw70"]
 [ext_resource type="PackedScene" uid="uid://bvrhv0ayd3ofv" path="res://player/player.tscn" id="1_yqjtg"]
-[ext_resource type="Texture2D" uid="uid://yxhovo54sndw" path="res://icon.svg" id="2_lnu2h"]
-[ext_resource type="Texture2D" uid="uid://dx6y0d43hvaia" path="res://assets/background_sample.png" id="3_lnu2h"]
-[ext_resource type="PackedScene" uid="uid://d0k7fuu10fp2p" path="res://props/plants/plant.tscn" id="4_lbhrr"]
-[ext_resource type="PackedScene" uid="uid://b2aypx00i23wq" path="res://enemies/slime/slime.tscn" id="5_iywne"]
-[ext_resource type="PackedScene" uid="uid://c2841bq0xgbym" path="res://Tile Maps/Sprites/dungeontiles.tscn" id="6_vn4jk"]
-[ext_resource type="PackedScene" uid="uid://b0p68xg6a26lu" path="res://Tile Maps/Sprites/door.tscn" id="7_se7ik"]
+[ext_resource type="PackedScene" uid="uid://d0tgltkm5w12x" path="res://dungeon/scenes/map.tscn" id="3_0laa2"]
+[ext_resource type="PackedScene" uid="uid://c2841bq0xgbym" path="res://dungeon/scenes/room_base.tscn" id="6_vn4jk"]
 
 [node name="Game" type="Node2D" unique_id=2094591279]
 y_sort_enabled = true
+script = ExtResource("1_sgw70")
 
-[node name="Dungeontiles" parent="." unique_id=1094006032 instance=ExtResource("6_vn4jk")]
-position = Vector2(729, 450)
-tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAEAAAAAAAIAAAAAAAIAAAAAAAMAAAAAAAMAAAABAAAAAAABAAAAAAABAAEAAAABAAEAAAABAAIAAAABAAIAAAABAAMAAAABAAMAAAACAAAAAAACAAAAAAACAAEAAAACAAEAAAACAAIAAAACAAIAAAACAAMAAAACAAMAAAADAAAAAAADAAAAAAADAAEAAAADAAEAAAADAAIAAAADAAIAAAADAAMAAAADAAMAAAAEAAAAAAAEAAAAAAAEAAEAAAAEAAEAAAAEAAIAAAAEAAIAAAAEAAMAAAAEAAMAAAAFAAAAAAAFAAAAAAAFAAEAAAAFAAEAAAAFAAIAAAAFAAIAAAAFAAMAAAAFAAMAAAAOAAAAAAAAAAAAABANAAAAAAABAAAAABAMAAAAAAACAAAAABALAAAAAAADAAAAABAKAAAAAAAEAAAAABAJAAAAAAAFAAAAABAOAAEAAAAAAAEAABANAAEAAAABAAEAABAMAAEAAAACAAEAABALAAEAAAADAAEAABAKAAEAAAAEAAEAABAJAAEAAAAFAAEAABAOAAIAAAAAAAIAABANAAIAAAABAAIAABAMAAIAAAACAAIAABALAAIAAAADAAIAABAKAAIAAAAEAAIAABAJAAIAAAAFAAIAABAOAAMAAAAAAAMAABANAAMAAAABAAMAABAMAAMAAAACAAMAABALAAMAAAADAAMAABAKAAMAAAAEAAMAABAJAAMAAAAFAAMAABAFAAQAAAAFAAMAACAFAAUAAAAFAAIAACAFAAYAAAAFAAEAACAFAAcAAAAFAAAAACAEAAQAAAAEAAMAACAEAAUAAAAEAAIAACAEAAYAAAAEAAEAACAEAAcAAAAEAAAAACADAAQAAAADAAMAACADAAUAAAADAAIAACADAAYAAAADAAEAACADAAcAAAADAAAAACACAAQAAAACAAMAACACAAUAAAACAAIAACACAAYAAAACAAEAACACAAcAAAACAAAAACABAAQAAAABAAMAACABAAUAAAABAAIAACABAAYAAAABAAEAACABAAcAAAABAAAAACAAAAQAAAAAAAMAACAAAAUAAAAAAAIAACAAAAYAAAAAAAEAACAAAAcAAAAAAAAAACAOAAQAAAAAAAMAADANAAQAAAABAAMAADAMAAQAAAACAAMAADALAAQAAAADAAMAADAKAAQAAAAEAAMAADAJAAQAAAAFAAMAACAOAAUAAAAAAAIAADANAAUAAAABAAIAADAMAAUAAAACAAIAADALAAUAAAADAAIAADAKAAUAAAAEAAIAADAJAAUAAAAFAAIAACAOAAYAAAAAAAEAADANAAYAAAABAAEAADAMAAYAAAACAAEAADALAAYAAAADAAEAADAKAAYAAAAEAAEAADAJAAYAAAAFAAEAACAOAAcAAAAAAAAAADANAAcAAAABAAAAADAMAAcAAAACAAAAADALAAcAAAADAAAAADAKAAcAAAAEAAAAADAJAAcAAAAFAAAAADAGAAMAAAAEAAMAAAAGAAIAAAAEAAIAAAAHAAIAAAAEAAIAAAAHAAMAAAAEAAMAAAAGAAQAAAAEAAMAACAGAAUAAAAEAAIAACAHAAQAAAAFAAMAACAHAAUAAAAFAAIAACAGAAYAAAAEAAEAACAHAAYAAAAFAAEAACAIAAIAAAAFAAIAAAAIAAMAAAAFAAMAAAAIAAQAAAAEAAMAACAIAAUAAAAEAAIAACAIAAYAAAAEAAEAACAGAAAAAAADAAAAAAAGAAEAAAAEAAEAAAAHAAEAAAAEAAEAAAAIAAAAAAAEAAAAAAAIAAEAAAAFAAEAAAAGAAcAAAADAAAAACAHAAcAAAADAAAAACAIAAcAAAAEAAAAACA=")
-
-[node name="Player" parent="." unique_id=797235945 instance=ExtResource("1_yqjtg")]
+[node name="Player" parent="." unique_id=1891662130 instance=ExtResource("1_yqjtg")]
 unique_name_in_owner = true
-position = Vector2(968, 580)
-motion_mode = 1
-wall_min_slide_angle = 0.17453292
+position = Vector2(1024, 433)
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1482268122]
-z_index = 1
-position = Vector2(1630, 433)
-texture = ExtResource("2_lnu2h")
+[node name="Map" parent="." unique_id=1183846057 instance=ExtResource("3_0laa2")]
+visible = false
 
-[node name="Background" type="Sprite2D" parent="." unique_id=1129576483]
-z_index = -1
-scale = Vector2(1.7000881, 1.535135)
-texture = ExtResource("3_lnu2h")
-centered = false
-metadata/_edit_lock_ = true
-
-[node name="Plant" parent="." unique_id=2052458996 instance=ExtResource("4_lbhrr")]
-position = Vector2(860, 509)
-
-[node name="Plant2" parent="." unique_id=1361619018 instance=ExtResource("4_lbhrr")]
-position = Vector2(1137, 598)
-
-[node name="Plant3" parent="." unique_id=431438510 instance=ExtResource("4_lbhrr")]
-position = Vector2(829, 629)
-
-[node name="Plant4" parent="." unique_id=353244120 instance=ExtResource("4_lbhrr")]
-position = Vector2(1103, 519)
-
-[node name="Slime" parent="." unique_id=1083380664 instance=ExtResource("5_iywne")]
-position = Vector2(849, 568)
-
-[node name="Slime2" parent="." unique_id=515677624 instance=ExtResource("5_iywne")]
-position = Vector2(1085, 627)
-
-[node name="Slime3" parent="." unique_id=1510367687 instance=ExtResource("5_iywne")]
-position = Vector2(926, 647)
-
-[node name="Door" parent="." unique_id=1069098505 instance=ExtResource("7_se7ik")]
-position = Vector2(969, 468)
+[node name="RoomBase" parent="." unique_id=716438338 instance=ExtResource("6_vn4jk")]

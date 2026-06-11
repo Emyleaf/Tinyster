@@ -22,12 +22,12 @@ func _ready() -> void:
 	
 func _input(event:InputEvent) -> void:
 	if event.is_action_pressed("scroll_up"):
-		camera_2d.position.y -= SCROLL_SPEED
+		camera_2d.position.x += SCROLL_SPEED
 	
 	elif event.is_action_pressed("scroll_down"):
-		camera_2d.position.y += SCROLL_SPEED
+		camera_2d.position.x -= SCROLL_SPEED
 		
-	camera_2d.position.y = clamp(camera_2d.position.y, -camera_edge_y, 0)
+	camera_2d.position.x = clamp(camera_2d.position.x, 0, camera_edge_y)
 		
 func generate_new_map() -> void:
 	floors_climbed = 0
@@ -44,8 +44,8 @@ func create_map() -> void:
 	_spawn_room(map_data[MapGenerator.FLOORS - 1][middle])
 
 	var map_width_pixels := (MapGenerator.MAP_WIDTH-1) * MapGenerator.X_DIST
-	visuals.position.x = (get_viewport_rect().size.x - map_width_pixels) * 0.5
-	visuals.position.y = get_viewport_rect().size.y * 0.5
+	visuals.position.y = (get_viewport_rect().size.y - map_width_pixels) * -0.1
+	visuals.position.x = get_viewport_rect().size.x * -0.1
 
 func unlock_floor(which_floor:int = floors_climbed) -> void:
 	for map_room : MapRoom in rooms.get_children():
