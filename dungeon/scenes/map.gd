@@ -4,60 +4,91 @@ const SCROLL_SPEED := 15
 const MAP_ROOM = preload("res://dungeon/scenes/map_room.tscn")
 const MAP_LINE = preload("res://dungeon/scenes/map_line.tscn")
 
-@onready var map_generator : MapGenerator = $MapGenerator
-@onready var lines : Node2D = %Lines
-@onready var rooms : Node2D = %Rooms
-@onready var visuals : Node2D = $Visuals
-@onready var camera_2d : Camera2D = $Camera2D
+@export var player_camera_path: NodePath
 
-var map_data : Array[Array]
-var floors_climbed : int
-var last_room : Room
-var camera_edge_y : float
+@onready var map : Node2D = $"."
+@onready var map_generator: MapGenerator = $MapGenerator
+@onready var lines: Node2D = %Lines
+@onready var rooms: Node2D = %Rooms
+@onready var visuals: Node2D = $Visuals
+@onready var camera_2d: Camera2D = $Camera2D
+@onready var player_camera_2d: Camera2D = PlayerManager.player.camera_2d_player
+
+var map_data: Array[Array]
+var floors_climbed: int
+var last_room: Room
+var camera_edge_y: float
+
+var is_map_open := false
+		
+func _open_map():
+	is_map_open = true
+	get_tree().paused = true
+	set_physics_process(false)
+	map.show()
+	
+func _close_map():
+	is_map_open = false
+	get_tree().paused = false
+	map.hide()
+	set_physics_process(true)
 
 func _ready() -> void:
 	camera_edge_y = MapGenerator.Y_DIST * (MapGenerator.FLOORS - 1)
 	generate_new_map()
 	unlock_floor(0)
+
+func _input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed("map"):
+		if map.visible: 
+			_close_map()
+		else:
+			_open_map()
 	
-func _input(event:InputEvent) -> void:
-	if event.is_action_pressed("scroll_up"):
+	if map.visible and event.is_action_pressed("scroll_up"):
 		camera_2d.position.x += SCROLL_SPEED
-	
-	elif event.is_action_pressed("scroll_down"):
+	elif map.visible and event.is_action_pressed("scroll_down"):
 		camera_2d.position.x -= SCROLL_SPEED
-		
+
 	camera_2d.position.x = clamp(camera_2d.position.x, 0, camera_edge_y)
-		
+
 func generate_new_map() -> void:
 	floors_climbed = 0
 	map_data = map_generator.generate_map()
 	create_map()
 
 func create_map() -> void:
-	for current_floor : Array in map_data:
-		for room:Room in current_floor:
+	for current_floor: Array in map_data:
+		for room: Room in current_floor:
 			if room.next_rooms.size() > 0:
 				_spawn_room(room)
-		
+	
 	var middle := floori(MapGenerator.MAP_WIDTH * 0.5)
 	_spawn_room(map_data[MapGenerator.FLOORS - 1][middle])
 
-	var map_width_pixels := (MapGenerator.MAP_WIDTH-1) * MapGenerator.X_DIST
-	visuals.position.y = (get_viewport_rect().size.y - map_width_pixels) * -0.1
-	visuals.position.x = get_viewport_rect().size.x * -0.1
+	var map_width_pixels := (MapGenerator.MAP_WIDTH - 1) * MapGenerator.X_DIST
+	visuals.position.y = (get_viewport_rect().size.y - map_width_pixels) * 0.08
+	visuals.position.x = get_viewport_rect().size.x * 0.03
 
-func unlock_floor(which_floor:int = floors_climbed) -> void:
-	for map_room : MapRoom in rooms.get_children():
+func unlock_floor(which_floor: int = floors_climbed) -> void:
+	for map_room: MapRoom in rooms.get_children():
 		if map_room.room.row == which_floor:
 			map_room.available = true
 
 func unlock_next_rooms() -> void:
-	for map_room : MapRoom in rooms.get_children():
+	for map_room: MapRoom in rooms.get_children():
 		if last_room.next_rooms.has(map_room.room):
 			map_room.available = true
 
+func sync_map_camera_to_player() -> void:
+	if player_camera_2d == null:
+		return
+	
+	camera_2d.global_position = player_camera_2d.global_position
+	camera_2d.position.x = clamp(camera_2d.position.x, 0, camera_edge_y)
+
 func show_map() -> void:
+	sync_map_camera_to_player()
 	show()
 	camera_2d.enabled = true
 
@@ -65,7 +96,7 @@ func hide_map() -> void:
 	hide()
 	camera_2d.enabled = false
 
-func _spawn_room(room:Room) -> void:
+func _spawn_room(room: Room) -> void:
 	var new_map_room := MAP_ROOM.instantiate() as MapRoom
 	rooms.add_child(new_map_room)
 	new_map_room.room = room
@@ -75,18 +106,18 @@ func _spawn_room(room:Room) -> void:
 	if room.selected and room.row < floors_climbed:
 		new_map_room.show_selected()
 
-func _connect_lines(room:Room) -> void:
+func _connect_lines(room: Room) -> void:
 	if room.next_rooms.is_empty():
 		return
 
-	for next : Room in room.next_rooms:
+	for next: Room in room.next_rooms:
 		var new_map_line := MAP_LINE.instantiate() as Line2D
 		new_map_line.add_point(room.position)
 		new_map_line.add_point(next.position)
 		lines.add_child(new_map_line)
 
-func _on_map_room_selected(room:Room) -> void:
-	for map_room : MapRoom in rooms.get_children():
+func _on_map_room_selected(room: Room) -> void:
+	for map_room: MapRoom in rooms.get_children():
 		if map_room.room.row == room.row:
 			map_room.available = false
 

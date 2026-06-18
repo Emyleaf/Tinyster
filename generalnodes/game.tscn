@@ -1,19 +1,19 @@
 [gd_scene format=3 uid="uid://bsbe7wll3uofc"]
 
 [ext_resource type="Script" uid="uid://bvt8qw3ql1bfy" path="res://generalnodes/game.gd" id="1_sgw70"]
-[ext_resource type="PackedScene" uid="uid://bvrhv0ayd3ofv" path="res://player/player.tscn" id="1_yqjtg"]
-[ext_resource type="PackedScene" uid="uid://d0tgltkm5w12x" path="res://dungeon/scenes/map.tscn" id="3_0laa2"]
-[ext_resource type="PackedScene" uid="uid://c2841bq0xgbym" path="res://dungeon/scenes/room_base.tscn" id="6_vn4jk"]
+[ext_resource type="PackedScene" uid="uid://d0tgltkm5w12x" path="res://dungeon/scenes/map.tscn" id="4_rrlp3"]
+[ext_resource type="PackedScene" uid="uid://m15co7c1hoee" path="res://dungeon/scenes/room_base_forest.tscn" id="4_s52vp"]
+[ext_resource type="PackedScene" uid="uid://dev804nrhko7n" path="res://generalnodes/playerspawn/player_spawn.tscn" id="4_vn4jk"]
 
-[node name="Game" type="Node2D" unique_id=2094591279]
+[node name="Run" type="Node2D" unique_id=2094591279]
 y_sort_enabled = true
 script = ExtResource("1_sgw70")
 
-[node name="Player" parent="." unique_id=1891662130 instance=ExtResource("1_yqjtg")]
-unique_name_in_owner = true
-position = Vector2(1024, 433)
+[node name="RoomBase" parent="." unique_id=716438338 instance=ExtResource("4_s52vp")]
+position = Vector2(-36, -57)
 
-[node name="Map" parent="." unique_id=1183846057 instance=ExtResource("3_0laa2")]
+[node name="Map" parent="." unique_id=1183846057 instance=ExtResource("4_rrlp3")]
 visible = false
 
-[node name="RoomBase" parent="." unique_id=716438338 instance=ExtResource("6_vn4jk")]
+[node name="PlayerSpawn" parent="." unique_id=442468290 instance=ExtResource("4_vn4jk")]
+position = Vector2(1087, 654)

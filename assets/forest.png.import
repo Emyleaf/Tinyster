@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://btwl1oy0ylkqt"
-path="res://.godot/imported/monster_room_icon.png-24e3c54dff6e9d6af554c6f29067ced5.ctex"
+uid="uid://60u4p3ovp3eh"
+path="res://.godot/imported/forest.png-3b217249c881492c4f7ec73306a77592.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/monster_room_icon.png"
-dest_files=["res://.godot/imported/monster_room_icon.png-24e3c54dff6e9d6af554c6f29067ced5.ctex"]
+source_file="res://assets/forest.png"
+dest_files=["res://.godot/imported/forest.png-3b217249c881492c4f7ec73306a77592.ctex"]
 
 [params]
 

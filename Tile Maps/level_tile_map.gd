@@ -1,6 +1,6 @@
 class_name LevelTileMapLayer extends TileMapLayer
 
-@export var tile_size : float = 128
+@export var tile_size : float = 256
 
 
 # Called when the node enters the scene tree for the first time.

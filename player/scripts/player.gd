@@ -16,6 +16,7 @@ var max_hp : int = 6
 @onready var hit_box : HitBox = $HitBox
 @onready var sprite : Sprite2D = $Sprite2D
 @onready var state_machine : PlayerStateMachine = $StateMachine
+@onready var camera_2d_player: Camera2D = $Camera2D
 
 
 func _ready():

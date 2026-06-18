@@ -1,5 +1,0 @@
-[gd_scene format=3 uid="uid://bbf2lfwyck1dk"]
-
-[ext_resource type="PackedScene" uid="uid://c2841bq0xgbym" path="res://dungeon/scenes/room_base.tscn" id="1_hh7x3"]
-
-[node name="RoomBase" unique_id=716438338 instance=ExtResource("1_hh7x3")]
