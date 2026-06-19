@@ -14,9 +14,6 @@ const MAP_LINE = preload("res://dungeon/scenes/map_line.tscn")
 @onready var camera_2d: Camera2D = $Camera2D
 @onready var player_camera_2d: Camera2D = PlayerManager.player.camera_2d_player
 
-var map_data: Array[Array]
-var floors_climbed: int
-var last_room: Room
 var camera_edge_y: float
 
 var is_map_open := false
@@ -35,7 +32,9 @@ func _close_map():
 
 func _ready() -> void:
 	camera_edge_y = MapGenerator.Y_DIST * (MapGenerator.FLOORS - 1)
-	generate_new_map()
+	if DungeonManager.map_data.is_empty():
+		DungeonManager.generate_new_map()
+	create_map()
 	unlock_floor(0)
 
 func _input(event: InputEvent) -> void:
@@ -53,31 +52,30 @@ func _input(event: InputEvent) -> void:
 	camera_2d.position.x = clamp(camera_2d.position.x, 0, camera_edge_y)
 
 func generate_new_map() -> void:
-	floors_climbed = 0
-	map_data = map_generator.generate_map()
+	DungeonManager.generate_new_map()
 	create_map()
 
 func create_map() -> void:
-	for current_floor: Array in map_data:
+	for current_floor: Array in DungeonManager.map_data:
 		for room: Room in current_floor:
 			if room.next_rooms.size() > 0:
 				_spawn_room(room)
 	
 	var middle := floori(MapGenerator.MAP_WIDTH * 0.5)
-	_spawn_room(map_data[MapGenerator.FLOORS - 1][middle])
+	_spawn_room(DungeonManager.map_data[MapGenerator.FLOORS - 1][middle])
 
 	var map_width_pixels := (MapGenerator.MAP_WIDTH - 1) * MapGenerator.X_DIST
 	visuals.position.y = (get_viewport_rect().size.y - map_width_pixels) * 0.08
 	visuals.position.x = get_viewport_rect().size.x * 0.03
 
-func unlock_floor(which_floor: int = floors_climbed) -> void:
+func unlock_floor(which_floor: int = DungeonManager.floors_climbed) -> void:
 	for map_room: MapRoom in rooms.get_children():
 		if map_room.room.row == which_floor:
 			map_room.available = true
 
 func unlock_next_rooms() -> void:
 	for map_room: MapRoom in rooms.get_children():
-		if last_room.next_rooms.has(map_room.room):
+		if DungeonManager.last_room.next_rooms.has(map_room.room):
 			map_room.available = true
 
 func sync_map_camera_to_player() -> void:
@@ -103,7 +101,7 @@ func _spawn_room(room: Room) -> void:
 	new_map_room.selected.connect(_on_map_room_selected)
 	_connect_lines(room)
 
-	if room.selected and room.row < floors_climbed:
+	if room.selected and room.row < DungeonManager.floors_climbed:
 		new_map_room.show_selected()
 
 func _connect_lines(room: Room) -> void:
@@ -115,11 +113,11 @@ func _connect_lines(room: Room) -> void:
 		new_map_line.add_point(room.position)
 		new_map_line.add_point(next.position)
 		lines.add_child(new_map_line)
-
+	
 func _on_map_room_selected(room: Room) -> void:
 	for map_room: MapRoom in rooms.get_children():
 		if map_room.room.row == room.row:
 			map_room.available = false
-
-	last_room = room
-	floors_climbed += 1
+			
+	DungeonManager.last_room = room
+	DungeonManager.floors_climbed += 1

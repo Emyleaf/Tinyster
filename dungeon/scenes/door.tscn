@@ -43,7 +43,7 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k83vi"]
 size = Vector2(193, 121)
 
-[node name="Door" type="Node2D" unique_id=1069098505]
+[node name="Door" type="Node2D" unique_id=1175052282]
 script = ExtResource("1_556a7")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=607610724]

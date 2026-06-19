@@ -11,6 +11,7 @@ var enemy_count : int = 0
 func _ready():
 	randomize()
 	enemy_count = randi_range(3, 6)
+	await get_tree().create_timer(1.0).timeout
 	spawn_enemies()
 
 func spawn_enemies():
@@ -38,6 +39,9 @@ func spawn_enemies():
 		enemy.global_position = world_pos
 		
 		run_node.call_deferred("add_child", enemy)
+
+		enemy.call_deferred("play_start_animation")
+		await get_tree().create_timer(0.1).timeout
 
 
 

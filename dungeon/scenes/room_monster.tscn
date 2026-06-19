@@ -1,0 +1,244 @@
+[gd_scene format=4 uid="uid://m15co7c1hoee"]
+
+[ext_resource type="Texture2D" uid="uid://60u4p3ovp3eh" path="res://assets/forest.png" id="1_s67or"]
+[ext_resource type="Script" uid="uid://cv0n05dgk4air" path="res://Tile Maps/level_tile_map.gd" id="2_4lth7"]
+[ext_resource type="PackedScene" uid="uid://b0p68xg6a26lu" path="res://dungeon/scenes/door.tscn" id="3_jo2km"]
+[ext_resource type="PackedScene" uid="uid://d0l0smnegiw30" path="res://generalnodes/level_transition.tscn" id="4_ogudv"]
+
+[sub_resource type="GDScript" id="GDScript_hy070"]
+script/source = "extends Node2D
+
+var enemy_scene = preload(\"res://enemies/slime/slime.tscn\")
+var player_mask_radius = 200
+var enemy_count : int = 0
+
+@onready var tilemap: TileMapLayer = $TileMapLayer
+@onready var door_north = $DoorN
+@onready var door_south = $DoorS
+@onready var door_west = $DoorE
+
+
+func _ready():
+	randomize()
+	enemy_count = randi_range(3, 6)
+	await get_tree().create_timer(1.0).timeout
+	spawn_enemies()
+
+func spawn_enemies():
+	var all_cells = tilemap.get_used_cells()
+	var valid_cells = []
+
+	for cell in all_cells:
+		var world_pos = tilemap.map_to_local(cell)
+		if cell.y == 0 or cell.x == 0 or cell.x == 1 or cell.y == 1 or cell.y == 6 or cell.x == 12 or cell.x == 11:
+			pass
+		elif PlayerManager.player.global_position.distance_to(world_pos) > player_mask_radius:
+			valid_cells.append(cell)
+
+	if valid_cells.is_empty():
+		return
+
+	valid_cells.shuffle()
+	
+	var run_node = get_parent()
+
+	for i in enemy_count:
+		var world_pos = tilemap.map_to_local(valid_cells[i])
+		var enemy = enemy_scene.instantiate() 
+		enemy.enemy_destroyed.connect(_on_slime_enemy_destroyed)
+		enemy.global_position = world_pos
+		
+		run_node.call_deferred(\"add_child\", enemy)
+
+		enemy.call_deferred(\"play_start_animation\")
+		await get_tree().create_timer(0.1).timeout
+
+
+
+func _on_slime_enemy_destroyed(hurt_box: HurtBox) -> void:
+	enemy_count -= 1
+	if enemy_count <= 0:
+		await get_tree().create_timer(0.5).timeout
+		door_north.open_door()
+"
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5s76m"]
+texture = ExtResource("1_s67or")
+texture_region_size = Vector2i(128, 128)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+2:0/0 = 0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+3:0/0 = 0
+3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+4:0/0 = 0
+4:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+5:0/0 = 0
+5:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+6:0/0 = 0
+7:0/0 = 0
+7:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+8:0/0 = 0
+8:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+9:0/0 = 0
+9:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+10:0/0 = 0
+10:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+11:0/0 = 0
+11:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+12:0/0 = 0
+12:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+0:1/0 = 0
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+1:1/0 = 0
+1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+2:1/0 = 0
+2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+3:1/0 = 0
+3:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+4:1/0 = 0
+4:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+5:1/0 = 0
+5:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+6:1/0 = 0
+7:1/0 = 0
+7:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+8:1/0 = 0
+8:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+9:1/0 = 0
+9:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+10:1/0 = 0
+10:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+11:1/0 = 0
+11:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+12:1/0 = 0
+12:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+0:2/0 = 0
+0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+1:2/0 = 0
+1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+8:2/0 = 0
+9:2/0 = 0
+10:2/0 = 0
+11:2/0 = 0
+11:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+12:2/0 = 0
+12:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+0:3/0 = 0
+0:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+1:3/0 = 0
+1:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+7:3/0 = 0
+8:3/0 = 0
+9:3/0 = 0
+10:3/0 = 0
+11:3/0 = 0
+12:3/0 = 0
+0:4/0 = 0
+0:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+1:4/0 = 0
+1:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+7:4/0 = 0
+8:4/0 = 0
+9:4/0 = 0
+10:4/0 = 0
+11:4/0 = 0
+12:4/0 = 0
+0:5/0 = 0
+0:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+1:5/0 = 0
+1:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+2:5/0 = 0
+3:5/0 = 0
+4:5/0 = 0
+5:5/0 = 0
+6:5/0 = 0
+7:5/0 = 0
+8:5/0 = 0
+9:5/0 = 0
+10:5/0 = 0
+11:5/0 = 0
+11:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+12:5/0 = 0
+12:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+0:6/0 = 0
+0:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+1:6/0 = 0
+1:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+2:6/0 = 0
+2:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+3:6/0 = 0
+3:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+4:6/0 = 0
+4:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+5:6/0 = 0
+5:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+6:6/0 = 0
+7:6/0 = 0
+7:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+8:6/0 = 0
+8:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+9:6/0 = 0
+9:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+10:6/0 = 0
+10:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+11:6/0 = 0
+11:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+12:6/0 = 0
+12:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+
+[sub_resource type="TileSet" id="TileSet_7fqpt"]
+tile_size = Vector2i(128, 128)
+physics_layer_0/collision_layer = 16
+physics_layer_0/collision_mask = 0
+sources/0 = SubResource("TileSetAtlasSource_5s76m")
+
+[node name="RoomBase" type="Node2D" unique_id=716438338]
+script = SubResource("GDScript_hy070")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1769776126]
+z_index = -1
+scale = Vector2(1.3, 1.3)
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAEAAAAAAAIAAAAAAAIAAAAAAAMAAAAAAAMAAAAAAAQAAAAAAAQAAAAAAAUAAAAAAAUAAAAAAAYAAAAAAAYAAAABAAAAAAABAAAAAAABAAEAAAABAAEAAAABAAIAAAABAAIAAAABAAMAAAABAAMAAAABAAQAAAABAAQAAAABAAUAAAABAAUAAAABAAYAAAABAAYAAAACAAAAAAACAAAAAAACAAEAAAACAAEAAAACAAIAAAACAAIAAAACAAMAAAACAAMAAAACAAQAAAACAAQAAAACAAUAAAACAAUAAAACAAYAAAACAAYAAAADAAAAAAADAAAAAAADAAEAAAADAAEAAAADAAIAAAADAAIAAAADAAMAAAADAAMAAAADAAQAAAADAAQAAAADAAUAAAADAAUAAAADAAYAAAADAAYAAAAEAAAAAAAEAAAAAAAEAAEAAAAEAAEAAAAEAAIAAAAEAAIAAAAEAAMAAAAEAAMAAAAEAAQAAAAEAAQAAAAEAAUAAAAEAAUAAAAEAAYAAAAEAAYAAAAFAAAAAAAFAAAAAAAFAAEAAAAFAAEAAAAFAAIAAAAFAAIAAAAFAAMAAAAFAAMAAAAFAAQAAAAFAAQAAAAFAAUAAAAFAAUAAAAFAAYAAAAFAAYAAAAGAAAAAAAGAAAAAAAGAAEAAAAGAAEAAAAGAAIAAAAGAAIAAAAGAAMAAAAGAAMAAAAGAAQAAAAGAAQAAAAGAAUAAAAGAAUAAAAGAAYAAAAGAAYAAAAHAAAAAAAHAAAAAAAHAAEAAAAHAAEAAAAHAAIAAAAHAAIAAAAHAAMAAAAHAAMAAAAHAAQAAAAHAAQAAAAHAAUAAAAHAAUAAAAHAAYAAAAHAAYAAAAIAAAAAAAIAAAAAAAIAAEAAAAIAAEAAAAIAAIAAAAIAAIAAAAIAAMAAAAIAAMAAAAIAAQAAAAIAAQAAAAIAAUAAAAIAAUAAAAIAAYAAAAIAAYAAAAJAAAAAAAJAAAAAAAJAAEAAAAJAAEAAAAJAAIAAAAJAAIAAAAJAAMAAAAJAAMAAAAJAAQAAAAJAAQAAAAJAAUAAAAJAAUAAAAJAAYAAAAJAAYAAAAKAAAAAAAKAAAAAAAKAAEAAAAKAAEAAAAKAAIAAAAKAAIAAAAKAAMAAAAKAAMAAAAKAAQAAAAKAAQAAAAKAAUAAAAKAAUAAAAKAAYAAAAKAAYAAAALAAAAAAALAAAAAAALAAEAAAALAAEAAAALAAIAAAALAAIAAAALAAMAAAALAAMAAAALAAQAAAALAAQAAAALAAUAAAALAAUAAAALAAYAAAALAAYAAAA=")
+tile_set = SubResource("TileSet_7fqpt")
+script = ExtResource("2_4lth7")
+
+[node name="DoorN" parent="." unique_id=1069098505 instance=ExtResource("3_jo2km")]
+position = Vector2(1023, 215)
+
+[node name="TransN" parent="." unique_id=75343586 instance=ExtResource("4_ogudv")]
+position = Vector2(1069, 70)
+
+[node name="DoorS" parent="." unique_id=1175052282 instance=ExtResource("3_jo2km")]
+position = Vector2(1112, 1013)
+rotation = 3.1415927
+
+[node name="TransS" parent="." unique_id=1453233195 instance=ExtResource("4_ogudv")]
+position = Vector2(1065, 1147)
+rotation = 3.1415927
+
+[node name="DoorE" parent="." unique_id=307756111 instance=ExtResource("3_jo2km")]
+position = Vector2(1850, 612)
+rotation = 1.5707964
+
+[node name="TransE" parent="." unique_id=522398516 instance=ExtResource("4_ogudv")]
+position = Vector2(2006, 657)
+rotation = 1.5707964

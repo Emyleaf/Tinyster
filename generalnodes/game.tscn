@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bvt8qw3ql1bfy" path="res://generalnodes/game.gd" id="1_sgw70"]
 [ext_resource type="PackedScene" uid="uid://d0tgltkm5w12x" path="res://dungeon/scenes/map.tscn" id="4_rrlp3"]
-[ext_resource type="PackedScene" uid="uid://m15co7c1hoee" path="res://dungeon/scenes/room_base_forest.tscn" id="4_s52vp"]
+[ext_resource type="PackedScene" uid="uid://m15co7c1hoee" path="res://dungeon/scenes/room_monster.tscn" id="4_s52vp"]
 [ext_resource type="PackedScene" uid="uid://dev804nrhko7n" path="res://generalnodes/playerspawn/player_spawn.tscn" id="4_vn4jk"]
 
 [node name="Run" type="Node2D" unique_id=2094591279]
@@ -16,4 +16,4 @@ position = Vector2(-36, -57)
 visible = false
 
 [node name="PlayerSpawn" parent="." unique_id=442468290 instance=ExtResource("4_vn4jk")]
-position = Vector2(1087, 654)
+position = Vector2(1406, 895)
