@@ -11,16 +11,18 @@ script/source = "extends Node2D
 var enemy_scene = preload(\"res://enemies/slime/slime.tscn\")
 var player_mask_radius = 200
 var enemy_count : int = 0
+var doors_to_open : Array[Door] = []
 
 @onready var tilemap: TileMapLayer = $TileMapLayer
 @onready var door_north = $DoorN
 @onready var door_south = $DoorS
-@onready var door_west = $DoorE
+@onready var door_east = $DoorE
 
 
 func _ready():
 	randomize()
 	enemy_count = randi_range(3, 6)
+	_setup_doors_to_open()
 	await get_tree().create_timer(1.0).timeout
 	spawn_enemies()
 
@@ -53,13 +55,25 @@ func spawn_enemies():
 		enemy.call_deferred(\"play_start_animation\")
 		await get_tree().create_timer(0.1).timeout
 
-
+func _setup_doors_to_open() -> void:
+	var current_room := DungeonManager.last_room
+	if current_room == null:
+		return
+	for next_room: Room in current_room.next_rooms:
+		match current_room.get_direction_to(next_room):
+			Room.Direction.NORTH:
+				doors_to_open.append(door_north)
+			Room.Direction.SOUTH:
+				doors_to_open.append(door_south)
+			Room.Direction.FORWARD:
+				doors_to_open.append(door_east)
 
 func _on_slime_enemy_destroyed(hurt_box: HurtBox) -> void:
 	enemy_count -= 1
 	if enemy_count <= 0:
 		await get_tree().create_timer(0.5).timeout
-		door_north.open_door()
+		for door in doors_to_open:
+			door.open_door()
 "
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5s76m"]
@@ -211,7 +225,7 @@ physics_layer_0/collision_layer = 16
 physics_layer_0/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_5s76m")
 
-[node name="RoomBase" type="Node2D" unique_id=716438338]
+[node name="RoomMonster" type="Node2D" unique_id=716438338]
 script = SubResource("GDScript_hy070")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1769776126]

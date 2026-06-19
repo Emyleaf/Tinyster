@@ -121,3 +121,6 @@ func _on_map_room_selected(room: Room) -> void:
 			
 	DungeonManager.last_room = room
 	DungeonManager.floors_climbed += 1
+	room_selected_to_enter.emit(room)
+
+signal room_selected_to_enter(room: Room)
