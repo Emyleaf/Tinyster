@@ -12,7 +12,7 @@ const MAP_LINE = preload("res://dungeon/scenes/map_line.tscn")
 @onready var rooms: Node2D = %Rooms
 @onready var visuals: Node2D = $Visuals
 @onready var camera_2d: Camera2D = $Camera2D
-@onready var player_camera_2d: Camera2D = PlayerManager.player.camera_2d_player
+@onready var player_camera_2d: Camera2D = null
 
 var camera_edge_y: float
 
@@ -36,6 +36,9 @@ func _ready() -> void:
 		DungeonManager.generate_new_map()
 	create_map()
 	unlock_floor(0)
+	if not PlayerManager.player:
+		await get_tree().process_frame  # aspetta un frame, oppure connetti il segnale
+	_update_player_camera_reference()
 
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("map"):
@@ -124,3 +127,7 @@ func _on_map_room_selected(room: Room) -> void:
 	room_selected_to_enter.emit(room)
 
 signal room_selected_to_enter(room: Room)
+
+func _update_player_camera_reference() -> void:
+	if PlayerManager.player:
+		player_camera_2d = PlayerManager.player.camera_2d_player

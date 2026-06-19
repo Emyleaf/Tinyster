@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://cv0n05dgk4air" path="res://Tile Maps/level_tile_map.gd" id="2_4lth7"]
 [ext_resource type="PackedScene" uid="uid://b0p68xg6a26lu" path="res://dungeon/scenes/door.tscn" id="3_jo2km"]
 [ext_resource type="PackedScene" uid="uid://d0l0smnegiw30" path="res://generalnodes/level_transition.tscn" id="4_ogudv"]
+[ext_resource type="PackedScene" uid="uid://bvrhv0ayd3ofv" path="res://player/player.tscn" id="5_4lth7"]
 
 [sub_resource type="GDScript" id="GDScript_hy070"]
 script/source = "extends Node2D
@@ -17,14 +18,38 @@ var doors_to_open : Array[Door] = []
 @onready var door_north = $DoorN
 @onready var door_south = $DoorS
 @onready var door_east = $DoorE
+@onready var player = $Player
 
 
 func _ready():
 	randomize()
 	enemy_count = randi_range(3, 6)
 	_setup_doors_to_open()
+	_instance_player()
 	await get_tree().create_timer(1.0).timeout
 	spawn_enemies()
+	
+func _instance_player():
+	if not player:
+		return
+
+	var room_parent = get_parent()
+	if room_parent:
+		remove_child(player)
+		
+		if player is Node2D:
+			var global_pos = player.global_position
+			room_parent.add_child(player)
+			player.global_position = global_pos
+		elif player is Node3D:
+			var global_trans = player.global_transform
+			room_parent.add_child(player)
+			player.global_transform = global_trans
+		else:
+			room_parent.add_child(player)
+	else:
+		push_warning(\"Room non ha un genitore, impossibile spostare Player come sibling.\")
+
 
 func spawn_enemies():
 	var all_cells = tilemap.get_used_cells()
@@ -256,3 +281,6 @@ rotation = 1.5707964
 [node name="TransE" parent="." unique_id=522398516 instance=ExtResource("4_ogudv")]
 position = Vector2(2006, 657)
 rotation = 1.5707964
+
+[node name="Player" parent="." unique_id=1891662130 instance=ExtResource("5_4lth7")]
+position = Vector2(541, 637)

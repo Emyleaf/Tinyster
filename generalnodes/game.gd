@@ -11,7 +11,7 @@ var current_room_node: Node2D
 func _ready() -> void:
 	GameManager.current_run = self
 	self.y_sort_enabled = true
-	PlayerManager.set_as_parent(self)
+	#PlayerManager.set_as_parent(self)
 	map.show_map()
 	map.room_selected_to_enter.connect(_on_room_selected_to_enter)
 
