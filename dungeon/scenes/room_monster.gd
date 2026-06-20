@@ -105,4 +105,4 @@ func _on_transition(direction: Room.Direction) -> void:
 	var next_room := DungeonManager.last_room.get_next_room_in_direction(direction)
 	if next_room == null:
 		return
-	GameManager.current_run.map.enter_room(next_room, direction)
+	DungeonManager.enter_room(next_room, direction)

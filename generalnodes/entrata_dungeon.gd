@@ -1,4 +1,4 @@
-extends Node2D
+class_name Run extends Node2D
 
 const MAP = preload("res://dungeon/scenes/map.tscn")
 
