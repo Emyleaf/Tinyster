@@ -1,117 +1,11 @@
 [gd_scene format=4 uid="uid://m15co7c1hoee"]
 
+[ext_resource type="Script" uid="uid://bisghiseja2qh" path="res://dungeon/scenes/room_monster.gd" id="1_jo2km"]
 [ext_resource type="Texture2D" uid="uid://60u4p3ovp3eh" path="res://assets/forest.png" id="1_s67or"]
 [ext_resource type="Script" uid="uid://cv0n05dgk4air" path="res://Tile Maps/level_tile_map.gd" id="2_4lth7"]
 [ext_resource type="PackedScene" uid="uid://b0p68xg6a26lu" path="res://dungeon/scenes/door.tscn" id="3_jo2km"]
 [ext_resource type="PackedScene" uid="uid://d0l0smnegiw30" path="res://generalnodes/level_transition.tscn" id="4_ogudv"]
 [ext_resource type="Texture2D" uid="uid://bka65kjyjkg2h" path="res://assets/door.png" id="5_4lth7"]
-[ext_resource type="PackedScene" uid="uid://dev804nrhko7n" path="res://generalnodes/playerspawn/player_spawn.tscn" id="6_jo2km"]
-
-[sub_resource type="GDScript" id="GDScript_hy070"]
-script/source = "extends Node2D
-
-var enemy_scene = preload(\"res://enemies/slime/slime.tscn\")
-var player_mask_radius = 200
-var enemy_count : int = 0
-var doors_to_open : Array[Door] = []
-
-@onready var tilemap: TileMapLayer = $TileMapLayer
-@onready var door_north = $DoorN
-@onready var door_south = $DoorS
-@onready var door_east = $DoorE
-@onready var player = $Player
-
-@onready var trans_north: LevelTransition = $TransN
-@onready var trans_south: LevelTransition = $TransS
-@onready var trans_east: LevelTransition = $TransE
-@onready var spawn_from_west: Marker2D = $SpawnFromWest
-@onready var spawn_from_north: Marker2D = $SpawnFromNorth
-@onready var spawn_from_south: Marker2D = $SpawnFromSouth
-
-
-func _ready():
-	randomize()
-	enemy_count = randi_range(3, 6)
-	_setup_doors_to_open()
-	_position_player_on_entry()
-	
-	trans_north.entered.connect(func(_b): _on_transition(Room.Direction.NORTH))
-	trans_south.entered.connect(func(_b): _on_transition(Room.Direction.SOUTH))
-	trans_east.entered.connect(func(_b): _on_transition(Room.Direction.FORWARD))
-
-	
-	await get_tree().create_timer(1.0).timeout
-	spawn_enemies()
-	
-func _position_player_on_entry() -> void:
-	var spawn_point: Marker2D = spawn_from_west
-	match DungeonManager.last_exit_direction:
-		Room.Direction.NORTH:
-			spawn_point = spawn_from_south
-		Room.Direction.SOUTH:
-			spawn_point = spawn_from_north
-
-	if spawn_point == null:
-		push_warning(\"Manca il Marker2D di spawn (%s) in %s\" % [DungeonManager.last_exit_direction, name])
-		return
-
-	PlayerManager.activate(get_parent(), spawn_point.global_position)
-
-func _on_transition(direction: Room.Direction) -> void:
-	var next_room := DungeonManager.last_room.get_next_room_in_direction(direction)
-	if next_room == null:
-		return
-	GameManager.current_run.map.enter_room(next_room, direction)
-
-func spawn_enemies():
-	var all_cells = tilemap.get_used_cells()
-	var valid_cells = []
-
-	for cell in all_cells:
-		var world_pos = tilemap.map_to_local(cell)
-		if cell.y == 0 or cell.x == 0 or cell.x == 1 or cell.y == 1 or cell.y == 6 or cell.x == 12 or cell.x == 11:
-			pass
-		elif PlayerManager.player.global_position.distance_to(world_pos) > player_mask_radius:
-			valid_cells.append(cell)
-
-	if valid_cells.is_empty():
-		return
-
-	valid_cells.shuffle()
-	
-	var run_node = get_parent()
-
-	for i in enemy_count:
-		var world_pos = tilemap.map_to_local(valid_cells[i])
-		var enemy = enemy_scene.instantiate() 
-		enemy.enemy_destroyed.connect(_on_slime_enemy_destroyed)
-		enemy.global_position = world_pos
-		
-		run_node.call_deferred(\"add_child\", enemy)
-
-		enemy.call_deferred(\"play_start_animation\")
-		await get_tree().create_timer(0.1).timeout
-
-func _setup_doors_to_open() -> void:
-	var current_room := DungeonManager.last_room
-	if current_room == null:
-		return
-	for next_room: Room in current_room.next_rooms:
-		match current_room.get_direction_to(next_room):
-			Room.Direction.NORTH:
-				doors_to_open.append(door_north)
-			Room.Direction.SOUTH:
-				doors_to_open.append(door_south)
-			Room.Direction.FORWARD:
-				doors_to_open.append(door_east)
-
-func _on_slime_enemy_destroyed(hurt_box: HurtBox) -> void:
-	enemy_count -= 1
-	if enemy_count <= 0:
-		await get_tree().create_timer(0.5).timeout
-		for door in doors_to_open:
-			door.open_door()
-"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5s76m"]
 texture = ExtResource("1_s67or")
@@ -263,7 +157,7 @@ physics_layer_0/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_5s76m")
 
 [node name="RoomMonster" type="Node2D" unique_id=716438338]
-script = SubResource("GDScript_hy070")
+script = ExtResource("1_jo2km")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1769776126]
 z_index = -1
@@ -335,6 +229,3 @@ flip_h = true
 hframes = 3
 vframes = 5
 frame = 3
-
-[node name="PlayerSpawn" parent="." unique_id=442468290 instance=ExtResource("6_jo2km")]
-position = Vector2(495, 648)

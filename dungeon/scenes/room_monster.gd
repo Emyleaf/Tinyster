@@ -23,6 +23,7 @@ func _ready():
 
 	_setup_doors_to_open()
 	_position_player_on_entry()
+	
 	trans_north.entered.connect(func(_b): _on_transition(Room.Direction.NORTH))
 	trans_south.entered.connect(func(_b): _on_transition(Room.Direction.SOUTH))
 	trans_east.entered.connect(func(_b): _on_transition(Room.Direction.FORWARD))
@@ -79,4 +80,27 @@ func _on_slime_enemy_destroyed(hurt_box: HurtBox) -> void:
 	enemy_count -= 1
 	if enemy_count <= 0:
 		await get_tree().create_timer(0.5).timeout
-		door.open_door()
+		for door in doors_to_open:
+			door.open_door()
+
+func _position_player_on_entry() -> void:
+	var spawn_point: Marker2D = spawn_from_west
+	match DungeonManager.last_exit_direction:
+		Room.Direction.NORTH:
+			spawn_point = spawn_from_south
+		Room.Direction.SOUTH:
+			spawn_point = spawn_from_north
+			
+	if PlayerManager.player == null:
+		PlayerManager.player = PlayerManager.PLAYER.instantiate()
+		add_sibling(PlayerManager.player)
+		if PlayerManager.player.has_node("Camera2D"):
+			PlayerManager.player.get_node("Camera2D").queue_free()
+	
+	PlayerManager.player.global_position = spawn_point.global_position
+	
+func _on_transition(direction: Room.Direction) -> void:
+	var next_room := DungeonManager.last_room.get_next_room_in_direction(direction)
+	if next_room == null:
+		return
+	GameManager.current_run.map.enter_room(next_room, direction)
