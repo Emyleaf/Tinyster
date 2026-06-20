@@ -27,6 +27,10 @@ func set_available(new_value: bool) -> void:
 	elif not room.selected:
 		animation_player.play("RESET")
 
+func hide_selected() -> void:
+	animation_player.play("RESET")
+	
+	
 func set_room(new_data: Room) -> void:
 	room = new_data
 	position = room.position

@@ -78,7 +78,9 @@ func spawn_enemies():
 
 func _on_slime_enemy_destroyed(hurt_box: HurtBox) -> void:
 	enemy_count -= 1
+	print(enemy_count)
 	if enemy_count <= 0:
+		print("STANZA COMPLETA, ENEMY COUNTER %s" % enemy_count)
 		await get_tree().create_timer(0.5).timeout
 		for door in doors_to_open:
 			door.open_door()
