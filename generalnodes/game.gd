@@ -3,6 +3,7 @@ class_name Run extends Node2D
 const MAP_SCENE := preload("res://dungeon/scenes/map.tscn")
 const ROOM_SCENES := {
 	Room.Type.MONSTER: preload("res://dungeon/scenes/room_monster.tscn"),
+	Room.Type.SHOP: preload("res://dungeon/scenes/room_shop.tscn")
 }
 
 @onready var map: Map = $Map
