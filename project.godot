@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Tinyster"
-run/main_scene="uid://bsbe7wll3uofc"
+run/main_scene="uid://dijxrefydpkrn"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -42,6 +42,7 @@ enabled=PackedStringArray("res://addons/script-ide/plugin.cfg")
 [global_group]
 
 Player=""
+Main=""
 
 [input]
 

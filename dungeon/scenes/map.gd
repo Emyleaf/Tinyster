@@ -81,21 +81,11 @@ func unlock_next_rooms() -> void:
 		if DungeonManager.last_room.next_rooms.has(map_room.room):
 			map_room.available = true
 
-func sync_map_camera_to_player() -> void:
-	if player_camera_2d == null:
-		return
-	
-	camera_2d.global_position = player_camera_2d.global_position
-	camera_2d.position.x = clamp(camera_2d.position.x, 0, camera_edge_y)
-
 func show_map() -> void:
-	sync_map_camera_to_player()
 	show()
-	camera_2d.enabled = true
 
 func hide_map() -> void:
 	hide()
-	camera_2d.enabled = false
 
 func _spawn_room(room: Room) -> void:
 	var new_map_room := MAP_ROOM.instantiate() as MapRoom

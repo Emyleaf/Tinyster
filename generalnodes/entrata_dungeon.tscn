@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://bsbe7wll3uofc"]
+
+[ext_resource type="Script" uid="uid://bvt8qw3ql1bfy" path="res://generalnodes/entrata_dungeon.gd" id="1_dhuud"]
+[ext_resource type="Texture2D" uid="uid://dx6y0d43hvaia" path="res://assets/background_sample.png" id="3_w2jnp"]
+
+[node name="Entrata Dungeon" type="Node2D" unique_id=2094591279]
+y_sort_enabled = true
+script = ExtResource("1_dhuud")
+
+[node name="Background" type="Sprite2D" parent="." unique_id=391822861]
+position = Vector2(960.00006, 539.99994)
+scale = Vector2(1.6886544, 1.4594594)
+texture = ExtResource("3_w2jnp")

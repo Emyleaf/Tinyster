@@ -157,6 +157,7 @@ physics_layer_0/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_5s76m")
 
 [node name="RoomMonster" type="Node2D" unique_id=716438338]
+y_sort_enabled = true
 position = Vector2(-76, -84)
 script = ExtResource("1_jo2km")
 
