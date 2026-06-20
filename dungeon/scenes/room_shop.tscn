@@ -2,7 +2,6 @@
 
 [ext_resource type="Texture2D" uid="uid://60u4p3ovp3eh" path="res://assets/forest.png" id="1_wruob"]
 [ext_resource type="Script" uid="uid://cv0n05dgk4air" path="res://Tile Maps/level_tile_map.gd" id="2_4jiac"]
-[ext_resource type="PackedScene" uid="uid://b0p68xg6a26lu" path="res://dungeon/scenes/door.tscn" id="3_fadfp"]
 [ext_resource type="PackedScene" uid="uid://d0l0smnegiw30" path="res://generalnodes/level_transition.tscn" id="4_oefqd"]
 [ext_resource type="Texture2D" uid="uid://bp3kdpy3mt5ua" path="res://assets/vendor.png" id="5_4jiac"]
 
@@ -174,23 +173,12 @@ tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAEAAAAAAAIAAAAAAAI
 tile_set = SubResource("TileSet_7fqpt")
 script = ExtResource("2_4jiac")
 
-[node name="DoorN" parent="." unique_id=1069098505 instance=ExtResource("3_fadfp")]
-position = Vector2(1023, 215)
-
 [node name="TransN" parent="." unique_id=75343586 instance=ExtResource("4_oefqd")]
 position = Vector2(1069, 70)
-
-[node name="DoorS" parent="." unique_id=1175052282 instance=ExtResource("3_fadfp")]
-position = Vector2(1112, 1013)
-rotation = 3.1415927
 
 [node name="TransS" parent="." unique_id=1453233195 instance=ExtResource("4_oefqd")]
 position = Vector2(1065, 1147)
 rotation = 3.1415927
-
-[node name="DoorE" parent="." unique_id=307756111 instance=ExtResource("3_fadfp")]
-position = Vector2(1850, 612)
-rotation = 1.5707964
 
 [node name="TransE" parent="." unique_id=522398516 instance=ExtResource("4_oefqd")]
 position = Vector2(2006, 657)

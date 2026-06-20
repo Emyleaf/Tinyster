@@ -24,6 +24,10 @@ enum SIDE { LEFT, RIGHT, TOP, BOTTOM }
 
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
+signal entered(body: Node2D)
+
+@export var auto_change_scene := true
+
 func _ready() -> void:
 	if not Engine.is_editor_hint():
 		body_entered.connect(_on_body_entered)
@@ -56,8 +60,7 @@ func _update_area() -> void:
 	
 
 func _on_body_entered(body: Node2D) -> void:
-	print("Corpo entrato: ", body.name, ", gruppo: ", body.is_in_group("Player"))
 	if body.is_in_group("Player"):
-		print("Prima del cambio scena, target_scene = ", target_scene)
-		var result = get_tree().change_scene_to_file(target_scene)
-		print("Dopo change_scene_to_file, risultato: ", result)  # non si vedrà mai se il cambio avviene
+		entered.emit(body)
+		if auto_change_scene:
+			get_tree().change_scene_to_file(target_scene)

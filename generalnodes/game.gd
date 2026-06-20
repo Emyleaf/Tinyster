@@ -25,5 +25,5 @@ func _on_room_selected_to_enter(room: Room) -> void:
 		return
 
 	current_room_node = scene.instantiate()
-	add_child(current_room_node)
+	add_child.call_deferred(current_room_node)
 	map.hide_map()

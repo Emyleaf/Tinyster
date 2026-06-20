@@ -116,18 +116,26 @@ func _connect_lines(room: Room) -> void:
 		new_map_line.add_point(room.position)
 		new_map_line.add_point(next.position)
 		lines.add_child(new_map_line)
-	
-func _on_map_room_selected(room: Room) -> void:
-	for map_room: MapRoom in rooms.get_children():
-		if map_room.room.row == room.row:
-			map_room.available = false
-			
-	DungeonManager.last_room = room
-	DungeonManager.floors_climbed += 1
-	room_selected_to_enter.emit(room)
 
 signal room_selected_to_enter(room: Room)
 
 func _update_player_camera_reference() -> void:
 	if PlayerManager.player:
 		player_camera_2d = PlayerManager.player.camera_2d_player
+
+func enter_room(room: Room, exit_direction: Room.Direction = Room.Direction.FORWARD) -> void:
+	for map_room: MapRoom in rooms.get_children():
+		if map_room.room.row == room.row:
+			map_room.available = false
+		if map_room.room == room:
+			room.selected = true
+			map_room.show_selected()
+
+	DungeonManager.last_room = room
+	DungeonManager.last_exit_direction = exit_direction
+	DungeonManager.floors_climbed += 1
+	unlock_next_rooms()
+	room_selected_to_enter.emit(room)
+
+func _on_map_room_selected(room: Room) -> void:
+	enter_room(room)

@@ -4,7 +4,8 @@
 [ext_resource type="Script" uid="uid://cv0n05dgk4air" path="res://Tile Maps/level_tile_map.gd" id="2_4lth7"]
 [ext_resource type="PackedScene" uid="uid://b0p68xg6a26lu" path="res://dungeon/scenes/door.tscn" id="3_jo2km"]
 [ext_resource type="PackedScene" uid="uid://d0l0smnegiw30" path="res://generalnodes/level_transition.tscn" id="4_ogudv"]
-[ext_resource type="PackedScene" uid="uid://bvrhv0ayd3ofv" path="res://player/player.tscn" id="5_4lth7"]
+[ext_resource type="Texture2D" uid="uid://bka65kjyjkg2h" path="res://assets/door.png" id="5_4lth7"]
+[ext_resource type="PackedScene" uid="uid://dev804nrhko7n" path="res://generalnodes/playerspawn/player_spawn.tscn" id="6_jo2km"]
 
 [sub_resource type="GDScript" id="GDScript_hy070"]
 script/source = "extends Node2D
@@ -20,36 +21,47 @@ var doors_to_open : Array[Door] = []
 @onready var door_east = $DoorE
 @onready var player = $Player
 
+@onready var trans_north: LevelTransition = $TransN
+@onready var trans_south: LevelTransition = $TransS
+@onready var trans_east: LevelTransition = $TransE
+@onready var spawn_from_west: Marker2D = $SpawnFromWest
+@onready var spawn_from_north: Marker2D = $SpawnFromNorth
+@onready var spawn_from_south: Marker2D = $SpawnFromSouth
+
 
 func _ready():
 	randomize()
 	enemy_count = randi_range(3, 6)
 	_setup_doors_to_open()
-	_instance_player()
+	_position_player_on_entry()
+	
+	trans_north.entered.connect(func(_b): _on_transition(Room.Direction.NORTH))
+	trans_south.entered.connect(func(_b): _on_transition(Room.Direction.SOUTH))
+	trans_east.entered.connect(func(_b): _on_transition(Room.Direction.FORWARD))
+
+	
 	await get_tree().create_timer(1.0).timeout
 	spawn_enemies()
 	
-func _instance_player():
-	if not player:
+func _position_player_on_entry() -> void:
+	var spawn_point: Marker2D = spawn_from_west
+	match DungeonManager.last_exit_direction:
+		Room.Direction.NORTH:
+			spawn_point = spawn_from_south
+		Room.Direction.SOUTH:
+			spawn_point = spawn_from_north
+
+	if spawn_point == null:
+		push_warning(\"Manca il Marker2D di spawn (%s) in %s\" % [DungeonManager.last_exit_direction, name])
 		return
 
-	var room_parent = get_parent()
-	if room_parent:
-		remove_child(player)
-		
-		if player is Node2D:
-			var global_pos = player.global_position
-			room_parent.add_child(player)
-			player.global_position = global_pos
-		elif player is Node3D:
-			var global_trans = player.global_transform
-			room_parent.add_child(player)
-			player.global_transform = global_trans
-		else:
-			room_parent.add_child(player)
-	else:
-		push_warning(\"Room non ha un genitore, impossibile spostare Player come sibling.\")
+	PlayerManager.activate(get_parent(), spawn_point.global_position)
 
+func _on_transition(direction: Room.Direction) -> void:
+	var next_room := DungeonManager.last_room.get_next_room_in_direction(direction)
+	if next_room == null:
+		return
+	GameManager.current_run.map.enter_room(next_room, direction)
 
 func spawn_enemies():
 	var all_cells = tilemap.get_used_cells()
@@ -265,6 +277,7 @@ position = Vector2(1023, 215)
 
 [node name="TransN" parent="." unique_id=75343586 instance=ExtResource("4_ogudv")]
 position = Vector2(1069, 70)
+auto_change_scene = false
 
 [node name="DoorS" parent="." unique_id=1175052282 instance=ExtResource("3_jo2km")]
 position = Vector2(1112, 1013)
@@ -273,6 +286,7 @@ rotation = 3.1415927
 [node name="TransS" parent="." unique_id=1453233195 instance=ExtResource("4_ogudv")]
 position = Vector2(1065, 1147)
 rotation = 3.1415927
+auto_change_scene = false
 
 [node name="DoorE" parent="." unique_id=307756111 instance=ExtResource("3_jo2km")]
 position = Vector2(1850, 612)
@@ -281,6 +295,46 @@ rotation = 1.5707964
 [node name="TransE" parent="." unique_id=522398516 instance=ExtResource("4_ogudv")]
 position = Vector2(2006, 657)
 rotation = 1.5707964
+auto_change_scene = false
 
-[node name="Player" parent="." unique_id=1891662130 instance=ExtResource("5_4lth7")]
-position = Vector2(541, 637)
+[node name="SpawnFromNorth" type="Marker2D" parent="." unique_id=1913204575]
+position = Vector2(1074, 280)
+
+[node name="SpawnFromSouth" type="Marker2D" parent="." unique_id=2034061609]
+position = Vector2(1063, 960)
+
+[node name="SpawnFromWest" type="Marker2D" parent="." unique_id=1877218177]
+position = Vector2(423, 604)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1609551574]
+position = Vector2(318, 614)
+rotation = -1.5707964
+scale = Vector2(4, 4)
+texture = ExtResource("5_4lth7")
+hframes = 3
+vframes = 4
+
+[node name="Zona aperta" type="Sprite2D" parent="Sprite2D" unique_id=537849566]
+position = Vector2(0, 1)
+texture = ExtResource("5_4lth7")
+hframes = 3
+vframes = 4
+frame = 1
+
+[node name="Psx" type="Sprite2D" parent="Sprite2D" unique_id=249773418]
+position = Vector2(0, -5.75)
+texture = ExtResource("5_4lth7")
+hframes = 3
+vframes = 5
+frame = 3
+
+[node name="Pdx" type="Sprite2D" parent="Sprite2D" unique_id=1606167841]
+position = Vector2(0, -5.75)
+texture = ExtResource("5_4lth7")
+flip_h = true
+hframes = 3
+vframes = 5
+frame = 3
+
+[node name="PlayerSpawn" parent="." unique_id=442468290 instance=ExtResource("6_jo2km")]
+position = Vector2(495, 648)

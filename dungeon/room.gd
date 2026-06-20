@@ -18,5 +18,11 @@ func get_direction_to(next_room: Room) -> Direction:
 		return Direction.SOUTH
 	return Direction.FORWARD
 
+func get_next_room_in_direction(dir: Direction) -> Room:
+	for next_room: Room in next_rooms:
+		if get_direction_to(next_room) == dir:
+			return next_room
+	return null
+
 func _to_string() -> String:
 	return "%s (%s)" % [column, Type.keys()[type][0]]

@@ -41,7 +41,7 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k83vi"]
-size = Vector2(193, 121)
+size = Vector2(293, 121)
 
 [node name="Door" type="Node2D" unique_id=1175052282]
 script = ExtResource("1_556a7")
@@ -84,5 +84,5 @@ collision_layer = 16
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=187176663]
-position = Vector2(44.5, -60.5)
+position = Vector2(46.5, -60.5)
 shape = SubResource("RectangleShape2D_k83vi")

@@ -3,16 +3,46 @@ extends Node2D
 var enemy_scene = preload("res://enemies/slime/slime.tscn")
 var player_mask_radius = 200
 var enemy_count : int = 0
+var doors_to_open : Array[Door] = []
 
 @onready var tilemap: TileMapLayer = $TileMapLayer
-@onready var door = $Door
+@onready var door_north: Door = $DoorN
+@onready var door_south: Door = $DoorS
+@onready var door_east: Door = $DoorE
+@onready var trans_north: LevelTransition = $TransN
+@onready var trans_south: LevelTransition = $TransS
+@onready var trans_east: LevelTransition = $TransE
+@onready var spawn_from_west: Marker2D = $SpawnFromWest
+@onready var spawn_from_north: Marker2D = $SpawnFromNorth
+@onready var spawn_from_south: Marker2D = $SpawnFromSouth
 
 
 func _ready():
 	randomize()
 	enemy_count = randi_range(3, 6)
+
+	_setup_doors_to_open()
+	_position_player_on_entry()
+	trans_north.entered.connect(func(_b): _on_transition(Room.Direction.NORTH))
+	trans_south.entered.connect(func(_b): _on_transition(Room.Direction.SOUTH))
+	trans_east.entered.connect(func(_b): _on_transition(Room.Direction.FORWARD))
+
 	await get_tree().create_timer(1.0).timeout
 	spawn_enemies()
+
+
+func _setup_doors_to_open() -> void:
+	var current_room := DungeonManager.last_room
+	if current_room == null:
+		return
+	for next_room: Room in current_room.next_rooms:
+		match current_room.get_direction_to(next_room):
+			Room.Direction.NORTH:
+				doors_to_open.append(door_north)
+			Room.Direction.SOUTH:
+				doors_to_open.append(door_south)
+			Room.Direction.FORWARD:
+				doors_to_open.append(door_east)
 
 func spawn_enemies():
 	var all_cells = tilemap.get_used_cells()
