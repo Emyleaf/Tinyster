@@ -47,7 +47,6 @@ func enter_room(room: Room, exit_direction: Room.Direction = Room.Direction.FORW
 		
 		var main = get_node("/root/Main")
 		main.call_deferred("add_child", current_room_node)
-		var map = get_node("/root/Map")
 
 	call_deferred("_finish_transition")
 

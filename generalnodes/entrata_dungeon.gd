@@ -8,10 +8,11 @@ func _ready():
 	map = MAP.instantiate()
 	add_child(map)
 	map.show_map()
-	map.room_selected_to_enter.connect(_on_room_selected)
 
-func _on_room_selected(room: Room):
-	map.room_selected_to_enter.disconnect(_on_room_selected)
+	map.room_chosen.connect(_on_room_chosen)
+
+func _on_room_chosen(room: Room):
+	map.room_chosen.disconnect(_on_room_chosen)
 
 	# Comunica a DungeonManager di entrare nella stanza
 	DungeonManager.enter_room(room)

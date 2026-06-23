@@ -1,5 +1,7 @@
 class_name Map extends Node2D
 
+signal room_chosen(room: Room)
+
 const SCROLL_SPEED := 15
 const MAP_ROOM = preload("res://dungeon/scenes/map_room.tscn")
 const MAP_LINE = preload("res://dungeon/scenes/map_line.tscn")
@@ -91,7 +93,7 @@ func _spawn_room(room: Room) -> void:
 	var new_map_room := MAP_ROOM.instantiate() as MapRoom
 	rooms.add_child(new_map_room)
 	new_map_room.room = room
-	new_map_room.selected.connect(_on_map_room_selected)
+	new_map_room.selected.connect(_on_room_clicked)
 	_connect_lines(room)
 
 	if room.selected and room.row < DungeonManager.floors_climbed:
@@ -113,24 +115,17 @@ func _update_player_camera_reference() -> void:
 	if PlayerManager.player:
 		player_camera_2d = PlayerManager.player.camera_2d_player
 
-func enter_room(room: Room, exit_direction: Room.Direction = Room.Direction.FORWARD) -> void:
-	var previous_room := DungeonManager.last_room
+func _update_visual_selection(room: Room) -> void:
+	var previous := DungeonManager.last_room
 	
 	for map_room: MapRoom in rooms.get_children():
-		if map_room.room.row == room.row:
-			map_room.available = false
 		if map_room.room == room:
 			room.selected = true
 			map_room.show_selected()
-		elif previous_room and map_room.room == previous_room:
-			previous_room.selected = false
+		elif previous and map_room.room == previous:
 			map_room.hide_selected()
-
-	DungeonManager.last_room = room
-	DungeonManager.last_exit_direction = exit_direction
-	DungeonManager.floors_climbed += 1
-	room_selected_to_enter.emit(room)
 	
 
-func _on_map_room_selected(room: Room) -> void:
-	enter_room(room)
+func _on_room_clicked(room: Room):
+	_update_visual_selection(room)
+	room_chosen.emit(room)
