@@ -122,7 +122,7 @@ func enter_room(room: Room, exit_direction: Room.Direction = Room.Direction.FORW
 		if map_room.room == room:
 			room.selected = true
 			map_room.show_selected()
-		if previous_room and map_room.room == previous_room:
+		elif previous_room and map_room.room == previous_room:
 			previous_room.selected = false
 			map_room.hide_selected()
 

@@ -24,6 +24,10 @@ func _ready():
 	_setup_doors_to_open()
 	_position_player_on_entry()
 	
+	# Stampa coordinate della stanza
+	if DungeonManager.last_room:
+		print("Stanza - Riga: %d, Colonna: %d" % [DungeonManager.last_room.row, DungeonManager.last_room.column])
+	
 	trans_north.entered.connect(func(_b): _on_transition(Room.Direction.NORTH))
 	trans_south.entered.connect(func(_b): _on_transition(Room.Direction.SOUTH))
 	trans_east.entered.connect(func(_b): _on_transition(Room.Direction.FORWARD))

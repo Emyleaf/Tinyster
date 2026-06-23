@@ -27,9 +27,11 @@ func _ready() -> void:
 	pass # Replace with function body.
 	
 func play_start_animation():
+	invulnerable = true
 	animation_player.play("spawn")
 	await animation_player.animation_finished
 	
+	invulnerable = false
 	state_machine.initialize(self)        # inizializza la macchina a stati
 	set_physics_process(true)             # riattiva move_and_slide
 
