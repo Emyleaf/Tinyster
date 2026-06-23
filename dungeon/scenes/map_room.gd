@@ -19,13 +19,6 @@ const ICONS := {
 var available := false : set = set_available
 var room: Room : set = set_room
 
-func _ready() -> void:
-	Events.change_room.connect(_on_room_changed)
-	
-func _on_room_changed():
-	show_selected()
-	pass
-
 func set_available(new_value: bool) -> void:
 	available = new_value
 	

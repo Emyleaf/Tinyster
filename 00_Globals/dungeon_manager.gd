@@ -6,6 +6,7 @@ var floors_climbed: int = 0
 var last_room: Room = null
 var last_exit_direction: Room.Direction = Room.Direction.FORWARD
 var current_room_node: Node2D = null  # riferimento alla stanza attuale nel World
+
 var is_transitioning: bool = false
 
 const MAP_SCENE := preload("res://dungeon/scenes/map.tscn")
@@ -34,11 +35,9 @@ func enter_room(room: Room, exit_direction: Room.Direction = Room.Direction.FORW
 	last_room = room
 	last_exit_direction = exit_direction
 	floors_climbed += 1
-	Events.change_room.emit()
-	print("MAH?")
-
+	
 	if current_room_node:
-		current_room_node.call_deferred("free")
+		current_room_node.queue_free()
 		current_room_node = null
 
 	var scene = ROOM_SCENES.get(room.type)
@@ -49,6 +48,6 @@ func enter_room(room: Room, exit_direction: Room.Direction = Room.Direction.FORW
 		main.call_deferred("add_child", current_room_node)
 
 	call_deferred("_finish_transition")
-
+	
 func _finish_transition() -> void:
 	is_transitioning = false

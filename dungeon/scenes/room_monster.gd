@@ -24,7 +24,6 @@ func _ready():
 	_setup_doors_to_open()
 	_position_player_on_entry()
 	
-	# Stampa coordinate della stanza
 	if DungeonManager.last_room:
 		print("Stanza - Riga: %d, Colonna: %d" % [DungeonManager.last_room.row, DungeonManager.last_room.column])
 	
@@ -85,6 +84,7 @@ func _on_slime_enemy_destroyed(hurt_box: HurtBox) -> void:
 	print(enemy_count)
 	if enemy_count <= 0:
 		print("STANZA COMPLETA, ENEMY COUNTER %s" % enemy_count)
+		
 		await get_tree().create_timer(0.5).timeout
 		for door in doors_to_open:
 			door.open_door()

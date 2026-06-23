@@ -122,7 +122,8 @@ func _update_visual_selection(room: Room) -> void:
 		if map_room.room == room:
 			room.selected = true
 			map_room.show_selected()
-		elif previous and map_room.room == previous:
+		if previous and map_room.room == previous:
+			previous.selected = false
 			map_room.hide_selected()
 	
 
