@@ -115,9 +115,7 @@ func _update_player_camera_reference() -> void:
 	if PlayerManager.player:
 		player_camera_2d = PlayerManager.player.camera_2d_player
 
-func _update_visual_selection(room: Room) -> void:
-	var previous := DungeonManager.last_room
-	
+func _update_visual_selection(room: Room, previous: Room) -> void:
 	for map_room: MapRoom in rooms.get_children():
 		if map_room.room == room:
 			room.selected = true
@@ -128,5 +126,9 @@ func _update_visual_selection(room: Room) -> void:
 	
 
 func _on_room_clicked(room: Room):
-	_update_visual_selection(room)
+	var previous := DungeonManager.last_room
+	for map_room: MapRoom in rooms.get_children():
+		map_room.available = false
+
+	_update_visual_selection(room, previous)
 	room_chosen.emit(room)
