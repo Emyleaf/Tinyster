@@ -12,7 +12,8 @@ var is_transitioning: bool = false
 const MAP_SCENE := preload("res://dungeon/scenes/map.tscn")
 const ROOM_SCENES := {
 	Room.Type.MONSTER: preload("res://dungeon/scenes/room_monster.tscn"),
-	Room.Type.SHOP: preload("res://dungeon/scenes/room_shop.tscn")
+	Room.Type.SHOP: preload("res://dungeon/scenes/room_shop.tscn"),
+	Room.Type.CAMPFIRE: preload("res://dungeon/scenes/room_campfire.tscn")
 }
 
 # Riferimento al generatore (puoi anche istanziarlo qui)
@@ -50,4 +51,5 @@ func enter_room(room: Room, exit_direction: Room.Direction = Room.Direction.FORW
 	call_deferred("_finish_transition")
 	
 func _finish_transition() -> void:
+	set_physics_process(true)
 	is_transitioning = false

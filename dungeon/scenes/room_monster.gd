@@ -25,7 +25,7 @@ func _ready():
 	_position_player_on_entry()
 	
 	if DungeonManager.last_room:
-		print("Stanza - Riga: %d, Colonna: %d" % [DungeonManager.last_room.row, DungeonManager.last_room.column])
+		print("Stanza - Riga: %d, Colonna: %d" % [DungeonManager.last_room.column+1, DungeonManager.last_room.row])
 	
 	trans_north.entered.connect(func(_b): _on_transition(Room.Direction.NORTH))
 	trans_south.entered.connect(func(_b): _on_transition(Room.Direction.SOUTH))

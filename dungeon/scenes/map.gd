@@ -6,8 +6,6 @@ const SCROLL_SPEED := 15
 const MAP_ROOM = preload("res://dungeon/scenes/map_room.tscn")
 const MAP_LINE = preload("res://dungeon/scenes/map_line.tscn")
 
-@export var player_camera_path: NodePath
-
 @onready var map : Node2D = $"."
 @onready var map_generator: MapGenerator = $MapGenerator
 @onready var lines: Node2D = %Lines
@@ -19,7 +17,6 @@ const MAP_LINE = preload("res://dungeon/scenes/map_line.tscn")
 var camera_edge_y: float
 
 var is_map_open := false
-		
 func _open_map():
 	is_map_open = true
 	get_tree().paused = true
@@ -49,12 +46,12 @@ func _input(event: InputEvent) -> void:
 		else:
 			_open_map()
 	
-	if map.visible and event.is_action_pressed("scroll_up"):
-		camera_2d.position.x += SCROLL_SPEED
-	elif map.visible and event.is_action_pressed("scroll_down"):
-		camera_2d.position.x -= SCROLL_SPEED
-
-	camera_2d.position.x = clamp(camera_2d.position.x, 0, camera_edge_y)
+	#if map.visible and event.is_action_pressed("scroll_up"):
+		#camera_2d.position.x += SCROLL_SPEED
+	#elif map.visible and event.is_action_pressed("scroll_down"):
+		#camera_2d.position.x -= SCROLL_SPEED
+#
+	#camera_2d.position.x = clamp(camera_2d.position.x, 0, camera_edge_y)
 
 func generate_new_map() -> void:
 	DungeonManager.generate_new_map()
@@ -66,9 +63,11 @@ func create_map() -> void:
 			if room.next_rooms.size() > 0:
 				_spawn_room(room)
 	
+	#posiziona la room Boss nel mezzo
 	var middle := floori(MapGenerator.MAP_WIDTH * 0.5)
 	_spawn_room(DungeonManager.map_data[MapGenerator.FLOORS - 1][middle])
 
+	#posiziona la mappa all'interno dello schermo, senza questo codice andrebbe fuori screen
 	var map_width_pixels := (MapGenerator.MAP_WIDTH - 1) * MapGenerator.X_DIST
 	visuals.position.y = (get_viewport_rect().size.y - map_width_pixels) * 0.08
 	visuals.position.x = get_viewport_rect().size.x * 0.03

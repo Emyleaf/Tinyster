@@ -7,7 +7,7 @@ const PLACEMENT_RANDOMNESS := 5
 # Numero di "colonne" della mappa, cioè la profondità orizzontale
 const FLOORS := 15
 
-# Numero di lane verticali
+# Numero di righe
 const MAP_WIDTH := 7
 
 const PATHS := 6
