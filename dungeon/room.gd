@@ -1,7 +1,7 @@
 # room_data.gd
 class_name Room extends Resource
 
-enum Type { NOT_ASSIGNED, MONSTER, CAMPFIRE, SHOP, TREASURE, BOSS }
+enum Type { NOT_ASSIGNED, MONSTER, CAMPFIRE, SHOP, TREASURE, BOSS, EVENT }
 enum Direction { NORTH, FORWARD, SOUTH }
 
 @export var type: Type

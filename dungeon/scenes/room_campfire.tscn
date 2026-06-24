@@ -1,77 +1,12 @@
-[gd_scene format=4 uid="uid://upbruyvrw1cb"]
+[gd_scene format=4 uid="uid://bmf6g3n0trfoy"]
 
+[ext_resource type="Script" uid="uid://q0dl08fnxhbi" path="res://dungeon/scenes/room_campfire.gd" id="1_a1eq4"]
 [ext_resource type="Texture2D" uid="uid://60u4p3ovp3eh" path="res://assets/forest.png" id="1_ritr3"]
 [ext_resource type="Script" uid="uid://cv0n05dgk4air" path="res://Tile Maps/level_tile_map.gd" id="2_eedlx"]
 [ext_resource type="PackedScene" uid="uid://d0l0smnegiw30" path="res://generalnodes/level_transition.tscn" id="3_s2jje"]
 [ext_resource type="Texture2D" uid="uid://bp3kdpy3mt5ua" path="res://assets/vendor.png" id="4_wixwy"]
 [ext_resource type="PackedScene" uid="uid://b0p68xg6a26lu" path="res://dungeon/scenes/door.tscn" id="5_bai68"]
 [ext_resource type="Texture2D" uid="uid://bka65kjyjkg2h" path="res://assets/door.png" id="6_uom60"]
-
-[sub_resource type="GDScript" id="GDScript_hy070"]
-script/source = "extends Node2D
-
-var doors_to_open : Array[Door] = []
-
-@onready var tilemap: TileMapLayer = $TileMapLayer
-@onready var door_north: Door = $DoorN
-@onready var door_south: Door = $DoorS
-@onready var door_east: Door = $DoorE
-@onready var trans_north: LevelTransition = $TransN
-@onready var trans_south: LevelTransition = $TransS
-@onready var trans_east: LevelTransition = $TransE
-@onready var spawn_from_west: Marker2D = $SpawnFromWest
-@onready var spawn_from_north: Marker2D = $SpawnFromNorth
-@onready var spawn_from_south: Marker2D = $SpawnFromSouth
-
-
-func _ready():
-	_setup_doors_to_open()
-	_position_player_on_entry()
-	
-	trans_north.entered.connect(func(_b): _on_transition(Room.Direction.NORTH))
-	trans_south.entered.connect(func(_b): _on_transition(Room.Direction.SOUTH))
-	trans_east.entered.connect(func(_b): _on_transition(Room.Direction.FORWARD))
-
-	await get_tree().create_timer(1.0).timeout
-	for door in doors_to_open:
-		door.open_door()
-
-
-func _setup_doors_to_open() -> void:
-	var current_room := DungeonManager.last_room
-	if current_room == null:
-		return
-	for next_room: Room in current_room.next_rooms:
-		match current_room.get_direction_to(next_room):
-			Room.Direction.NORTH:
-				doors_to_open.append(door_north)
-			Room.Direction.SOUTH:
-				doors_to_open.append(door_south)
-			Room.Direction.FORWARD:
-				doors_to_open.append(door_east)
-
-func _position_player_on_entry() -> void:
-	var spawn_point: Marker2D = spawn_from_west
-	match DungeonManager.last_exit_direction:
-		Room.Direction.NORTH:
-			spawn_point = spawn_from_south
-		Room.Direction.SOUTH:
-			spawn_point = spawn_from_north
-			
-	if PlayerManager.player == null:
-		PlayerManager.player = PlayerManager.PLAYER.instantiate()
-		add_sibling(PlayerManager.player)
-		if PlayerManager.player.has_node(\"Camera2D\"):
-			PlayerManager.player.get_node(\"Camera2D\").queue_free()
-	
-	PlayerManager.player.global_position = spawn_point.global_position
-	
-func _on_transition(direction: Room.Direction) -> void:
-	var next_room := DungeonManager.last_room.get_next_room_in_direction(direction)
-	if next_room == null:
-		return
-	GameManager.current_run.map.enter_room(next_room, direction)
-"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5s76m"]
 texture = ExtResource("1_ritr3")
@@ -222,8 +157,8 @@ physics_layer_0/collision_layer = 16
 physics_layer_0/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_5s76m")
 
-[node name="RoomShop" type="Node2D" unique_id=716438338]
-script = SubResource("GDScript_hy070")
+[node name="RoomCampfire" type="Node2D" unique_id=716438338]
+script = ExtResource("1_a1eq4")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1769776126]
 z_index = -1
