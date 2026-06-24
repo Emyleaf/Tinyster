@@ -13,6 +13,9 @@
 [ext_resource type="Script" uid="uid://cutbyswosjvs0" path="res://enemies/scripts/states/enemy_state_stun.gd" id="11_im24l"]
 [ext_resource type="Script" uid="uid://dvpd4wr288jpv" path="res://enemies/scripts/states/enemy_state_destroy.gd" id="12_0oddt"]
 [ext_resource type="Texture2D" uid="uid://bjmnekt8aq4gn" path="res://enemies/slime/DestroySmoke.png" id="12_yu3x6"]
+[ext_resource type="Texture2D" uid="uid://cmmamg8pmr5hf" path="res://assets/healthbarUnder.png" id="14_im24l"]
+[ext_resource type="Script" uid="uid://b1vkyse6bgt6i" path="res://enemies/scripts/health_bar.gd" id="14_klbxu"]
+[ext_resource type="Texture2D" uid="uid://bf6c14mfpspng" path="res://assets/healthbarProgress.png" id="15_yu3x6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_okhmd"]
 radius = 14.0
@@ -924,3 +927,15 @@ hframes = 6
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="DestroyEffectSprite" unique_id=1543046190]
 libraries/ = SubResource("AnimationLibrary_46p2o")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="." unique_id=938164718 node_paths=PackedStringArray("enemy")]
+offset_left = -15.75
+offset_top = -28.0
+offset_right = 48.25
+offset_bottom = -18.0
+scale = Vector2(0.5, 0.5)
+texture_under = ExtResource("14_im24l")
+texture_progress = ExtResource("15_yu3x6")
+tint_under = Color(1, 1, 1, 0.25300002)
+script = ExtResource("14_klbxu")
+enemy = NodePath("..")

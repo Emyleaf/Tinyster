@@ -9,6 +9,7 @@ const ICONS := {
 	Room.Type.TREASURE: [preload("res://dungeon/art/treasure_room_icon.png"), Vector2(0.8, 0.8)],
 	Room.Type.CAMPFIRE: [preload("res://dungeon/art/campfire_room_icon.png"), Vector2(0.8, 0.8)],
 	Room.Type.SHOP: [preload("res://dungeon/art/shop_room_icon.png"), Vector2(0.8, 0.8)],
+	Room.Type.EVENT: [preload("res://dungeon/art/event_room_icon.png"), Vector2(0.8, 0.8)],
 	Room.Type.BOSS: [preload("res://dungeon/art/boss_room_icon.png"), Vector2(1.0, 1.0)],
 }
 

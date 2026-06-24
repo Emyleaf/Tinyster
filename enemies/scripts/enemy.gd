@@ -6,7 +6,8 @@ signal enemy_destroyed(hurt_box : HurtBox)
 
 const DIR_4 = [Vector2.RIGHT, Vector2.DOWN, Vector2.LEFT, Vector2.UP]
 
-@export var hp : int = 1
+@export var max_hp : int = 3
+@export var current_hp : int = max_hp
 
 var cardinal_direction : Vector2 = Vector2.DOWN
 var direction : Vector2 = Vector2.ZERO
@@ -24,7 +25,7 @@ func _ready() -> void:
 	set_physics_process(false)
 	player = PlayerManager.player
 	hit_box.damaged.connect(_take_damage)
-	pass # Replace with function body.
+	pass
 	
 func play_start_animation():
 	invulnerable = true
@@ -72,10 +73,10 @@ func anim_direction() -> String:
 		return "side"
 
 func _take_damage(hurt_box : HurtBox) -> void:
-	if invulnerable == true:
+	if invulnerable:
 		return
-	hp -= hurt_box.damage
-	if hp <= 0:
+	current_hp -= hurt_box.damage
+	if current_hp <= 0:
 		enemy_destroyed.emit(hurt_box)
 	else:
 		enemy_damaged.emit(hurt_box)
