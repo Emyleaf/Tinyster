@@ -61,5 +61,7 @@ func _update_area() -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
+		if DungeonManager.is_transitioning:
+			return
 		set_physics_process(false)    
 		entered.emit(body)

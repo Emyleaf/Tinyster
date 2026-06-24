@@ -51,5 +51,5 @@ func enter_room(room: Room, exit_direction: Room.Direction = Room.Direction.FORW
 	call_deferred("_finish_transition")
 	
 func _finish_transition() -> void:
-	set_physics_process(true)
+	await get_tree().create_timer(0.3).timeout   # piccolo buffer prima di riabilitare
 	is_transitioning = false
