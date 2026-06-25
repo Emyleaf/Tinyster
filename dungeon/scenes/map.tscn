@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://cf3e1fkyxmaa1" path="res://dungeon/scenes/map.gd" id="1_ymosu"]
 [ext_resource type="Texture2D" uid="uid://hlebndwru55t" path="res://assets/map.png" id="3_y2wp4"]
 
-[node name="Map" type="Node2D" unique_id=1183846057]
+[node name="Map" type="Node2D" unique_id=1183846057 groups=["Map"]]
 process_mode = 3
 z_index = 2
 scale = Vector2(4, 4)

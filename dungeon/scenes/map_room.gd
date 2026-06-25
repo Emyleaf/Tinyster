@@ -40,7 +40,7 @@ func set_room(new_data: Room) -> void:
 	sprite_2d.scale = ICONS[room.type][1]
 
 func show_selected() -> void:
-	line_2d.modulate = Color.WHITE
+	line_2d.modulate = Color.BLACK
 
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:

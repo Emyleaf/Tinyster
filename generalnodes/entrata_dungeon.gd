@@ -5,6 +5,7 @@ const MAP = preload("res://dungeon/scenes/map.tscn")
 @onready var map = null
 
 func _ready():
+	GameManager.current_run = self
 	map = MAP.instantiate()
 	add_child(map)
 	map.show_map()

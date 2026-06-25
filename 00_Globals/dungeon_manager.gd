@@ -33,6 +33,7 @@ func enter_room(room: Room, exit_direction: Room.Direction = Room.Direction.FORW
 		return
 	
 	is_transitioning = true
+	
 	last_room = room
 	last_exit_direction = exit_direction
 	floors_climbed += 1

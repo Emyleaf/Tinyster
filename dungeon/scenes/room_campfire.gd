@@ -65,4 +65,9 @@ func _on_transition(direction: Room.Direction) -> void:
 	var next_room := DungeonManager.last_room.get_next_room_in_direction(direction)
 	if next_room == null:
 		return
+	var previous := DungeonManager.last_room 
 	DungeonManager.enter_room(next_room, direction)
+	
+	var map := get_tree().get_first_node_in_group("Map") as Map
+	if map:
+		map._update_visual_selection(next_room, previous)

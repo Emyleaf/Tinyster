@@ -98,7 +98,7 @@ modulate = Color(1, 1, 1, 0)
 points = PackedVector2Array(-4, -14, -14, -6, -12, 10, 4, 12, 12, 6, 10, -10)
 closed = true
 width = 2.0
-default_color = Color(0.86759883, 0.74429107, 0.4423969, 1)
+default_color = Color(0.00042898435, 0.00011355469, 0.00010093749, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="Visuals" unique_id=788009385]
 texture = ExtResource("2_cuibe")
