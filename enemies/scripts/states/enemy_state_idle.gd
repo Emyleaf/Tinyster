@@ -6,6 +6,7 @@ class_name EnemyStateIdle extends EnemyState
 @export var state_duration_min : float = 0.5
 @export var state_duration_max : float = 1.5
 @export var after_idle_state : EnemyState
+@export var chase_state : EnemyState
 
 var _timer : float = 0.0
 
@@ -23,6 +24,8 @@ func exit() -> void:
 	pass
 	
 func process(_delta: float) -> EnemyState:
+	if enemy.can_see_player:
+		return chase_state
 	_timer -= _delta
 	if _timer <= 0:
 		return after_idle_state

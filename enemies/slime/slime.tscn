@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://cutbyswosjvs0" path="res://enemies/scripts/states/enemy_state_stun.gd" id="11_im24l"]
 [ext_resource type="Script" uid="uid://dvpd4wr288jpv" path="res://enemies/scripts/states/enemy_state_destroy.gd" id="12_0oddt"]
 [ext_resource type="Texture2D" uid="uid://bjmnekt8aq4gn" path="res://enemies/slime/DestroySmoke.png" id="12_yu3x6"]
+[ext_resource type="Script" uid="uid://c40kdvh5as01" path="res://enemies/scripts/states/enemy_state_chase.gd" id="13_yu3x6"]
 [ext_resource type="Texture2D" uid="uid://cmmamg8pmr5hf" path="res://assets/healthbarUnder.png" id="14_im24l"]
 [ext_resource type="Script" uid="uid://b1vkyse6bgt6i" path="res://enemies/scripts/health_bar.gd" id="14_klbxu"]
 [ext_resource type="Texture2D" uid="uid://bf6c14mfpspng" path="res://assets/healthbarProgress.png" id="15_yu3x6"]
@@ -860,6 +861,9 @@ _data = {
 &"destroy": SubResource("Animation_s3bgs")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_3kbrf"]
+radius = 100.0
+
 [node name="Slime" type="CharacterBody2D" unique_id=515677624]
 scale = Vector2(4, 4)
 collision_layer = 256
@@ -901,13 +905,15 @@ autoplay = &"idle_down"
 [node name="EnemyStateMachine" type="Node" parent="." unique_id=1873639101]
 script = ExtResource("4_57eei")
 
-[node name="Idle" type="Node" parent="EnemyStateMachine" unique_id=639543454 node_paths=PackedStringArray("after_idle_state")]
+[node name="Idle" type="Node" parent="EnemyStateMachine" unique_id=639543454 node_paths=PackedStringArray("after_idle_state", "chase_state")]
 script = ExtResource("5_2ui2u")
 after_idle_state = NodePath("../Wander")
+chase_state = NodePath("../Chase")
 
-[node name="Wander" type="Node" parent="EnemyStateMachine" unique_id=1248644728 node_paths=PackedStringArray("next_state")]
+[node name="Wander" type="Node" parent="EnemyStateMachine" unique_id=1248644728 node_paths=PackedStringArray("next_state", "chase_state")]
 script = ExtResource("6_bkm6f")
 next_state = NodePath("../Idle")
+chase_state = NodePath("../Chase")
 
 [node name="Stun" type="Node" parent="EnemyStateMachine" unique_id=659333872 node_paths=PackedStringArray("next_state")]
 script = ExtResource("11_im24l")
@@ -915,6 +921,10 @@ next_state = NodePath("../Idle")
 
 [node name="Destroy" type="Node" parent="EnemyStateMachine" unique_id=1507170745]
 script = ExtResource("12_0oddt")
+
+[node name="Chase" type="Node" parent="EnemyStateMachine" unique_id=417758076 node_paths=PackedStringArray("next_state")]
+script = ExtResource("13_yu3x6")
+next_state = NodePath("../Idle")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=106247934]
 max_polyphony = 4
@@ -939,3 +949,13 @@ texture_progress = ExtResource("15_yu3x6")
 tint_under = Color(1, 1, 1, 0.25300002)
 script = ExtResource("14_klbxu")
 enemy = NodePath("..")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=2082970782]
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1492880921]
+shape = SubResource("CircleShape2D_3kbrf")
+
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=346891517]
+enabled = false
+collision_mask = 17

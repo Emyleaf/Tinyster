@@ -19,12 +19,23 @@ var invulnerable : bool = false
 @onready var state_machine : EnemyStateMachine = $EnemyStateMachine
 @onready var hit_box : HitBox = $HitBox
 
+@onready var vision_range: Area2D = $Area2D
+@onready var line_of_sight: RayCast2D = $RayCast2D
+
+var player_in_range: bool = false
+var can_see_player: bool = false
+var last_seen_player_position: Vector2
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	set_physics_process(false)
 	player = PlayerManager.player
 	hit_box.damaged.connect(_take_damage)
+	
+	vision_range.body_entered.connect(_on_player_entered_vision)
+	vision_range.body_exited.connect(_on_player_exited_vision)
+	line_of_sight.enabled = false
 	pass
 	
 func play_start_animation():
@@ -39,6 +50,10 @@ func play_start_animation():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	move_and_slide()
+	if player_in_range:
+		_check_line_of_sight()
+	else:
+		can_see_player = false
 	pass
 
 func _physics_process(_delta: float) -> void:
@@ -80,3 +95,32 @@ func _take_damage(hurt_box : HurtBox) -> void:
 		enemy_destroyed.emit(hurt_box)
 	else:
 		enemy_damaged.emit(hurt_box)
+		
+func _on_player_entered_vision(body: Node2D) -> void:
+	if body is Player:
+		player_in_range = true
+		line_of_sight.enabled = true
+
+func _on_player_exited_vision(body: Node2D) -> void:
+	if body is Player:
+		player_in_range = false
+		line_of_sight.enabled = false
+		can_see_player = false
+
+func _check_line_of_sight() -> void:
+	if not is_instance_valid(player):
+		can_see_player = false
+		return
+
+	line_of_sight.target_position = player.global_position - global_position
+	line_of_sight.force_raycast_update()
+	
+	if line_of_sight.is_colliding():
+		var collider = line_of_sight.get_collider()
+		if collider is Player:
+			can_see_player = true
+			last_seen_player_position = player.global_position
+		else:
+			can_see_player = false
+	else:
+		can_see_player = false

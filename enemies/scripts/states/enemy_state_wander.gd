@@ -8,6 +8,8 @@ class_name EnemyStateWander extends EnemyState
 @export var state_cycles_min : int = 1
 @export var state_cycles_max : int = 3
 @export var next_state : EnemyState
+@export var chase_state : EnemyState
+
 
 var _timer : float = 0.0
 var _direction : Vector2
@@ -29,6 +31,8 @@ func exit() -> void:
 	pass
 	
 func process(_delta: float) -> EnemyState:
+	if enemy.can_see_player:
+		return chase_state
 	_timer -= _delta
 	if _timer <= 0:
 		return next_state
