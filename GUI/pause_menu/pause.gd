@@ -9,6 +9,8 @@ var map_was_open : bool = false
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	hide_pause_menu()
+	button_save.pressed.connect(_on_save_pressed)
+	button_load.pressed.connect(_on_load_pressed)
 	pass # Replace with function body.
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -31,6 +33,7 @@ func show_pause_menu() -> void:
 	
 	visible = true
 	is_paused = true
+	button_save.grab_focus()
 
 
 func hide_pause_menu() -> void:
@@ -44,3 +47,18 @@ func hide_pause_menu() -> void:
 	
 	visible = false
 	is_paused = false
+	
+func _on_save_pressed() -> void:
+	if is_paused == false:
+		return
+	SaveManager.save_game()
+	hide_pause_menu()
+	pass
+	
+func _on_load_pressed() -> void:
+	if is_paused == false:
+		return
+	SaveManager.load_game()
+	hide_pause_menu()
+	pass
+	
