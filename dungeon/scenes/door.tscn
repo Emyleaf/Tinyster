@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bgyhthkokjkv4" path="res://dungeon/scenes/door.gd" id="1_556a7"]
 [ext_resource type="Texture2D" uid="uid://bka65kjyjkg2h" path="res://assets/door.png" id="2_3oglj"]
+[ext_resource type="Texture2D" uid="uid://brswoyg28ld2" path="res://assets/bush.png" id="2_ylnqg"]
 
 [sub_resource type="Animation" id="Animation_8w0ar"]
 length = 0.001
@@ -51,13 +52,12 @@ root_node = NodePath("../Sprite2D")
 libraries/ = SubResource("AnimationLibrary_8w0ar")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1403826508]
-position = Vector2(43, -38)
-scale = Vector2(4, 4)
-texture = ExtResource("2_3oglj")
-hframes = 3
-vframes = 4
+position = Vector2(44, -63)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_ylnqg")
 
 [node name="Zona aperta" type="Sprite2D" parent="Sprite2D" unique_id=301784534]
+visible = false
 position = Vector2(0, 1)
 texture = ExtResource("2_3oglj")
 hframes = 3
@@ -65,6 +65,7 @@ vframes = 4
 frame = 1
 
 [node name="Psx" type="Sprite2D" parent="Sprite2D" unique_id=1481462004]
+visible = false
 position = Vector2(0, -5.75)
 texture = ExtResource("2_3oglj")
 hframes = 3
@@ -72,6 +73,7 @@ vframes = 5
 frame = 3
 
 [node name="Pdx" type="Sprite2D" parent="Sprite2D" unique_id=944306179]
+visible = false
 position = Vector2(0, -5.75)
 texture = ExtResource("2_3oglj")
 flip_h = true

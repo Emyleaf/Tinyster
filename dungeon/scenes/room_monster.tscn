@@ -176,8 +176,7 @@ position = Vector2(1069, 70)
 auto_change_scene = false
 
 [node name="DoorS" parent="." unique_id=1175052282 instance=ExtResource("3_jo2km")]
-position = Vector2(1112, 1013)
-rotation = 3.1415927
+position = Vector2(1028, 1154)
 
 [node name="TransS" parent="." unique_id=1453233195 instance=ExtResource("4_ogudv")]
 position = Vector2(1065, 1147)
@@ -185,8 +184,7 @@ rotation = 3.1415927
 auto_change_scene = false
 
 [node name="DoorE" parent="." unique_id=307756111 instance=ExtResource("3_jo2km")]
-position = Vector2(1850, 612)
-rotation = 1.5707964
+position = Vector2(1903, 719)
 
 [node name="TransE" parent="." unique_id=522398516 instance=ExtResource("4_ogudv")]
 position = Vector2(2006, 657)
@@ -203,6 +201,7 @@ position = Vector2(1063, 960)
 position = Vector2(423, 604)
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1609551574]
+visible = false
 position = Vector2(318, 614)
 rotation = -1.5707964
 scale = Vector2(4, 4)

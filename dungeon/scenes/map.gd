@@ -19,15 +19,13 @@ var camera_edge_y: float
 var is_map_open := false
 func _open_map():
 	is_map_open = true
-	get_tree().paused = true
-	set_physics_process(false)
 	map.show()
+	GameManager.request_pause("map")
 	
 func _close_map():
 	is_map_open = false
-	get_tree().paused = false
 	map.hide()
-	set_physics_process(true)
+	GameManager.release_pause("map")
 
 func _ready() -> void:
 	camera_edge_y = MapGenerator.Y_DIST * (MapGenerator.FLOORS - 1)
@@ -41,10 +39,13 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("map"):
+		if GameManager.is_paused_by("pause"):
+			return
 		if map.visible: 
 			_close_map()
 		else:
 			_open_map()
+		get_viewport().set_input_as_handled()
 	
 	#if map.visible and event.is_action_pressed("scroll_up"):
 		#camera_2d.position.x += SCROLL_SPEED
