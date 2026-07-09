@@ -17,10 +17,11 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+Events="*uid://dq58reqng8q8f"
 GameManager="*uid://bkc3u7elu4tkp"
 DungeonManager="*uid://dmkbv7fs27fk5"
 SaveManager="*uid://bdlhvwxmpuqrk"
-PlayerHud="*uid://m1qnxxfxt1w6"
+PlayerHud="uid://m1qnxxfxt1w6"
 PlayerManager="*uid://ddk83mt7ja2an"
 PauseMenu="*uid://8137607nxqpf"
 LevelManager="*uid://ddgdgjmm3pofn"

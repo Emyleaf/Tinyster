@@ -1,7 +1,8 @@
 class_name MapRoom
 extends Area2D
 
-signal selected(room:Room)
+signal clicked(room: Room)
+signal selected(room: Room)
 
 const ICONS := {
 	Room.Type.NOT_ASSIGNED: [null, Vector2.ONE],
@@ -27,10 +28,6 @@ func set_available(new_value: bool) -> void:
 		animation_player.play("highlight")
 	elif not room.selected:
 		animation_player.play("RESET")
-
-func hide_selected() -> void:
-	animation_player.play("RESET")
-	
 	
 func set_room(new_data: Room) -> void:
 	room = new_data
@@ -48,6 +45,7 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 		return
 
 	room.selected = true
+	clicked.emit(room)
 	animation_player.play("select")
 
 

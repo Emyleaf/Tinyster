@@ -2,7 +2,6 @@
 class_name Room extends Resource
 
 enum Type { NOT_ASSIGNED, MONSTER, CAMPFIRE, SHOP, TREASURE, BOSS, EVENT }
-enum Direction { NORTH, FORWARD, SOUTH }
 
 @export var type: Type
 @export var row: int
@@ -10,19 +9,10 @@ enum Direction { NORTH, FORWARD, SOUTH }
 @export var position: Vector2
 @export var next_rooms: Array[Room]
 @export var selected := false
-
-func get_direction_to(next_room: Room) -> Direction:
-	if next_room.column < column:
-		return Direction.NORTH
-	elif next_room.column > column:
-		return Direction.SOUTH
-	return Direction.FORWARD
-
-func get_next_room_in_direction(dir: Direction) -> Room:
-	for next_room: Room in next_rooms:
-		if get_direction_to(next_room) == dir:
-			return next_room
-	return null
+# This is only used by the MONSTER and BOSS types
+#@export var battle_stats: BattleStats
+## This is only used by the EVENT room type
+#@export var event_scene: PackedScene
 
 func _to_string() -> String:
 	return "%s (%s)" % [column, Type.keys()[type][0]]

@@ -182,6 +182,12 @@ position = Vector2(2006, 657)
 rotation = 1.5707964
 auto_change_scene = false
 
+[node name="SpawnFromNorth" type="Marker2D" parent="." unique_id=1913204575]
+position = Vector2(1074, 280)
+
+[node name="SpawnFromSouth" type="Marker2D" parent="." unique_id=2034061609]
+position = Vector2(1063, 960)
+
 [node name="SpawnFromWest" type="Marker2D" parent="." unique_id=1877218177]
 position = Vector2(423, 604)
 

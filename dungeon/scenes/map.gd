@@ -32,12 +32,13 @@ func _ready() -> void:
 	if DungeonManager.map_data.is_empty():
 		DungeonManager.generate_new_map()
 	create_map()
+		
 	unlock_floor(0)
 	if not PlayerManager.player:
 		await get_tree().process_frame  # aspetta un frame, oppure connetti il segnale
 	_update_player_camera_reference()
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("map"):
 		if GameManager.is_paused_by("pause"):
 			return
@@ -51,12 +52,23 @@ func _input(event: InputEvent) -> void:
 		#camera_2d.position.x += SCROLL_SPEED
 	#elif map.visible and event.is_action_pressed("scroll_down"):
 		#camera_2d.position.x -= SCROLL_SPEED
-#
+##
 	#camera_2d.position.x = clamp(camera_2d.position.x, 0, camera_edge_y)
 
 func generate_new_map() -> void:
 	DungeonManager.generate_new_map()
 	create_map()
+	
+func load_map(map: Array[Array], floors_completed: int, last_room_climbed: Room) -> void:
+	DungeonManager.floors_climbed = floors_completed
+	DungeonManager.map_data = map
+	DungeonManager.last_room = last_room_climbed
+	create_map()
+	
+	if DungeonManager.floors_climbed > 0:
+		unlock_next_rooms()
+	else:
+		unlock_floor()
 
 func create_map() -> void:
 	for current_floor: Array in DungeonManager.map_data:
@@ -85,15 +97,18 @@ func unlock_next_rooms() -> void:
 
 func show_map() -> void:
 	show()
+	camera_2d.enabled = true
 
 func hide_map() -> void:
 	hide()
+	camera_2d.enabled = false
 
 func _spawn_room(room: Room) -> void:
 	var new_map_room := MAP_ROOM.instantiate() as MapRoom
 	rooms.add_child(new_map_room)
 	new_map_room.room = room
-	new_map_room.selected.connect(_on_room_clicked)
+	new_map_room.clicked.connect(_on_map_room_clicked)
+	new_map_room.selected.connect(_on_map_room_selected)
 	_connect_lines(room)
 
 	if room.selected and room.row < DungeonManager.floors_climbed:
@@ -109,26 +124,16 @@ func _connect_lines(room: Room) -> void:
 		new_map_line.add_point(next.position)
 		lines.add_child(new_map_line)
 
-signal room_selected_to_enter(room: Room)
-
 func _update_player_camera_reference() -> void:
 	if PlayerManager.player:
 		player_camera_2d = PlayerManager.player.camera_2d_player
 
-func _update_visual_selection(room: Room, previous: Room) -> void:
+func _on_map_room_clicked(room: Room) -> void:
 	for map_room: MapRoom in rooms.get_children():
-		if map_room.room == room:
-			room.selected = true
-			map_room.show_selected()
-		if previous and map_room.room == previous:
-			previous.selected = false
-			map_room.hide_selected()
-	
-
-func _on_room_clicked(room: Room):
-	var previous := DungeonManager.last_room
-	for map_room: MapRoom in rooms.get_children():
-		map_room.available = false
-
-	_update_visual_selection(room, previous)
-	room_chosen.emit(room)
+		if map_room.room.row == room.row:
+			map_room.available = false
+			
+func _on_map_room_selected(room: Room) -> void:
+	DungeonManager.last_room = room
+	DungeonManager.floors_climbed += 1
+	Events.map_exited.emit(room)

@@ -69,23 +69,43 @@ func update_save_data() -> void:
 		current_save["player"]["pos_x"] = player.global_position.x
 		current_save["player"]["pos_y"] = player.global_position.y
 		# inventory, etc.
-	
+		
 func apply_loaded_data() -> void:
-	# Posiziona il giocatore (se è nella scena)
 	var player = get_tree().get_first_node_in_group("Player")
-	if player:
-		player.hp = current_save["player"]["hp"]
-		player.max_hp = current_save["player"]["max_hp"]
-		player.global_position = Vector2(current_save["player"]["pos_x"], current_save["player"]["pos_y"])
-		# aggiorna HUD, etc.
+	if current_save.get("game_mode", "") != "dungeon":
+		if player:
+			player.hp = current_save["player"]["hp"]
+			player.max_hp = current_save["player"]["max_hp"]
+			player.global_position = Vector2(current_save["player"]["pos_x"], current_save["player"]["pos_y"])
+		return  # hub: da implementare in futuro
+
+	var dungeon_data: Dictionary = current_save.get("dungeon", {})
+	if dungeon_data.is_empty():
+		return
+
+	# 1. Ricostruisce map_data e last_room in DungeonManager
+	DungeonManager.load_from_data(dungeon_data)
+
+	# 2. Resetta floors_climbed dal save (load_from_data lo sovrascrive già)
+	#    last_room e last_exit_direction sono già impostati da load_from_data
+
+	# 3. Distruggi la room corrente se esiste
+	if DungeonManager.current_room_node:
+		DungeonManager.current_room_node.queue_free()
+		DungeonManager.current_room_node = null
+
+	# 4. Re-entra nella stanza salvata
+	#    Usiamo un frame di attesa per dare tempo a queue_free di completarsi
+	var room := DungeonManager.last_room
+	if room == null:
+		return
+
+	DungeonManager.is_transitioning = false
+	await get_tree().process_frame
+	DungeonManager.enter_room(room)
+
+	await get_tree().create_timer(0.5).timeout
 	
-	# Carica la scena corretta in base alla modalità
-	if current_save["game_mode"] == "dungeon":
-		# Carica la scena del dungeon (es. "main.tscn" o una scena base)
-		# e poi applica lo stato del dungeon
-		DungeonManager.load_from_data(current_save["dungeon"])
-		# Devi anche spawnare la stanza attuale e i nemici rimanenti...
-		# Questo dipende dalla tua implementazione della transizione tra stanze.
-	else:
-		# Carica la scena dell'HUB
-		pass
+	var map := get_tree().get_first_node_in_group("Map") as Map
+	if map:
+		map.sync_visual_to_dungeon_state()

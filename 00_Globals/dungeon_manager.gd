@@ -4,7 +4,6 @@ extends Node
 var map_data: Array[Array] = []
 var floors_climbed: int = 0
 var last_room: Room = null
-var last_exit_direction: Room.Direction = Room.Direction.FORWARD
 var current_room_node: Node2D = null  # riferimento alla stanza attuale nel World
 
 var is_transitioning: bool = false
@@ -26,27 +25,28 @@ func generate_new_map() -> void:
 	map_data = map_generator.generate_map()
 	floors_climbed = 0
 	last_room = null
-	last_exit_direction = Room.Direction.FORWARD
 	
-func enter_room(room: Room, exit_direction: Room.Direction = Room.Direction.FORWARD):
+func enter_room(room: Room):
 	if is_transitioning:
 		return
 	
 	is_transitioning = true
 	
 	last_room = room
-	last_exit_direction = exit_direction
 	floors_climbed += 1
 	
 	if current_room_node:
 		current_room_node.queue_free()
 		current_room_node = null
 
+	var main = get_node("/root/Main")
+	for child in main.get_children():
+		if child is Enemy:
+			child.queue_free()
+
 	var scene = ROOM_SCENES.get(room.type)
 	if scene:
 		current_room_node = scene.instantiate()
-		
-		var main = get_node("/root/Main")
 		main.call_deferred("add_child", current_room_node)
 
 	call_deferred("_finish_transition")
@@ -54,6 +54,7 @@ func enter_room(room: Room, exit_direction: Room.Direction = Room.Direction.FORW
 func _finish_transition() -> void:
 	await get_tree().create_timer(0.3).timeout   # piccolo buffer prima di riabilitare
 	is_transitioning = false
+	SaveManager.save_game()
 
 # dungeon_manager.gd
 func get_save_data() -> Dictionary:
@@ -76,51 +77,12 @@ func get_save_data() -> Dictionary:
 	return {
 		"floors_climbed": floors_climbed,
 		"last_room": null if last_room == null else {"col": last_room.column, "row": last_room.row},
-		"last_exit_direction": last_exit_direction,
 		"map_data": rooms_data
 	}
 
-#func load_from_data(data: Dictionary) -> void:
-	#floors_climbed = data["floors_climbed"]
-	#last_exit_direction = data["last_exit_direction"]
-	#
-	## Ricostruisci le stanze
-	#map_data.clear()
-	#for floor_rooms_data in data["map_data"]:
-		#var floor: Array[Room] = []
-		#for room_dict in floor_rooms_data:
-			#var room = Room.new()
-			#room.type = room_dict["type"]
-			#room.row = int(room_dict["row"])
-			#room.column = int(room_dict["column"])
-			#room.position = Vector2(float(room_dict["position"]["x"]), float(room_dict["position"]["y"]))
-			## next_rooms verrà ricostruito dopo che tutte le stanze sono create
-			#floor.append(room)
-		#map_data.append(floor)
-	#
-	## Ora collega i next_rooms usando indici
-	#for i in range(data["map_data"].size()):
-		#var floor_data = data["map_data"][i]
-		#for j in range(floor_data.size()):
-			#var room = map_data[i][j]
-			#for conn in floor_data[j]["next_rooms"]:
-				#var target_floor: int = int(conn["col"])  # ← cast esplicito
-				#var target_room: int = int(conn["row"])   # ← cast esplicito
-				#room.next_rooms.append(map_data[target_floor][target_room])
-	#
-	## Recupera last_room
-	#var lr = data["last_room"]
-	#if lr != null:
-		#var col: int = int(lr["col"])
-		#var row: int = int(lr["row"])
-		#last_room = map_data[col][row]
-	#else:
-		#last_room = null
-		
 		
 func load_from_data(data: Dictionary) -> void:
 	floors_climbed = int(data["floors_climbed"])
-	last_exit_direction = data["last_exit_direction"]
 
 	# 1. Ricostruisci tutte le stanze e crea un dizionario (colonna, riga) → Room
 	map_data.clear()
