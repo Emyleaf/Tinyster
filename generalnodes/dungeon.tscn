@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://bsbe7wll3uofc"]
+
+[ext_resource type="Script" uid="uid://bvt8qw3ql1bfy" path="res://generalnodes/dungeon.gd" id="1_286u4"]
+[ext_resource type="PackedScene" uid="uid://d0tgltkm5w12x" path="res://dungeon/scenes/map.tscn" id="2_hruxe"]
+
+[node name="Dungeon" type="Node2D" unique_id=2094591279]
+y_sort_enabled = true
+script = ExtResource("1_286u4")
+
+[node name="Map" parent="." unique_id=1183846057 instance=ExtResource("2_hruxe")]
+
+[node name="CurrentView" type="Node" parent="." unique_id=1674437077]

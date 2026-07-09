@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dijxrefydpkrn"]
 
-[ext_resource type="PackedScene" uid="uid://bsbe7wll3uofc" path="res://generalnodes/entrata_dungeon.tscn" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://bsbe7wll3uofc" path="res://generalnodes/dungeon.tscn" id="1_ig7tw"]
 
 [node name="Main" type="Node2D" unique_id=902933809 groups=["Main"]]
 y_sort_enabled = true
