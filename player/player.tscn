@@ -485,7 +485,6 @@ _data = {
 }
 
 [node name="Player" type="CharacterBody2D" unique_id=1891662130 groups=["Player"]]
-scale = Vector2(4, 4)
 collision_mask = 16
 script = ExtResource("1_8t03j")
 
@@ -518,6 +517,7 @@ autoplay = &"no_attack"
 libraries/ = SubResource("AnimationLibrary_fjrip")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1714882786]
+zoom = Vector2(4, 4)
 position_smoothing_enabled = true
 script = ExtResource("5_wodsf")
 
@@ -529,6 +529,7 @@ script = ExtResource("4_dqkch")
 
 [node name="Walk" type="Node" parent="StateMachine" unique_id=1287742027]
 script = ExtResource("5_qlg0r")
+move_speed = 120.0
 
 [node name="Attack" type="Node" parent="StateMachine" unique_id=1095584913]
 script = ExtResource("6_tuyoq")

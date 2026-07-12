@@ -1,4 +1,4 @@
-class_name Map extends Node2D
+class_name Mappa extends Node2D
 
 signal room_chosen(room: Room)
 
@@ -19,13 +19,14 @@ var camera_edge_y: float
 var is_map_open := false
 func _open_map():
 	is_map_open = true
+	PlayerManager.process_mode = Node.PROCESS_MODE_DISABLED
+	PlayerManager.visible = false
 	map.show()
-	GameManager.request_pause("map")
 	
 func _close_map():
-	is_map_open = false
 	map.hide()
-	GameManager.release_pause("map")
+	PlayerManager.process_mode = Node.PROCESS_MODE_INHERIT
+	PlayerManager.visible = true
 
 func _ready() -> void:
 	camera_edge_y = MapGenerator.Y_DIST * (MapGenerator.FLOORS - 1)
@@ -136,4 +137,4 @@ func _on_map_room_clicked(room: Room) -> void:
 func _on_map_room_selected(room: Room) -> void:
 	DungeonManager.last_room = room
 	DungeonManager.floors_climbed += 1
-	Events.map_exited.emit(room)
+	room_chosen.emit(room)

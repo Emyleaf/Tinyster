@@ -106,6 +106,6 @@ func apply_loaded_data() -> void:
 
 	await get_tree().create_timer(0.5).timeout
 	
-	var map := get_tree().get_first_node_in_group("Map") as Map
+	var map := get_tree().get_first_node_in_group("Map") as Mappa
 	if map:
 		map.sync_visual_to_dungeon_state()

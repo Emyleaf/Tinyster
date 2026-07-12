@@ -9,4 +9,5 @@ script = ExtResource("1_286u4")
 
 [node name="Map" parent="." unique_id=1183846057 instance=ExtResource("2_hruxe")]
 
-[node name="CurrentView" type="Node" parent="." unique_id=1674437077]
+[node name="CurrentView" type="Node2D" parent="." unique_id=1350541146]
+y_sort_enabled = true

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bgyhthkokjkv4" path="res://dungeon/scenes/door.gd" id="1_556a7"]
 [ext_resource type="Texture2D" uid="uid://bka65kjyjkg2h" path="res://assets/door.png" id="2_3oglj"]
-[ext_resource type="Texture2D" uid="uid://brswoyg28ld2" path="res://assets/bush.png" id="2_ylnqg"]
+[ext_resource type="Texture2D" uid="uid://dew66grbe7p7n" path="res://assets/Bushe1.png" id="2_ylnqg"]
 
 [sub_resource type="Animation" id="Animation_8w0ar"]
 length = 0.001
@@ -42,7 +42,7 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k83vi"]
-size = Vector2(293, 121)
+size = Vector2(153, 121)
 
 [node name="Door" type="Node2D" unique_id=1175052282]
 script = ExtResource("1_556a7")
@@ -52,9 +52,10 @@ root_node = NodePath("../Sprite2D")
 libraries/ = SubResource("AnimationLibrary_8w0ar")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1403826508]
-position = Vector2(44, -63)
-scale = Vector2(0.2, 0.2)
+position = Vector2(1, -24)
+scale = Vector2(2, 2)
 texture = ExtResource("2_ylnqg")
+hframes = 8
 
 [node name="Zona aperta" type="Sprite2D" parent="Sprite2D" unique_id=301784534]
 visible = false
@@ -86,5 +87,5 @@ collision_layer = 16
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=187176663]
-position = Vector2(46.5, -60.5)
+position = Vector2(3.5, -60)
 shape = SubResource("RectangleShape2D_k83vi")
