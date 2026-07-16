@@ -1,4 +1,4 @@
-class_name Mappa extends Node2D
+class_name Map extends Node2D
 
 signal room_chosen(room: Room)
 

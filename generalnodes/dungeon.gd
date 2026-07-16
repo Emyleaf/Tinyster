@@ -7,7 +7,7 @@ const ROOM_SCENES := {
 	Room.Type.CAMPFIRE: preload("res://dungeon/scenes/room_campfire.tscn"),
 }
 
-@onready var map: Mappa = $Map
+@onready var map: Map = $Map
 @onready var current_view: Node = $CurrentView
 
 var current_room_node: Node2D = null
@@ -17,6 +17,7 @@ var is_transitioning: bool = false
 func _ready() -> void:
 	GameManager.current_run = self
 	map.room_chosen.connect(_on_room_chosen)
+	current_view.add_to_group("CurrentView")
 
 
 func _on_room_chosen(room: Room) -> void:

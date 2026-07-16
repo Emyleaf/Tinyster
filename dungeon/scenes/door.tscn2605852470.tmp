@@ -65,4 +65,5 @@ shape = SubResource("RectangleShape2D_k83vi")
 [node name="LevelTransition" parent="." unique_id=75343586 instance=ExtResource("3_3oglj")]
 position = Vector2(4, -52)
 scale = Vector2(1.5, 1.5)
-current_view_path = null
+target_transition_area = null
+auto_change_scene = null

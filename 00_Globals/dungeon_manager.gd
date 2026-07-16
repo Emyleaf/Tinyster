@@ -133,3 +133,30 @@ func load_from_data(data: Dictionary) -> void:
 			push_warning("last_room non trovata nel salvataggio")
 	else:
 		last_room = null
+
+func complete_room() -> void:
+	if is_transitioning:
+		return
+	is_transitioning = true
+
+	# 1. Svuota completamente la CurrentView (stanza + eventuali residui, es. nemici
+	#    che vengono aggiunti come figli di CurrentView e non della Room stessa)
+	var current_view := get_tree().get_first_node_in_group("CurrentView")
+	if current_view:
+		for child in current_view.get_children():
+			child.queue_free()
+
+	# ripulisci anche il vecchio riferimento legacy, se mai usato
+	if current_room_node:
+		current_room_node.queue_free()
+		current_room_node = null
+
+	# 2. Riapri la mappa e sblocca le stanze adiacenti a quella appena completata
+	#    (last_room è già quella giusta: viene settato in map.gd al momento della
+	#    SELEZIONE, non dell'uscita, quindi non va incrementato floors_climbed qui)
+	var map := get_tree().get_first_node_in_group("Map") as Map
+	if map:
+		map.show_map()
+		map.unlock_next_rooms()
+
+	call_deferred("_finish_transition")   # resetta is_transitioning + salva, dopo un piccolo buffer
