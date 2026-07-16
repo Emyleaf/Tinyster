@@ -205,6 +205,7 @@ _data = {
 }
 
 [node name="Player" type="CharacterBody2D" unique_id=1891662130 groups=["Player"]]
+z_index = 1
 scale = Vector2(0.5, 0.5)
 collision_mask = 16
 script = ExtResource("1_8t03j")

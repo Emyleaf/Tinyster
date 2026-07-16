@@ -40,7 +40,7 @@ project/assembly_name="Tinyster"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/gaea-2.0/addons/gaea/plugin.cfg", "res://addons/script-ide/plugin.cfg")
+enabled=PackedStringArray("res://addons/script-ide/plugin.cfg")
 
 [global_group]
 
@@ -126,6 +126,7 @@ pause={
 2d_physics/layer_2="PlayerHurt"
 2d_physics/layer_4="map_rooms"
 2d_physics/layer_5="Walls"
+2d_physics/layer_6="Exit"
 2d_physics/layer_9="Enemy"
 
 [physics]

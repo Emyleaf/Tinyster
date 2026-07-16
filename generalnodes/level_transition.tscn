@@ -4,14 +4,13 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xkg8x"]
 resource_local_to_scene = true
-size = Vector2(200, 120)
+size = Vector2(64, 64)
 
 [node name="LevelTransition" type="Area2D" unique_id=75343586]
 collision_layer = 0
 monitorable = false
 script = ExtResource("1_vg6uv")
 target_scene = "uid://bsbe7wll3uofc"
-side = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1639941441]
 shape = SubResource("RectangleShape2D_xkg8x")
