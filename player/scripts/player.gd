@@ -11,6 +11,8 @@ var invulnerable : bool = false
 var hp : int = 6
 var max_hp : int = 6
 
+var facing_right : bool = true
+
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var effect_animation_player : AnimationPlayer = $EffectAnimationPlayer
 @onready var hit_box : HitBox = $HitBox
@@ -40,29 +42,40 @@ func update_animation(state : String) -> void:
 	animation_player.play(state)
 	pass
 
+#func set_direction() -> bool:
+	#if direction == Vector2.ZERO:
+		#return false
+#
+	#var direction_id : int = int(round((direction + cardinal_direction * 0.1).angle()/ TAU * DIR_4.size()))
+	#var new_dir = DIR_4[direction_id]
+#
+	#if new_dir == cardinal_direction:
+		#return false
+#
+	#cardinal_direction = new_dir
+	#direction_changed.emit(new_dir)
+	#sprite.scale.x = -1 if cardinal_direction == Vector2.LEFT else 1
+	#return true
+	
 func set_direction() -> bool:
 	if direction == Vector2.ZERO:
 		return false
 
-	var direction_id : int = int(round((direction + cardinal_direction * 0.1).angle()/ TAU * DIR_4.size()))
-	var new_dir = DIR_4[direction_id]
+	if direction.x != 0:
+		facing_right = direction.x > 0
+		sprite.flip_h = not facing_right
+		direction_changed.emit(direction)
 
-	if new_dir == cardinal_direction:
-		return false
-
-	cardinal_direction = new_dir
-	direction_changed.emit(new_dir)
-	sprite.scale.x = -1 if cardinal_direction == Vector2.LEFT else 1
 	return true
 
-
-func anim_direction() -> String:
-	if cardinal_direction == Vector2.DOWN:
-		return "down"
-	elif cardinal_direction == Vector2.UP:
-		return "up"
-	else:
-		return "side"
+#
+#func anim_direction() -> String:
+	#if cardinal_direction == Vector2.DOWN:
+		#return "down"
+	#elif cardinal_direction == Vector2.UP:
+		#return "up"
+	#else:
+		#return "side"
 
 func _take_damage(hurt_box : HurtBox) -> void:
 	if invulnerable == true:

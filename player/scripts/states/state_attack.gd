@@ -9,14 +9,12 @@ var attacking : bool = false
 @onready var walk : State = $"../Walk"
 @onready var idle  : State = $"../Idle"
 @onready var sprite = $"../../Sprite2D"
-@onready var attack_anim = $"../../Sprite2D/AttackEffectSprite/AnimationPlayer"
 @onready var audio : AudioStreamPlayer2D = $"../../Audio/AudioStreamPlayer2D"
 
 @onready var hurt_box : HurtBox = $"../../Interactions/HurtBox"
 
 func enter() -> void:
-	player.update_animation("attack_" + player.anim_direction())
-	attack_anim.play("attack_" + player.anim_direction())
+	player.update_animation("attack_side")
 	animation_player.animation_finished.connect( end_attack )
 	
 	audio.stream = attack_sound

@@ -950,6 +950,7 @@ script = ExtResource("14_klbxu")
 enemy = NodePath("..")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=2082970782]
+visible = false
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1492880921]
