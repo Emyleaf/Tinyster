@@ -28,6 +28,8 @@ func _on_room_chosen(room: Room) -> void:
 
 func _enter_room(room: Room) -> void:
 	is_transitioning = true
+	TransitionScreen.transition()
+	await TransitionScreen.on_transition_finished
 
 	var scene: PackedScene = ROOM_SCENES.get(room.type)
 	if scene == null:
@@ -55,24 +57,3 @@ func _on_room_exited() -> void:
 
 	map.show_map()
 	map.unlock_next_rooms()
-
-#func switch_to_map():
-	## Disabilita la stanza e i suoi abitanti
-	#current_view.process_mode = Node.PROCESS_MODE_DISABLED
-	#current_view.visible = false
-	## Attiva la mappa
-	#map.process_mode = Node.PROCESS_MODE_INHERIT
-	#map.visible = true
-	## Qui puoi anche chiamare $Map.aggiorna_scelte() se serve
-	#
-#func switch_to_room(room_scene: PackedScene):
-	## Disabilita la mappa
-	#map.process_mode = Node.PROCESS_MODE_DISABLED
-	#map.visible = false
-	## Carica la nuova stanza
-	#var new_room = room_scene.instantiate()
-	#current_view.add_child(new_room)
-	## Riabilita CurrentView
-	#current_view.process_mode = Node.PROCESS_MODE_INHERIT
-	#current_view.visible = true
-	## Il Player è già dentro la scena Room? Se sì, eredita il process_mode.

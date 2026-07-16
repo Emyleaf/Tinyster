@@ -79,6 +79,7 @@ func _spawn_player(world_pos: Vector2) -> void:
 		#add_child(PlayerManager.player)
 
 	PlayerManager.player.global_position = world_pos
+	#PlayerManager.player.get_node("Camera2D").reset_smoothing()
 
 func _spawn_door(world_pos: Vector2) -> void:
 	door_instance = door_scene.instantiate()

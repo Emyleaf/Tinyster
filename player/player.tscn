@@ -227,7 +227,7 @@ libraries/ = SubResource("AnimationLibrary_fjrip")
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1714882786]
 visible = false
 zoom = Vector2(4, 4)
-position_smoothing_enabled = true
+limit_enabled = false
 script = ExtResource("5_wodsf")
 
 [node name="StateMachine" type="Node" parent="." unique_id=1213747249]

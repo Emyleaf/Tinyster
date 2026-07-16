@@ -138,6 +138,8 @@ func complete_room() -> void:
 	if is_transitioning:
 		return
 	is_transitioning = true
+	TransitionScreen.transition()
+	await TransitionScreen.on_transition_finished
 
 	# 1. Svuota completamente la CurrentView (stanza + eventuali residui, es. nemici
 	#    che vengono aggiunti come figli di CurrentView e non della Room stessa)
