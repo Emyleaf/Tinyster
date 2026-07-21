@@ -6,6 +6,8 @@ signal enemy_destroyed(hurt_box : HurtBox)
 
 const DIR_4 = [Vector2.RIGHT, Vector2.DOWN, Vector2.LEFT, Vector2.UP]
 
+@export var stats: EnemyStats
+
 @export var max_hp : int = 1
 @export var current_hp : int = max_hp
 
