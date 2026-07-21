@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://bifnm001bqeaw" path="res://player/Sprites/Shadow.png" id="1_j284o"]
 [ext_resource type="Script" uid="uid://dgwho80w0bwf8" path="res://enemies/slime/slime.gd" id="1_yu3x6"]
 [ext_resource type="Texture2D" uid="uid://bbvw8ixq8x24c" path="res://enemies/slime/Slime.png" id="2_6326o"]
+[ext_resource type="Resource" uid="uid://ct8o2kpbu3g55" path="res://enemies/slime/slime_stats.tres" id="2_okhmd"]
 [ext_resource type="PackedScene" uid="uid://b7e5y80fvd4ia" path="res://generalnodes/hurtbox/hurt_box.tscn" id="2_v3fw7"]
 [ext_resource type="PackedScene" uid="uid://w5gedwn5m48d" path="res://generalnodes/hitbox/hit_box.tscn" id="3_0oddt"]
 [ext_resource type="Script" uid="uid://2ohc36m0d0x4" path="res://enemies/scripts/enemy_state_machine.gd" id="4_57eei"]
@@ -868,6 +869,7 @@ radius = 100.0
 collision_layer = 256
 collision_mask = 16
 script = ExtResource("1_yu3x6")
+stats = ExtResource("2_okhmd")
 
 [node name="HurtBox" parent="." unique_id=360467044 instance=ExtResource("2_v3fw7")]
 

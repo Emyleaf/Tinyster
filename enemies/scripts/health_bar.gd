@@ -10,8 +10,8 @@ func _ready() -> void:
 
 func update_health_bar():
 	# Assicurati che max_hp non sia 0 per evitare divisioni per zero
-	if enemy.max_hp > 0:
-		value = enemy.current_hp * 100.0 / enemy.max_hp
+	if enemy.stats.max_hp > 0:
+		value = enemy.current_hp * 100.0 / enemy.stats.max_hp
 	else:
 		value = 0
 

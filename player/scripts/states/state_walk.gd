@@ -6,7 +6,7 @@ class_name State_Walk extends State
 @onready var attack : State = $"../Attack"
 
 func enter() -> void: 
-	player.update_animation("walk_side")
+	player.update_animation(PlayerManager.char_name + "/walk_side")
 	pass
 	
 func exit() -> void:
@@ -19,7 +19,7 @@ func process(_delta: float) -> State:
 	player.velocity = player.direction * move_speed
 	
 	if player.set_direction():
-		player.update_animation("walk_side")
+		player.update_animation(PlayerManager.char_name + "/walk_side")
 		
 	return null
 	

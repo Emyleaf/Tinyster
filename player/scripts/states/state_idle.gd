@@ -5,7 +5,8 @@ class_name State_Idle extends State
 @onready var attack : State = $"../Attack"
 
 func enter() -> void:
-	player.update_animation("idle")
+	print(PlayerManager.char_name)
+	player.update_animation(PlayerManager.char_name + "/idle")
 	pass
 	
 func exit() -> void:

@@ -5,7 +5,7 @@ const PLAYER = preload("res://player/player.tscn")
 var player : Player
 var player_spawned : bool = false
 
-func set_health(hp:int, max_hp:int) -> void:
-	player.max_hp = max_hp
-	player.hp = hp
-	player.update_hp(0)
+var max_hp = 5
+var current_hp = 5
+var atk_dmg = 2
+var char_name : String = "Warrior"

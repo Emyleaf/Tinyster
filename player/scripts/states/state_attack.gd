@@ -14,7 +14,7 @@ var attacking : bool = false
 @onready var hurt_box : HurtBox = $"../../Interactions/HurtBox"
 
 func enter() -> void:
-	player.update_animation("attack_side")
+	player.update_animation(PlayerManager.char_name + "/attack_side")
 	animation_player.animation_finished.connect( end_attack )
 	
 	audio.stream = attack_sound
@@ -24,6 +24,7 @@ func enter() -> void:
 
 	await get_tree().create_timer(0.075).timeout
 	if attacking == true:
+		hurt_box.damage = PlayerManager.atk_dmg
 		hurt_box.monitoring = true
 	pass
 	

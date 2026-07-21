@@ -8,8 +8,7 @@ const DIR_4 = [Vector2.RIGHT, Vector2.DOWN, Vector2.LEFT, Vector2.UP]
 
 @export var stats: EnemyStats
 
-@export var max_hp : int = 1
-@export var current_hp : int = max_hp
+@export var current_hp : float
 
 var cardinal_direction : Vector2 = Vector2.DOWN
 var direction : Vector2 = Vector2.ZERO
@@ -20,6 +19,7 @@ var invulnerable : bool = false
 @onready var sprite : Sprite2D = $Sprite2D
 @onready var state_machine : EnemyStateMachine = $EnemyStateMachine
 @onready var hit_box : HitBox = $HitBox
+@onready var hurt_box : HurtBox = $HurtBox
 
 @onready var vision_range: Area2D = $Area2D
 @onready var line_of_sight: RayCast2D = $RayCast2D
@@ -32,6 +32,10 @@ var last_seen_player_position: Vector2
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	set_physics_process(false)
+	
+	current_hp = stats.max_hp
+	hurt_box.damage = stats.attack_damage
+	
 	player = PlayerManager.player
 	hit_box.damaged.connect(_take_damage)
 	
@@ -49,9 +53,7 @@ func play_start_animation():
 	state_machine.initialize(self)        # inizializza la macchina a stati
 	set_physics_process(true)             # riattiva move_and_slide
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	move_and_slide()
 	if player_in_range:
 		_check_line_of_sight()
 	else:
