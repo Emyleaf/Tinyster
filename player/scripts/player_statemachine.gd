@@ -52,3 +52,12 @@ func change_state(new_state : State) -> void:
 	prev_state = current_state
 	current_state = new_state
 	current_state.enter()
+
+## Usato dallo swap: annulla lo stato corrente (es. Attack) e torna a Idle
+func reset_to_idle() -> void:
+	if states.is_empty():
+		return
+	if current_state == states[0]:
+		current_state.enter()   # ricarica l'animazione del nuovo personaggio
+	else:
+		change_state(states[0])

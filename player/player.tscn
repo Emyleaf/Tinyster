@@ -358,7 +358,6 @@ script = ExtResource("4_dqkch")
 
 [node name="Walk" type="Node" parent="StateMachine" unique_id=1287742027]
 script = ExtResource("5_qlg0r")
-move_speed = 120.0
 
 [node name="Attack" type="Node" parent="StateMachine" unique_id=1095584913]
 script = ExtResource("6_tuyoq")
@@ -398,7 +397,7 @@ debug_color = Color(0.7749311, 0.6637681, 0.19628295, 0.41960785)
 [node name="EffectAnimationPlayer" type="AnimationPlayer" parent="." unique_id=1203934376]
 libraries/ = SubResource("AnimationLibrary_c35mf")
 
-[node name="TextureProgressBar" type="TextureProgressBar" parent="." unique_id=2014122390 node_paths=PackedStringArray("player")]
+[node name="TextureProgressBar" type="TextureProgressBar" parent="." unique_id=2014122390]
 offset_left = -48.000004
 offset_top = -110.0
 offset_right = 15.999996
@@ -408,4 +407,3 @@ texture_under = ExtResource("14_32hag")
 texture_progress = ExtResource("15_tqiix")
 tint_under = Color(1, 1, 1, 0.25300002)
 script = ExtResource("16_32hag")
-player = NodePath("..")
