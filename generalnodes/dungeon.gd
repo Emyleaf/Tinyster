@@ -35,7 +35,6 @@ func _enter_room(room: Room) -> void:
 	var scene: PackedScene = ROOM_SCENES.get(room.type)
 
 	map.hide_map()
-	party_hud.show_party_hud()
 
 	current_room_node = scene.instantiate()
 	current_view.add_child(current_room_node)

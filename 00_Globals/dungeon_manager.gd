@@ -162,7 +162,5 @@ func complete_room() -> void:
 	if map:
 		map.show_map()
 		map.unlock_next_rooms()
-	
-	party_hud.hide_party_hud()
 
 	call_deferred("_finish_transition")   # resetta is_transitioning + salva, dopo un piccolo buffer

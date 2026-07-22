@@ -13,20 +13,11 @@ const MAP_LINE = preload("res://dungeon/scenes/map_line.tscn")
 @onready var visuals: Node2D = $Visuals
 @onready var camera_2d: Camera2D = $Camera2D
 @onready var player_camera_2d: Camera2D = null
+@onready var party_hud := get_tree().get_first_node_in_group("PartyHUD")
 
 var camera_edge_y: float
 
 var is_map_open := false
-func _open_map():
-	is_map_open = true
-	PlayerManager.process_mode = Node.PROCESS_MODE_DISABLED
-	PlayerManager.visible = false
-	map.show()
-	
-func _close_map():
-	map.hide()
-	PlayerManager.process_mode = Node.PROCESS_MODE_INHERIT
-	PlayerManager.visible = true
 
 func _ready() -> void:
 	camera_edge_y = MapGenerator.Y_DIST * (MapGenerator.FLOORS - 1)
@@ -40,22 +31,8 @@ func _ready() -> void:
 	_update_player_camera_reference()
 
 func _unhandled_input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("map"):
-		if GameManager.is_paused_by("pause"):
-			return
-		if map.visible: 
-			_close_map()
-		else:
-			_open_map()
-		get_viewport().set_input_as_handled()
+	pass
 	
-	#if map.visible and event.is_action_pressed("scroll_up"):
-		#camera_2d.position.x += SCROLL_SPEED
-	#elif map.visible and event.is_action_pressed("scroll_down"):
-		#camera_2d.position.x -= SCROLL_SPEED
-##
-	#camera_2d.position.x = clamp(camera_2d.position.x, 0, camera_edge_y)
-
 func generate_new_map() -> void:
 	DungeonManager.generate_new_map()
 	create_map()
@@ -99,10 +76,12 @@ func unlock_next_rooms() -> void:
 func show_map() -> void:
 	show()
 	camera_2d.enabled = true
+	_refresh_party_hud()
 
 func hide_map() -> void:
 	hide()
 	camera_2d.enabled = false
+	_refresh_party_hud()
 
 func _spawn_room(room: Room) -> void:
 	var new_map_room := MAP_ROOM.instantiate() as MapRoom
@@ -138,3 +117,11 @@ func _on_map_room_selected(room: Room) -> void:
 	DungeonManager.last_room = room
 	DungeonManager.floors_climbed += 1
 	room_chosen.emit(room)
+	
+func _refresh_party_hud() -> void:
+	if party_hud == null:
+		return
+	if visible:
+		party_hud.hide_party_hud()
+	else:
+		party_hud.show_party_hud()
