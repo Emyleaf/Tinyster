@@ -41,6 +41,11 @@ func apply_character_visuals(data: CharacterData):
 	if sprite.texture != data.sprite_sheet:
 		sprite.texture = data.sprite_sheet
 		animation_player.play(PlayerManager.char_name + "/idle")
+		
+func apply_character_data(data: CharacterData) -> void:
+	PlayerManager.speed = data.speed
+	sprite.texture = data.sprite_sheet
+	pass
 
 ## Metodo utile per la State Machine o altri sistemi
 func get_current_speed() -> float:
@@ -100,7 +105,3 @@ func make_invulnerable(_duration : float) -> void:
 	invulnerable = false
 	hit_box.monitoring = true
 	pass
-	
-#func apply_character_data(data: CharacterData, state: PartyMemberState) -> void:
-	#sprite.texture = data.sprite_sheet
-	#pass

@@ -1,4 +1,3 @@
-# party_manager.gd
 extends Node
 
 signal member_changed(new_index: int, member: PartyMember)
@@ -30,7 +29,7 @@ func add_member(data: CharacterData) -> PartyMember:
 	member_added.emit(member)
 	return member
 
-## Swappa al membro dato l'indice (0 = Warrior, 1 = Archer)
+# Swappa al membro dato l'indice (0 = Warrior, 1 = Archer)
 func set_active(index: int) -> bool:
 	if index < 0 or index >= members.size() or index == active_index:
 		return false
@@ -38,7 +37,6 @@ func set_active(index: int) -> bool:
 	active_index = index
 	var member = members[active_index]
 	member_changed.emit(active_index, member)
-	print("Swappato su: ", member.data.char_name)
 	return true
 
 func get_active() -> PartyMember:
@@ -51,8 +49,6 @@ func get_member(index: int) -> PartyMember:
 		return members[index]
 	return null
 
-## Input: vai in Project Settings → Input Map e crea:
-## "party_1" → tasto 1    |    "party_2" → tasto 2
 func _input(event: InputEvent):
 	if event.is_action_pressed("swap_char1"):
 		set_active(0)

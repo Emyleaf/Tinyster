@@ -7,7 +7,6 @@
 script = ExtResource("1_yh3qc")
 char_name = "Warrior"
 sprite_sheet = ExtResource("2_g373e")
-speed = 20.0
+speed = 200.0
 max_hp = 10
-base_attack = 1
 metadata/_custom_type_script = "uid://cfqr58osc7575"

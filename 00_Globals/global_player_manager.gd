@@ -9,3 +9,4 @@ var max_hp = 5
 var current_hp = 5
 var atk_dmg = 2
 var char_name : String = "Warrior"
+var speed : float = 20.0
