@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c6mpbuvkcdk3q"]
+
+[ext_resource type="Script" uid="uid://urj1ip6unro6" path="res://GUI/party_hud/party_hud.gd" id="1_gt05x"]
+
+[node name="PartyHud" type="CanvasLayer" unique_id=854805182]
+script = ExtResource("1_gt05x")

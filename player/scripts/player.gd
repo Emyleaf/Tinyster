@@ -55,11 +55,16 @@ func _process(_delta: float) -> void:
 func _physics_process(_delta: float) -> void:
 	move_and_slide()
 
-## state = "idle", "walk_side", "attack_side", "stun"
+## state = "idle", "walk_side", "attack_side", "stun" oppure SkillData.anim_name
 func update_animation(state : String) -> void:
 	if current_member == null:
 		return
-	animation_player.play(current_member.data.char_name + "/" + state)
+	var lib : String = current_member.data.char_name
+	if animation_player.has_animation(lib + "/" + state):
+		animation_player.play(lib + "/" + state)
+	elif animation_player.has_animation(lib + "/attack_side"):
+		# Fallback: la skill non ha ancora un'animazione dedicata
+		animation_player.play(lib + "/attack_side")
 
 func set_direction() -> bool:
 	if direction == Vector2.ZERO:

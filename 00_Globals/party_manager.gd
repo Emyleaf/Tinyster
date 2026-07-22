@@ -16,6 +16,11 @@ func _ready() -> void:
 	var starting : Array[CharacterData] = [warrior, archer]
 	initialize_party(starting)
 
+## I cooldown scorrono per TUTTI i membri, anche fuori campo (come in Genshin)
+func _process(delta : float) -> void:
+	for m in members:
+		m.tick_cooldowns(delta)
+
 func initialize_party(character_datas : Array[CharacterData]) -> void:
 	members.clear()
 	active_index = -1
@@ -32,7 +37,7 @@ func add_member(data : CharacterData) -> PartyMember:
 	member_added.emit(members.size() - 1, member)
 	return member
 
-## Swap sullo slot index (0-3). Fallisce se lo slot è vuoto o il membro è morto.
+## Swap sullo slot index (0-3). Fallisce se lo slot e' vuoto o il membro e' morto.
 func set_active(index : int) -> bool:
 	if index < 0 or index >= members.size():
 		return false
@@ -64,6 +69,15 @@ func damage_active(amount : int) -> void:
 
 func heal_active(amount : int) -> void:
 	damage_active(-amount)
+
+## Unico punto in cui una skill viene consumata.
+## Ritorna false se il membro attivo non ha quella skill o e' in cooldown.
+func try_use_skill(slot : PartyMember.Slot) -> bool:
+	var member := get_active()
+	if member == null or not member.is_ready(slot):
+		return false
+	member.start_cooldown(slot)
+	return true
 
 func _on_active_died() -> void:
 	var next := _find_next_alive()

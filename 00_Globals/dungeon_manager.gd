@@ -8,6 +8,8 @@ var current_room_node: Node2D = null  # riferimento alla stanza attuale nel Worl
 
 var is_transitioning: bool = false
 
+@onready var party_hud := get_tree().get_first_node_in_group("PartyHUD")
+
 const MAP_SCENE := preload("res://dungeon/scenes/map.tscn")
 const ROOM_SCENES := {
 	Room.Type.MONSTER: preload("res://dungeon/scenes/room_monster.tscn"),
@@ -160,5 +162,7 @@ func complete_room() -> void:
 	if map:
 		map.show_map()
 		map.unlock_next_rooms()
+	
+	party_hud.hide_party_hud()
 
 	call_deferred("_finish_transition")   # resetta is_transitioning + salva, dopo un piccolo buffer

@@ -9,6 +9,7 @@ const ROOM_SCENES := {
 
 @onready var map: Map = $Map
 @onready var current_view: Node = $CurrentView
+@onready var party_hud := get_tree().get_first_node_in_group("PartyHUD")
 
 var current_room_node: Node2D = null
 var is_transitioning: bool = false
@@ -32,12 +33,9 @@ func _enter_room(room: Room) -> void:
 	await TransitionScreen.on_transition_finished
 
 	var scene: PackedScene = ROOM_SCENES.get(room.type)
-	if scene == null:
-		push_warning("Nessuna scena assegnata al tipo di stanza %s" % Room.Type.keys()[room.type])
-		is_transitioning = false
-		return
 
 	map.hide_map()
+	party_hud.show_party_hud()
 
 	current_room_node = scene.instantiate()
 	current_view.add_child(current_room_node)
