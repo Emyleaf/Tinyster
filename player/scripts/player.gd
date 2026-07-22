@@ -74,6 +74,12 @@ func set_direction() -> bool:
 		sprite.flip_h = not facing_right
 		direction_changed.emit(direction)
 	return true
+	
+func face_towards(dir : Vector2) -> void:
+	if dir.x == 0.0:
+		return
+	facing_right = dir.x > 0
+	sprite.flip_h = not facing_right
 
 func _take_damage(hurt_box : HurtBox) -> void:
 	if invulnerable == true:

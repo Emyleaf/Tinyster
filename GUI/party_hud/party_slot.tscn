@@ -1,7 +1,7 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene format=3 uid="uid://o4kgmpiulbxg"]
 
-[ext_resource type="Script" path="res://GUI/party_hud/party_slot.gd" id="1_slot"]
-[ext_resource type="Script" path="res://GUI/party_hud/cooldown_ring.gd" id="2_ring"]
+[ext_resource type="Script" uid="uid://do262s6chyr2t" path="res://GUI/party_hud/party_slot.gd" id="1_slot"]
+[ext_resource type="Script" uid="uid://dlbw0ne58s430" path="res://GUI/party_hud/cooldown_ring.gd" id="2_ring"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
 bg_color = Color(0, 0, 0, 0.6)
@@ -17,88 +17,88 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[node name="PartySlot" type="Control"]
+[node name="PartySlot" type="Control" unique_id=860334028]
 custom_minimum_size = Vector2(320, 84)
+layout_mode = 3
+anchors_preset = 0
 size_flags_horizontal = 3
 size_flags_vertical = 0
 mouse_filter = 2
 script = ExtResource("1_slot")
 
-[node name="Ring" type="Control" parent="."]
+[node name="Ring" type="Control" parent="." unique_id=118310600]
 unique_name_in_owner = true
-layout_mode = 0
-offset_left = 0.0
+anchors_preset = 0
+offset_left = 279.0
 offset_top = 14.0
-offset_right = 56.0
+offset_right = 335.0
 offset_bottom = 70.0
 mouse_filter = 2
 script = ExtResource("2_ring")
 thickness = 4.0
 
-[node name="UltIcon" type="TextureRect" parent="."]
+[node name="UltIcon" type="TextureRect" parent="." unique_id=588572533]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 13.0
+offset_left = 292.0
 offset_top = 27.0
-offset_right = 43.0
+offset_right = 322.0
 offset_bottom = 57.0
 mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="NameLabel" type="Label" parent="."]
+[node name="NameLabel" type="Label" parent="." unique_id=1309794475]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 70.0
-offset_top = 10.0
-offset_right = 224.0
-offset_bottom = 40.0
-mouse_filter = 2
+offset_left = 113.0
+offset_top = 17.0
+offset_right = 267.0
+offset_bottom = 51.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0.85)
 theme_override_constants/outline_size = 6
 theme_override_font_sizes/font_size = 24
 
-[node name="HpBar" type="ProgressBar" parent="."]
+[node name="HpBar" type="ProgressBar" parent="." unique_id=1447349200]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 70.0
-offset_top = 46.0
-offset_right = 224.0
-offset_bottom = 54.0
+offset_left = 113.0
+offset_top = 53.0
+offset_right = 267.0
+offset_bottom = 61.0
 mouse_filter = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_bg")
 theme_override_styles/fill = SubResource("StyleBoxFlat_fill")
 show_percentage = false
 
-[node name="Portrait" type="TextureRect" parent="."]
+[node name="Portrait" type="TextureRect" parent="." unique_id=1230957847]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 228.0
-offset_top = 10.0
-offset_right = 292.0
-offset_bottom = 74.0
+offset_left = 41.0
+offset_top = 19.0
+offset_right = 105.0
+offset_bottom = 83.0
 mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="KeyBox" type="ColorRect" parent="."]
+[node name="KeyBox" type="ColorRect" parent="." unique_id=507619272]
 layout_mode = 0
-offset_left = 294.0
-offset_top = 27.0
-offset_right = 320.0
-offset_bottom = 57.0
+offset_left = 9.0
+offset_top = 38.0
+offset_right = 35.0
+offset_bottom = 68.0
 mouse_filter = 2
 color = Color(0.05, 0.07, 0.11, 0.8)
 
-[node name="KeyLabel" type="Label" parent="."]
+[node name="KeyLabel" type="Label" parent="." unique_id=1222358169]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 294.0
-offset_top = 27.0
-offset_right = 320.0
-offset_bottom = 57.0
-mouse_filter = 2
+offset_left = 9.0
+offset_top = 38.0
+offset_right = 35.0
+offset_bottom = 68.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 20
 horizontal_alignment = 1

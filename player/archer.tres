@@ -1,14 +1,15 @@
 [gd_resource type="Resource" script_class="CharacterData" format=3 uid="uid://dajschhsfqg0m"]
 
+[ext_resource type="PackedScene" uid="uid://cxbl6qc4wi84k" path="res://player/arrow.tscn" id="1_4638g"]
 [ext_resource type="Script" uid="uid://cfqr58osc7575" path="res://player/character_data.gd" id="1_gudgr"]
-[ext_resource type="Script" uid="uid://ccpqg0ooqkxty" path="res://player/skill_data.gd" id="2_4638g"]
 [ext_resource type="Texture2D" uid="uid://c8f4kfj5womsd" path="res://player/Sprites/all2.png" id="2_gudgr"]
 
 [resource]
 script = ExtResource("1_gudgr")
 char_name = "Archer"
 sprite_sheet = ExtResource("2_gudgr")
-speed = 200.0
+speed = 120.0
 max_hp = 3
 atk = 3
+projectile = ExtResource("1_4638g")
 metadata/_custom_type_script = "uid://cfqr58osc7575"

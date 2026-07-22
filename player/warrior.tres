@@ -1,14 +1,13 @@
 [gd_resource type="Resource" script_class="CharacterData" format=3 uid="uid://bvuaiqg1prau"]
 
 [ext_resource type="Script" uid="uid://cfqr58osc7575" path="res://player/character_data.gd" id="1_yh3qc"]
-[ext_resource type="Script" uid="uid://ccpqg0ooqkxty" path="res://player/skill_data.gd" id="2_36dbl"]
 [ext_resource type="Texture2D" uid="uid://dxa4m6kclw4q7" path="res://player/Sprites/all.png" id="2_g373e"]
 
 [resource]
 script = ExtResource("1_yh3qc")
 char_name = "Warrior"
 sprite_sheet = ExtResource("2_g373e")
-speed = 200.0
+speed = 100.0
 max_hp = 6
 atk = 1
 metadata/_custom_type_script = "uid://cfqr58osc7575"

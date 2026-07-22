@@ -11,3 +11,5 @@ class_name CharacterData extends Resource
 @export var skill : SkillData
 ## Tasto Q
 @export var ultimate : SkillData
+## Proiettile dell'attacco base. Se null, l'attacco base è corpo a corpo.
+@export var projectile : PackedScene
