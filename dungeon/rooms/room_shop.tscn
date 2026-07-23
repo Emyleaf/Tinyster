@@ -1,12 +1,9 @@
 [gd_scene format=4 uid="uid://4f0wh40iu5kk"]
 
-[ext_resource type="Script" uid="uid://ckf1dkkyqmc5p" path="res://dungeon/scenes/room_shop.gd" id="1_oefqd"]
-[ext_resource type="Texture2D" uid="uid://60u4p3ovp3eh" path="res://assets/forest.png" id="1_wruob"]
-[ext_resource type="Script" uid="uid://cv0n05dgk4air" path="res://Tile Maps/level_tile_map.gd" id="2_4jiac"]
-[ext_resource type="PackedScene" uid="uid://d0l0smnegiw30" path="res://generalnodes/level_transition.tscn" id="4_oefqd"]
-[ext_resource type="Texture2D" uid="uid://bp3kdpy3mt5ua" path="res://assets/vendor.png" id="5_4jiac"]
-[ext_resource type="PackedScene" uid="uid://b0p68xg6a26lu" path="res://dungeon/scenes/door.tscn" id="5_fadfp"]
-[ext_resource type="Texture2D" uid="uid://bka65kjyjkg2h" path="res://assets/door.png" id="6_fadfp"]
+[ext_resource type="Script" uid="uid://ckf1dkkyqmc5p" path="res://dungeon/rooms/room_shop.gd" id="1_oefqd"]
+[ext_resource type="Texture2D" uid="uid://60u4p3ovp3eh" path="res://dungeon/rooms/art/forest.png" id="1_wruob"]
+[ext_resource type="Script" uid="uid://cv0n05dgk4air" path="res://dungeon/rooms/tilesets/level_tile_map.gd" id="2_4jiac"]
+[ext_resource type="Texture2D" uid="uid://bp3kdpy3mt5ua" path="res://dungeon/rooms/art/vendor.png" id="5_4jiac"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5s76m"]
 texture = ExtResource("1_wruob")
@@ -168,70 +165,6 @@ scale = Vector2(1.3, 1.3)
 tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAEAAAAAAAIAAAAAAAIAAAAAAAMAAAAAAAMAAAAAAAQAAAAAAAQAAAAAAAUAAAAAAAUAAAAAAAYAAAAAAAYAAAABAAAAAAABAAAAAAABAAEAAAABAAEAAAABAAIAAAABAAIAAAABAAMAAAABAAMAAAABAAQAAAABAAQAAAABAAUAAAABAAUAAAABAAYAAAABAAYAAAACAAAAAAACAAAAAAACAAEAAAACAAEAAAACAAIAAAACAAIAAAACAAMAAAACAAMAAAACAAQAAAACAAQAAAACAAUAAAACAAUAAAACAAYAAAACAAYAAAADAAAAAAADAAAAAAADAAEAAAADAAEAAAADAAIAAAADAAIAAAADAAMAAAADAAMAAAADAAQAAAADAAQAAAADAAUAAAADAAUAAAADAAYAAAADAAYAAAAEAAAAAAAEAAAAAAAEAAEAAAAEAAEAAAAEAAIAAAAEAAIAAAAEAAMAAAAEAAMAAAAEAAQAAAAEAAQAAAAEAAUAAAAEAAUAAAAEAAYAAAAEAAYAAAAFAAAAAAAFAAAAAAAFAAEAAAAFAAEAAAAFAAIAAAAFAAIAAAAFAAMAAAAFAAMAAAAFAAQAAAAFAAQAAAAFAAUAAAAFAAUAAAAFAAYAAAAFAAYAAAAGAAAAAAAGAAAAAAAGAAEAAAAGAAEAAAAGAAIAAAAGAAIAAAAGAAMAAAAGAAMAAAAGAAQAAAAGAAQAAAAGAAUAAAAGAAUAAAAGAAYAAAAGAAYAAAAHAAAAAAAHAAAAAAAHAAEAAAAHAAEAAAAHAAIAAAAHAAIAAAAHAAMAAAAHAAMAAAAHAAQAAAAHAAQAAAAHAAUAAAAHAAUAAAAHAAYAAAAHAAYAAAAIAAAAAAAIAAAAAAAIAAEAAAAIAAEAAAAIAAIAAAAIAAIAAAAIAAMAAAAIAAMAAAAIAAQAAAAIAAQAAAAIAAUAAAAIAAUAAAAIAAYAAAAIAAYAAAAJAAAAAAAJAAAAAAAJAAEAAAAJAAEAAAAJAAIAAAAJAAIAAAAJAAMAAAAJAAMAAAAJAAQAAAAJAAQAAAAJAAUAAAAJAAUAAAAJAAYAAAAJAAYAAAAKAAAAAAAKAAAAAAAKAAEAAAAKAAEAAAAKAAIAAAAKAAIAAAAKAAMAAAAKAAMAAAAKAAQAAAAKAAQAAAAKAAUAAAAKAAUAAAAKAAYAAAAKAAYAAAALAAAAAAALAAAAAAALAAEAAAALAAEAAAALAAIAAAALAAIAAAALAAMAAAALAAMAAAALAAQAAAALAAQAAAALAAUAAAALAAUAAAALAAYAAAALAAYAAAA=")
 tile_set = SubResource("TileSet_7fqpt")
 script = ExtResource("2_4jiac")
-
-[node name="DoorN" parent="." unique_id=1069098505 instance=ExtResource("5_fadfp")]
-position = Vector2(1023, 215)
-
-[node name="TransN" parent="." unique_id=75343586 instance=ExtResource("4_oefqd")]
-position = Vector2(1069, 70)
-auto_change_scene = false
-
-[node name="DoorS" parent="." unique_id=1175052282 instance=ExtResource("5_fadfp")]
-position = Vector2(1112, 1013)
-rotation = 3.1415927
-
-[node name="TransS" parent="." unique_id=1453233195 instance=ExtResource("4_oefqd")]
-position = Vector2(1065, 1147)
-rotation = 3.1415927
-auto_change_scene = false
-
-[node name="DoorE" parent="." unique_id=307756111 instance=ExtResource("5_fadfp")]
-position = Vector2(1850, 612)
-rotation = 1.5707964
-
-[node name="TransE" parent="." unique_id=522398516 instance=ExtResource("4_oefqd")]
-position = Vector2(2006, 657)
-rotation = 1.5707964
-auto_change_scene = false
-
-[node name="SpawnFromNorth" type="Marker2D" parent="." unique_id=1913204575]
-position = Vector2(1074, 280)
-
-[node name="SpawnFromSouth" type="Marker2D" parent="." unique_id=2034061609]
-position = Vector2(1063, 960)
-
-[node name="SpawnFromWest" type="Marker2D" parent="." unique_id=1877218177]
-position = Vector2(423, 604)
-
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1609551574]
-position = Vector2(318, 614)
-rotation = -1.5707964
-scale = Vector2(4, 4)
-texture = ExtResource("6_fadfp")
-hframes = 3
-vframes = 4
-
-[node name="Zona aperta" type="Sprite2D" parent="Sprite2D" unique_id=537849566]
-position = Vector2(0, 1)
-texture = ExtResource("6_fadfp")
-hframes = 3
-vframes = 4
-frame = 1
-
-[node name="Psx" type="Sprite2D" parent="Sprite2D" unique_id=249773418]
-position = Vector2(0, -5.75)
-texture = ExtResource("6_fadfp")
-hframes = 3
-vframes = 5
-frame = 3
-
-[node name="Pdx" type="Sprite2D" parent="Sprite2D" unique_id=1606167841]
-position = Vector2(0, -5.75)
-texture = ExtResource("6_fadfp")
-flip_h = true
-hframes = 3
-vframes = 5
-frame = 3
 
 [node name="Sprite2D2" type="Sprite2D" parent="." unique_id=548296647]
 position = Vector2(1080, 574)

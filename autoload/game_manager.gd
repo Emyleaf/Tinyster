@@ -2,8 +2,6 @@ extends Node
 
 const MAIN = preload("res://main.tscn")
 
-@onready var main_scene = get_node("/root/Main")
-
 enum State { HUB, OVERWORLD, DUNGEON }
  #func go_to_hub()
  #func go_to_overworld()

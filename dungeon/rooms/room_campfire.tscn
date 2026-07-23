@@ -1,12 +1,9 @@
 [gd_scene format=4 uid="uid://bmf6g3n0trfoy"]
 
-[ext_resource type="Script" uid="uid://q0dl08fnxhbi" path="res://dungeon/scenes/room_campfire.gd" id="1_a1eq4"]
-[ext_resource type="Texture2D" uid="uid://60u4p3ovp3eh" path="res://assets/forest.png" id="1_ritr3"]
-[ext_resource type="Script" uid="uid://cv0n05dgk4air" path="res://Tile Maps/level_tile_map.gd" id="2_eedlx"]
-[ext_resource type="PackedScene" uid="uid://d0l0smnegiw30" path="res://generalnodes/level_transition.tscn" id="3_s2jje"]
-[ext_resource type="Texture2D" uid="uid://bp3kdpy3mt5ua" path="res://assets/vendor.png" id="4_wixwy"]
-[ext_resource type="PackedScene" uid="uid://b0p68xg6a26lu" path="res://dungeon/scenes/door.tscn" id="5_bai68"]
-[ext_resource type="Texture2D" uid="uid://bka65kjyjkg2h" path="res://assets/door.png" id="6_uom60"]
+[ext_resource type="Script" uid="uid://q0dl08fnxhbi" path="res://dungeon/rooms/room_campfire.gd" id="1_a1eq4"]
+[ext_resource type="Texture2D" uid="uid://60u4p3ovp3eh" path="res://dungeon/rooms/art/forest.png" id="1_ritr3"]
+[ext_resource type="Script" uid="uid://cv0n05dgk4air" path="res://dungeon/rooms/tilesets/level_tile_map.gd" id="2_eedlx"]
+[ext_resource type="Texture2D" uid="uid://bp3kdpy3mt5ua" path="res://dungeon/rooms/art/vendor.png" id="4_wixwy"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5s76m"]
 texture = ExtResource("1_ritr3")
@@ -167,70 +164,6 @@ tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAEAAAAAAAIAAAAAAAI
 tile_set = SubResource("TileSet_7fqpt")
 script = ExtResource("2_eedlx")
 
-[node name="TransN" parent="." unique_id=75343586 instance=ExtResource("3_s2jje")]
-position = Vector2(1069, 70)
-auto_change_scene = false
-
-[node name="TransS" parent="." unique_id=1453233195 instance=ExtResource("3_s2jje")]
-position = Vector2(1065, 1147)
-rotation = 3.1415927
-auto_change_scene = false
-
-[node name="TransE" parent="." unique_id=522398516 instance=ExtResource("3_s2jje")]
-position = Vector2(2006, 657)
-rotation = 1.5707964
-auto_change_scene = false
-
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=526225689]
 position = Vector2(775, 571)
 texture = ExtResource("4_wixwy")
-
-[node name="SpawnFromNorth" type="Marker2D" parent="." unique_id=455691913]
-position = Vector2(1074, 280)
-
-[node name="SpawnFromSouth" type="Marker2D" parent="." unique_id=1596265600]
-position = Vector2(1063, 960)
-
-[node name="SpawnFromWest" type="Marker2D" parent="." unique_id=103376982]
-position = Vector2(423, 604)
-
-[node name="DoorN" parent="." unique_id=1175052282 instance=ExtResource("5_bai68")]
-position = Vector2(1023, 215)
-
-[node name="DoorS" parent="." unique_id=7271220 instance=ExtResource("5_bai68")]
-position = Vector2(1112, 1013)
-rotation = 3.1415927
-
-[node name="DoorE" parent="." unique_id=1114696868 instance=ExtResource("5_bai68")]
-position = Vector2(1850, 612)
-rotation = 1.5707964
-
-[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=1676886382]
-position = Vector2(318, 614)
-rotation = -1.5707964
-scale = Vector2(4, 4)
-texture = ExtResource("6_uom60")
-hframes = 3
-vframes = 4
-
-[node name="Zona aperta" type="Sprite2D" parent="Sprite2D2" unique_id=373740971]
-position = Vector2(0, 1)
-texture = ExtResource("6_uom60")
-hframes = 3
-vframes = 4
-frame = 1
-
-[node name="Psx" type="Sprite2D" parent="Sprite2D2" unique_id=804289853]
-position = Vector2(0, -5.75)
-texture = ExtResource("6_uom60")
-hframes = 3
-vframes = 5
-frame = 3
-
-[node name="Pdx" type="Sprite2D" parent="Sprite2D2" unique_id=248329207]
-position = Vector2(0, -5.75)
-texture = ExtResource("6_uom60")
-flip_h = true
-hframes = 3
-vframes = 5
-frame = 3
