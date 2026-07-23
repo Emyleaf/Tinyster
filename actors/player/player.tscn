@@ -1,22 +1,22 @@
 [gd_scene format=3 uid="uid://bvrhv0ayd3ofv"]
 
-[ext_resource type="Script" uid="uid://bomclfqpjt455" path="res://player/scripts/player.gd" id="1_8t03j"]
-[ext_resource type="Texture2D" uid="uid://c8f4kfj5womsd" path="res://player/Sprites/all2.png" id="2_32hag"]
-[ext_resource type="Script" uid="uid://jg4so0mogday" path="res://player/scripts/states/state_idle.gd" id="4_dqkch"]
-[ext_resource type="Script" uid="uid://vr1ly68oy86b" path="res://player/scripts/player_statemachine.gd" id="5_8t03j"]
-[ext_resource type="Script" uid="uid://bw62xw5e78se0" path="res://player/scripts/states/state_walk.gd" id="5_qlg0r"]
-[ext_resource type="Script" uid="uid://decrvbol66wqn" path="res://player/scripts/player_camera.gd" id="5_wodsf"]
-[ext_resource type="Script" uid="uid://ddxh4k0ivhynm" path="res://player/scripts/states/state_attack.gd" id="6_tuyoq"]
-[ext_resource type="AudioStream" uid="uid://cllqmuqk1beib" path="res://player/audio/SwordSwoosh.wav" id="8_smehm"]
-[ext_resource type="Script" uid="uid://dgquorr8qfgwt" path="res://player/scripts/states/state_skill.gd" id="9_tqiix"]
-[ext_resource type="Script" uid="uid://bba4rkyv8agg5" path="res://player/scripts/player_interactions_host.gd" id="10_d2wvv"]
-[ext_resource type="Script" uid="uid://bqmhb0dvoetk5" path="res://player/scripts/states/state_stun.gd" id="10_kb6p2"]
-[ext_resource type="PackedScene" uid="uid://b7e5y80fvd4ia" path="res://generalnodes/hurtbox/hurt_box.tscn" id="10_y4r1p"]
-[ext_resource type="PackedScene" uid="uid://w5gedwn5m48d" path="res://generalnodes/hitbox/hit_box.tscn" id="12_ebec5"]
-[ext_resource type="Texture2D" uid="uid://cmmamg8pmr5hf" path="res://assets/healthbarUnder.png" id="14_32hag"]
-[ext_resource type="AudioStream" uid="uid://rh3a0mii86hr" path="res://player/audio/hit_player.wav" id="14_wodsf"]
-[ext_resource type="Texture2D" uid="uid://bf6c14mfpspng" path="res://assets/healthbarProgress.png" id="15_tqiix"]
-[ext_resource type="Script" uid="uid://btnqurbujjnw7" path="res://player/player_health_bar.gd" id="16_32hag"]
+[ext_resource type="Script" uid="uid://bomclfqpjt455" path="res://actors/player/player.gd" id="1_8t03j"]
+[ext_resource type="Texture2D" uid="uid://dxa4m6kclw4q7" path="res://actors/player/art/all.png" id="2_0wchr"]
+[ext_resource type="Script" uid="uid://jg4so0mogday" path="res://actors/player/states/state_idle.gd" id="4_dqkch"]
+[ext_resource type="Script" uid="uid://vr1ly68oy86b" path="res://actors/player/states/player_state_machine.gd" id="5_8t03j"]
+[ext_resource type="Script" uid="uid://bw62xw5e78se0" path="res://actors/player/states/state_walk.gd" id="5_qlg0r"]
+[ext_resource type="Script" uid="uid://decrvbol66wqn" path="res://actors/player/player_camera.gd" id="5_wodsf"]
+[ext_resource type="Script" uid="uid://ddxh4k0ivhynm" path="res://actors/player/states/state_attack.gd" id="6_tuyoq"]
+[ext_resource type="AudioStream" uid="uid://cllqmuqk1beib" path="res://actors/player/audio/SwordSwoosh.wav" id="8_smehm"]
+[ext_resource type="Script" uid="uid://dgquorr8qfgwt" path="res://actors/player/states/state_skill.gd" id="9_tqiix"]
+[ext_resource type="Script" uid="uid://bba4rkyv8agg5" path="res://actors/player/player_interactions_host.gd" id="10_d2wvv"]
+[ext_resource type="Script" uid="uid://bqmhb0dvoetk5" path="res://actors/player/states/state_stun.gd" id="10_kb6p2"]
+[ext_resource type="PackedScene" uid="uid://b7e5y80fvd4ia" path="res://core/combat/hurt_box.tscn" id="10_y4r1p"]
+[ext_resource type="PackedScene" uid="uid://w5gedwn5m48d" path="res://core/combat/hit_box.tscn" id="12_ebec5"]
+[ext_resource type="Texture2D" uid="uid://cmmamg8pmr5hf" path="res://core/combat/art/healthbar_under.png" id="14_32hag"]
+[ext_resource type="AudioStream" uid="uid://rh3a0mii86hr" path="res://actors/player/audio/hit_player.wav" id="14_wodsf"]
+[ext_resource type="Texture2D" uid="uid://bf6c14mfpspng" path="res://core/combat/art/healthbar_progress.png" id="15_tqiix"]
+[ext_resource type="Script" uid="uid://btnqurbujjnw7" path="res://actors/player/player_health_bar.gd" id="16_32hag"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dqkch"]
 height = 40.0
@@ -179,6 +179,22 @@ tracks/0/keys = {
 "values": [25, 28]
 }
 
+[sub_resource type="Animation" id="Animation_qrxv1"]
+resource_name = "attack_side2"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [29, 31]
+}
+
 [sub_resource type="Animation" id="Animation_7pqkx"]
 resource_name = "idle"
 loop_mode = 1
@@ -244,6 +260,7 @@ tracks/0/keys = {
 _data = {
 &"RESET": SubResource("Animation_g4c7l"),
 &"attack_side": SubResource("Animation_knn7v"),
+&"attack_side2": SubResource("Animation_qrxv1"),
 &"idle": SubResource("Animation_7pqkx"),
 &"stun": SubResource("Animation_uw77l"),
 &"walk_side": SubResource("Animation_rptt4")
@@ -336,10 +353,10 @@ shape = SubResource("CapsuleShape2D_dqkch")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=323549348]
 position = Vector2(2, -32)
-texture = ExtResource("2_32hag")
+texture = ExtResource("2_0wchr")
 hframes = 8
 vframes = 4
-frame = 8
+frame = 31
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1794329049]
 libraries/Archer = SubResource("AnimationLibrary_g4c7l")
@@ -363,6 +380,7 @@ script = ExtResource("5_qlg0r")
 [node name="Attack" type="Node" parent="StateMachine" unique_id=1095584913]
 script = ExtResource("6_tuyoq")
 attack_sound = ExtResource("8_smehm")
+combo_window = 0.3
 
 [node name="Skill" type="Node" parent="StateMachine" unique_id=1604522533]
 script = ExtResource("9_tqiix")
@@ -376,7 +394,6 @@ script = ExtResource("10_kb6p2")
 max_polyphony = 4
 
 [node name="Interactions" type="Node2D" parent="." unique_id=1370748820]
-visible = false
 position = Vector2(16, -22)
 script = ExtResource("10_d2wvv")
 

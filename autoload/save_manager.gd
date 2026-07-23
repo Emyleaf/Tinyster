@@ -27,6 +27,7 @@ func save_game() -> void:
 		"version": SAVE_VERSION,
 		"dungeon": DungeonManager.get_save_data(),
 		"party": PartyManager.get_save_data(),
+		"run": RunState.get_save_data(),     
 	}
 
 	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
@@ -63,6 +64,7 @@ func load_game() -> bool:
 	var data : Dictionary = parsed
 	DungeonManager.load_from_data(data.get("dungeon", {}))
 	PartyManager.load_from_data(data.get("party", {}))
+	RunState.load_from_data(data.get("run", {})) 
 
 	pending_load = true
 	game_loaded.emit()
@@ -76,3 +78,4 @@ func new_game() -> void:
 	DungeonManager.floors_climbed = 0
 	DungeonManager.last_room = null
 	PartyManager.new_game()
+	RunState.new_game()    

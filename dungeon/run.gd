@@ -5,6 +5,9 @@ const ROOM_SCENES := {
 	Room.Type.MONSTER: preload("res://dungeon/rooms/room_monster.tscn"),
 	Room.Type.SHOP: preload("res://dungeon/rooms/room_shop.tscn"),
 	Room.Type.CAMPFIRE: preload("res://dungeon/rooms/room_campfire.tscn"),
+	Room.Type.TREASURE: preload("res://dungeon/rooms/room_monster.tscn"), #placeholder
+	Room.Type.BOSS: preload("res://dungeon/rooms/room_monster.tscn"), #placeholder
+	Room.Type.EVENT: preload("res://dungeon/rooms/room_monster.tscn"), #placeholder
 }
 
 @onready var map: Map = $Map

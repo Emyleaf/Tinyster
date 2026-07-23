@@ -26,6 +26,7 @@ LevelManager="*uid://ddgdgjmm3pofn"
 PauseMenu="*uid://8137607nxqpf"
 PartyManager="*uid://clxg2xv2q2iae"
 PartyHud="*uid://cit5lu20j0ttv"
+RunState="*uid://bx0xit5d7p11x"
 TransitionScreen="*uid://drnyt783bkvk"
 
 [display]

@@ -25,7 +25,10 @@ func new_game() -> void:
 func get_save_data() -> Dictionary:
 	var members_data : Array = []
 	for m in members:
-		members_data.append({ "hp": m.current_hp })
+		var equip : Dictionary = {}
+		for slot in m.equipment:
+			equip[str(slot)] = m.equipment[slot].resource_path   # chiavi JSON = stringhe
+		members_data.append({ "hp": m.current_hp, "equipment": equip })
 	return {
 		"active_index": active_index,
 		"members": members_data,
@@ -39,6 +42,14 @@ func load_from_data(data : Dictionary) -> void:
 
 	var members_data : Array = data.get("members", [])
 	for i in mini(members_data.size(), members.size()):
+		# ORDINE IMPORTANTE: prima l'equip, poi gli HP.
+		# get_max_hp() dipende dall'equip, se clampi prima perdi HP.
+		var equip : Dictionary = members_data[i].get("equipment", {})
+		for slot_str in equip:
+			var path : String = equip[slot_str]
+			if ResourceLoader.exists(path):
+				members[i].equip(load(path))
+
 		var hp : int = int(members_data[i].get("hp", members[i].get_max_hp()))
 		members[i].current_hp = clampi(hp, 0, members[i].get_max_hp())
 		member_hp_changed.emit(i, members[i])

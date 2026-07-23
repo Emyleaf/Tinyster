@@ -11,14 +11,6 @@ var is_transitioning: bool = false
 @onready var party_hud := get_tree().get_first_node_in_group("PartyHUD")
 
 const MAP_SCENE := preload("res://dungeon/map/map.tscn")
-const ROOM_SCENES := {
-	Room.Type.MONSTER: preload("res://dungeon/rooms/room_monster.tscn"),
-	Room.Type.SHOP: preload("res://dungeon/rooms/room_shop.tscn"),
-	Room.Type.CAMPFIRE: preload("res://dungeon/rooms/room_campfire.tscn"),
-	Room.Type.TREASURE: preload("res://dungeon/rooms/room_monster.tscn"), #placeholder
-	Room.Type.BOSS: preload("res://dungeon/rooms/room_monster.tscn"), #placeholder
-	Room.Type.EVENT: preload("res://dungeon/rooms/room_monster.tscn"), #placeholder
-}
 
 # Riferimento al generatore (puoi anche istanziarlo qui)
 var map_generator: MapGenerator
@@ -30,31 +22,6 @@ func generate_new_map() -> void:
 	map_data = map_generator.generate_map()
 	floors_climbed = 0
 	last_room = null
-	
-#func enter_room(room: Room):
-	#if is_transitioning:
-		#return
-	#
-	#is_transitioning = true
-	#
-	#last_room = room
-	#floors_climbed += 1
-	#
-	#if current_room_node:
-		#current_room_node.queue_free()
-		#current_room_node = null
-#
-	#var main = get_node("/root/Main")
-	#for child in main.get_children():
-		#if child is Enemy:
-			#child.queue_free()
-#
-	#var scene = ROOM_SCENES.get(room.type)
-	#if scene:
-		#current_room_node = scene.instantiate()
-		#main.call_deferred("add_child", current_room_node)
-#
-	#call_deferred("_finish_transition")
 	
 func _finish_transition() -> void:
 	await get_tree().create_timer(0.3).timeout   # piccolo buffer prima di riabilitare

@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://urj1ip6unro6" path="res://ui/hud/party_hud/party_hud.gd" id="1_bwdsk"]
 [ext_resource type="PackedScene" uid="uid://o4kgmpiulbxg" path="res://ui/hud/party_hud/party_slot.tscn" id="1_slot"]
 [ext_resource type="PackedScene" uid="uid://c74uo8q80syy" path="res://ui/hud/party_hud/ability_button.tscn" id="2_ability"]
+[ext_resource type="Script" uid="uid://bk1f7bp7o3ipi" path="res://ui/hud/party_hud/gold_label.gd" id="4_fsyr1"]
 
 [node name="PartyHud" type="CanvasLayer" unique_id=975993780 groups=["PartyHUD"]]
 layer = 3
@@ -63,3 +64,11 @@ offset_right = 180.0
 offset_bottom = 92.0
 slot = 1
 key_text = "Q"
+
+[node name="Gold" type="Label" parent="Root" unique_id=372845955]
+layout_mode = 0
+offset_left = 104.0
+offset_top = 975.0
+offset_right = 144.0
+offset_bottom = 998.0
+script = ExtResource("4_fsyr1")
