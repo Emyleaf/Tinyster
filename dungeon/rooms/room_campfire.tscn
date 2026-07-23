@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://q0dl08fnxhbi" path="res://dungeon/rooms/room_campfire.gd" id="1_a1eq4"]
 [ext_resource type="Texture2D" uid="uid://60u4p3ovp3eh" path="res://dungeon/rooms/art/forest.png" id="1_ritr3"]
 [ext_resource type="Script" uid="uid://cv0n05dgk4air" path="res://dungeon/rooms/tilesets/level_tile_map.gd" id="2_eedlx"]
-[ext_resource type="Texture2D" uid="uid://bp3kdpy3mt5ua" path="res://dungeon/rooms/art/vendor.png" id="4_wixwy"]
+[ext_resource type="Texture2D" uid="uid://brswoyg28ld2" path="res://_unsorted/bush.png" id="4_wl401"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5s76m"]
 texture = ExtResource("1_ritr3")
@@ -165,5 +165,6 @@ tile_set = SubResource("TileSet_7fqpt")
 script = ExtResource("2_eedlx")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=526225689]
-position = Vector2(775, 571)
-texture = ExtResource("4_wixwy")
+position = Vector2(706, 622)
+scale = Vector2(0.32804504, 0.40924656)
+texture = ExtResource("4_wl401")
