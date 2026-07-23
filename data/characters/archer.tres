@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="CharacterData" format=3 uid="uid://dajschhsfqg0m"]
+
+[ext_resource type="PackedScene" uid="uid://cxbl6qc4wi84k" path="res://actors/player/projectiles/arrow.tscn" id="1_4638g"]
+[ext_resource type="Script" uid="uid://cfqr58osc7575" path="res://core/resources/character_data.gd" id="1_gudgr"]
+[ext_resource type="Texture2D" uid="uid://c8f4kfj5womsd" path="res://actors/player/art/all2.png" id="2_gudgr"]
+[ext_resource type="Resource" path="res://data/skills/archer_skill.tres" id="3_8njga"]
+[ext_resource type="Resource" path="res://data/skills/archer_ultimate.tres" id="5_0bbdr"]
+
+[resource]
+script = ExtResource("1_gudgr")
+char_name = "Archer"
+sprite_sheet = ExtResource("2_gudgr")
+speed = 120.0
+max_hp = 3
+atk = 3
+skill = ExtResource("3_8njga")
+ultimate = ExtResource("5_0bbdr")
+projectile = ExtResource("1_4638g")
+metadata/_custom_type_script = "uid://cfqr58osc7575"
