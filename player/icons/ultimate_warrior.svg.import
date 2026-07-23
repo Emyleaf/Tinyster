@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dadkisqfn2u76"
-path="res://.godot/imported/skill_warrior.svg-3aac521622ab0de18ee8148d1a3d0304.ctex"
+uid="uid://dc45k5xj2u11"
+path="res://.godot/imported/ultimate_warrior.svg-ce2f7e787e3f203b1ec7db38055465af.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/skill_warrior.svg"
-dest_files=["res://.godot/imported/skill_warrior.svg-3aac521622ab0de18ee8148d1a3d0304.ctex"]
+source_file="res://player/icons/ultimate_warrior.svg"
+dest_files=["res://.godot/imported/ultimate_warrior.svg-ce2f7e787e3f203b1ec7db38055465af.ctex"]
 
 [params]
 
