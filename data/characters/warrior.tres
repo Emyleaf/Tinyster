@@ -3,15 +3,14 @@
 [ext_resource type="Script" uid="uid://cfqr58osc7575" path="res://core/resources/character_data.gd" id="1_yh3qc"]
 [ext_resource type="Texture2D" uid="uid://dxa4m6kclw4q7" path="res://actors/player/art/all.png" id="2_g373e"]
 [ext_resource type="Resource" path="res://data/skills/warrior_skill.tres" id="2_sg2ek"]
-[ext_resource type="Resource" path="res://data/skills/warrior_ultimate.tres" id="4_ggcuc"]
+[ext_resource type="Resource" uid="uid://cnbdxhxmtbpb5" path="res://data/skills/warrior_ultimate.tres" id="4_ggcuc"]
 
 [resource]
 script = ExtResource("1_yh3qc")
 char_name = "Warrior"
 sprite_sheet = ExtResource("2_g373e")
 speed = 100.0
-max_hp = 6
-atk = 1
+max_hp = 10
 skill = ExtResource("2_sg2ek")
 ultimate = ExtResource("4_ggcuc")
 metadata/_custom_type_script = "uid://cfqr58osc7575"

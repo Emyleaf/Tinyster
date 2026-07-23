@@ -16,6 +16,8 @@ var aim_direction : Vector2 = Vector2.RIGHT
 ## 0 = primo colpo, 1 = secondo colpo
 var combo_index : int = 0
 var _last_attack_end_msec : int = -999999
+## Input premuto durante l'animazione: viene ricordato invece che perso
+var _buffered_attack : bool = false
 
 @onready var animation_player : AnimationPlayer = $"../../AnimationPlayer"
 @onready var walk : State = $"../Walk"
@@ -31,12 +33,15 @@ func enter() -> void:
 	# Combo solo per i melee: se sono ancora nella finestra, questo e' il colpo 2
 	combo_index = 1 if (projectile == null and _in_combo_window()) else 0
 
+	# Il dado del critico si tira una volta sola, alla pressione del tasto
+	var is_crit : bool = randf() < player.get_crit_rate()
+
 	# Mira fissata alla pressione del tasto: flip e freccia restano coerenti
 	if projectile:
 		aim_direction = player.global_position.direction_to(player.get_global_mouse_position())
 		player.face_towards(aim_direction)
 
-	player.update_animation("attack_side2" if combo_index == 1 else "attack_side")
+	player.update_animation("attack2_side" if combo_index == 1 else "attack_side")
 	animation_player.animation_finished.connect( end_attack )
 	
 	audio.stream = attack_sound
@@ -47,9 +52,10 @@ func enter() -> void:
 	await get_tree().create_timer(0.075).timeout
 	if attacking == true:
 		if projectile:
-			_shoot(projectile)
+			_shoot(projectile, is_crit)
 		else:
-			hurt_box.damage = _current_damage()
+			hurt_box.damage = _damage_for(is_crit)
+			hurt_box.is_crit = is_crit
 			hurt_box.monitoring = true
 	pass
 	
@@ -57,6 +63,7 @@ func exit() -> void:
 	animation_player.animation_finished.disconnect( end_attack )
 	attacking = false
 	hurt_box.monitoring = false
+	_buffered_attack = false
 	# Il combo timer parte da qui: il "cooldown" e' stata l'animazione stessa
 	_last_attack_end_msec = Time.get_ticks_msec()
 	pass
@@ -65,6 +72,10 @@ func process(_delta: float) -> State:
 	player.velocity -= player.velocity * decelerate_speed * _delta
 	
 	if attacking == false:
+		# L'input bufferizzato ha priorita' sul ritorno a idle/walk
+		if _buffered_attack:
+			_restart_attack()
+			return null
 		if player.direction == Vector2.ZERO:
 			return idle
 		else:
@@ -75,10 +86,19 @@ func physics(_delta:float) -> State:
 	return null
 	
 func handle_input(_event: InputEvent) -> State:
+	if _event.is_action_pressed("attack"):
+		_buffered_attack = true
 	return null
 	
 func end_attack( _newAnimName : String) -> void:
 	attacking = false
+
+## Rientra in Attack senza passare dallo state machine
+## (change_state() scarta le transizioni verso lo stato corrente)
+func _restart_attack() -> void:
+	_buffered_attack = false
+	exit()
+	enter()
 
 ## Ho gia' fatto il colpo 2? Allora si riparte dal colpo 1
 func _in_combo_window() -> bool:
@@ -86,12 +106,15 @@ func _in_combo_window() -> bool:
 		return false
 	return (Time.get_ticks_msec() - _last_attack_end_msec) <= int(combo_window * 1000.0)
 
-func _current_damage() -> int:
+func _damage_for(is_crit : bool) -> int:
+	var dmg : float = float(player.get_atk())
 	if combo_index == 1:
-		return roundi(player.get_atk() * combo_damage_mult)
-	return player.get_atk()
+		dmg *= combo_damage_mult
+	if is_crit:
+		dmg *= PartyMember.CRIT_MULT
+	return roundi(dmg)
 
-func _shoot(projectile : PackedScene) -> void:
+func _shoot(projectile : PackedScene, is_crit : bool) -> void:
 	var arrow : Arrow = projectile.instantiate()
-	arrow.setup(player.global_position + muzzle_offset, aim_direction, player.get_atk())
+	arrow.setup(player.global_position + muzzle_offset, aim_direction, _damage_for(is_crit), is_crit)
 	player.get_parent().add_child.call_deferred(arrow)

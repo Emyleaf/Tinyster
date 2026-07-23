@@ -1,15 +1,14 @@
-[gd_resource type="Resource" script_class="SkillData" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="SkillData" format=3 uid="uid://cnbdxhxmtbpb5"]
 
-[ext_resource type="Script" uid="uid://ccpqg0ooqkxty" path="res://player/skill_data.gd" id="1_skill"]
-[ext_resource type="Texture2D" path="res://actors/player/art/ultimate_warrior.svg" id="2_icon"]
+[ext_resource type="Script" uid="uid://ccpqg0ooqkxty" path="res://core/resources/skill_data.gd" id="1_skill"]
+[ext_resource type="Texture2D" uid="uid://dc45k5xj2u11" path="res://actors/player/art/ultimate_warrior.svg" id="2_icon"]
 
 [resource]
 script = ExtResource("1_skill")
 skill_name = "Turbine d'Acciaio"
 icon = ExtResource("2_icon")
 cooldown = 12.0
-damage_mult = 5.0
-anim_name = "attack_side"
+damage_mult = 50.0
 cast_time = 0.7
 hitbox_scale = 2.6
 metadata/_custom_type_script = "uid://ccpqg0ooqkxty"

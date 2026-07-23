@@ -43,6 +43,9 @@ func get_speed() -> float:
 func get_atk() -> int:
 	return current_member.get_atk() if current_member else 1
 
+func get_crit_rate() -> float:
+	return current_member.get_crit_rate() if current_member else 0.0
+
 func get_current_member() -> PartyMember:
 	return current_member
 

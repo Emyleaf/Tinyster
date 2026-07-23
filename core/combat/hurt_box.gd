@@ -2,6 +2,9 @@ class_name HurtBox extends Area2D
 
 @export var damage : int = 1
 
+## Impostato da chi genera il colpo. Serve solo alla presentazione (colore del numero).
+var is_crit : bool = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	area_entered.connect(_area_entered)

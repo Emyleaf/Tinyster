@@ -2,6 +2,8 @@ class_name PartyMember extends RefCounted
 
 enum Slot { SKILL, ULTIMATE }
 
+const CRIT_MULT : float = 1.5
+
 var data : CharacterData
 var current_hp : int
 ## Slot (EquipmentData.Slot) -> EquipmentData
@@ -18,6 +20,9 @@ func get_max_hp() -> int:
 
 func get_atk() -> int:
 	return data.atk + int(_bonus("bonus_atk"))
+
+func get_crit_rate() -> float:
+	return data.crit_rate
 
 func get_speed() -> float:
 	return data.speed + _bonus("bonus_speed")

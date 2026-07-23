@@ -95,6 +95,7 @@ func _take_damage(hurt_box : HurtBox) -> void:
 	if invulnerable:
 		return
 	current_hp -= hurt_box.damage
+	DamageNumber.spawn(get_parent(), global_position + Vector2(0, -20), hurt_box.damage, hurt_box.is_crit)
 	if current_hp <= 0:
 		enemy_destroyed.emit(hurt_box)
 	else:

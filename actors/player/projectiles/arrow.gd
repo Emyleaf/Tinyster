@@ -12,7 +12,7 @@ func setup(spawn_position : Vector2, aim_direction : Vector2, arrow_damage : int
 	_spawn_position = spawn_position
 	direction = aim_direction
 	damage = arrow_damage
-
+	
 func _ready() -> void:
 	super()
 	global_position = _spawn_position
