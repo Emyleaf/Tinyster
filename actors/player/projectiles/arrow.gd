@@ -8,10 +8,11 @@ var direction : Vector2 = Vector2.RIGHT
 var _spawn_position : Vector2
 
 ## Va chiamata PRIMA di add_child: i valori vengono applicati in _ready()
-func setup(spawn_position : Vector2, aim_direction : Vector2, arrow_damage : int) -> void:
+func setup(spawn_position : Vector2, aim_direction : Vector2, arrow_damage : int, crit : bool) -> void:
 	_spawn_position = spawn_position
 	direction = aim_direction
 	damage = arrow_damage
+	is_crit = crit
 	
 func _ready() -> void:
 	super()

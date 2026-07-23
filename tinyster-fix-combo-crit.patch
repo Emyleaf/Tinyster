@@ -1,0 +1,238 @@
+diff --git a/actors/player/party_member.gd b/actors/player/party_member.gd
+index 885df7f..3a41b33 100644
+--- a/actors/player/party_member.gd
++++ b/actors/player/party_member.gd
+@@ -2,8 +2,6 @@ class_name PartyMember extends RefCounted
+ 
+ enum Slot { SKILL, ULTIMATE }
+ 
+-const CRIT_MULT : float = 1.5
+-
+ var data : CharacterData
+ var current_hp : int
+ ## Slot (EquipmentData.Slot) -> EquipmentData
+@@ -22,7 +20,10 @@ func get_atk() -> int:
+ 	return data.atk + int(_bonus("bonus_atk"))
+ 
+ func get_crit_rate() -> float:
+-	return data.crit_rate
++	return clampf(data.crit_rate + _bonus("bonus_crit_rate"), 0.0, 1.0)
++
++func get_crit_dmg() -> float:
++	return maxf(1.0, data.crit_dmg + _bonus("bonus_crit_dmg"))
+ 
+ func get_speed() -> float:
+ 	return data.speed + _bonus("bonus_speed")
+diff --git a/actors/player/player.gd b/actors/player/player.gd
+index 5f23ee9..50c89e7 100644
+--- a/actors/player/player.gd
++++ b/actors/player/player.gd
+@@ -46,6 +46,9 @@ func get_atk() -> int:
+ func get_crit_rate() -> float:
+ 	return current_member.get_crit_rate() if current_member else 0.0
+ 
++func get_crit_dmg() -> float:
++	return current_member.get_crit_dmg() if current_member else 1.0
++
+ func get_current_member() -> PartyMember:
+ 	return current_member
+ 
+diff --git a/actors/player/projectiles/arrow.gd b/actors/player/projectiles/arrow.gd
+index 93f64fd..e8d7287 100644
+--- a/actors/player/projectiles/arrow.gd
++++ b/actors/player/projectiles/arrow.gd
+@@ -8,10 +8,11 @@ var direction : Vector2 = Vector2.RIGHT
+ var _spawn_position : Vector2
+ 
+ ## Va chiamata PRIMA di add_child: i valori vengono applicati in _ready()
+-func setup(spawn_position : Vector2, aim_direction : Vector2, arrow_damage : int) -> void:
++func setup(spawn_position : Vector2, aim_direction : Vector2, arrow_damage : int, crit : bool) -> void:
+ 	_spawn_position = spawn_position
+ 	direction = aim_direction
+ 	damage = arrow_damage
++	is_crit = crit
+ 	
+ func _ready() -> void:
+ 	super()
+diff --git a/actors/player/states/state_attack.gd b/actors/player/states/state_attack.gd
+index 1c4aad1..6abc027 100644
+--- a/actors/player/states/state_attack.gd
++++ b/actors/player/states/state_attack.gd
+@@ -12,6 +12,8 @@ var aim_direction : Vector2 = Vector2.RIGHT
+ @export_range(0.0, 1.5, 0.05) var combo_window : float = 0.4
+ ## Moltiplicatore di danno del 2o colpo
+ @export_range(1.0, 3.0, 0.1) var combo_damage_mult : float = 1.5
++## Pausa forzata dopo l'ultimo colpo della catena: impedisce lo spam a raffica
++@export_range(0.0, 2.0, 0.05) var attack_cooldown : float = 0.25
+ 
+ ## 0 = primo colpo, 1 = secondo colpo
+ var combo_index : int = 0
+@@ -30,8 +32,8 @@ var _buffered_attack : bool = false
+ func enter() -> void:
+ 	var projectile : PackedScene = player.get_current_member().data.projectile
+ 
+-	# Combo solo per i melee: se sono ancora nella finestra, questo e' il colpo 2
+-	combo_index = 1 if (projectile == null and _in_combo_window()) else 0
++	# Se sono ancora nella finestra, questo e' il colpo 2 (solo melee, vedi _in_combo_window)
++	combo_index = 1 if _in_combo_window() else 0
+ 
+ 	# Il dado del critico si tira una volta sola, alla pressione del tasto
+ 	var is_crit : bool = randf() < player.get_crit_rate()
+@@ -41,7 +43,7 @@ func enter() -> void:
+ 		aim_direction = player.global_position.direction_to(player.get_global_mouse_position())
+ 		player.face_towards(aim_direction)
+ 
+-	player.update_animation("attack2_side" if combo_index == 1 else "attack_side")
++	player.update_animation("attack_side2" if combo_index == 1 else "attack_side")
+ 	animation_player.animation_finished.connect( end_attack )
+ 	
+ 	audio.stream = attack_sound
+@@ -86,7 +88,9 @@ func physics(_delta:float) -> State:
+ 	return null
+ 	
+ func handle_input(_event: InputEvent) -> State:
+-	if _event.is_action_pressed("attack"):
++	# Si bufferizza SOLO il 2o colpo della combo melee: una pressione, un colpo in coda.
++	# Senza questo vincolo la catena enter()/exit() non finirebbe mai.
++	if _event.is_action_pressed("attack") and combo_index == 0 and not _is_ranged():
+ 		_buffered_attack = true
+ 	return null
+ 	
+@@ -100,19 +104,29 @@ func _restart_attack() -> void:
+ 	exit()
+ 	enter()
+ 
+-## Ho gia' fatto il colpo 2? Allora si riparte dal colpo 1
++## Chiamata da Idle/Walk prima di entrare qui.
++## Il 2o colpo resta immediato, il recupero scatta solo a fine catena.
++func can_attack() -> bool:
++	if _in_combo_window():
++		return true
++	return (Time.get_ticks_msec() - _last_attack_end_msec) >= int(attack_cooldown * 1000.0)
++
++## Ho gia' fatto il colpo 2, o sono a distanza? Allora si riparte dal colpo 1
+ func _in_combo_window() -> bool:
+-	if combo_index == 1:
++	if combo_index == 1 or _is_ranged():
+ 		return false
+ 	return (Time.get_ticks_msec() - _last_attack_end_msec) <= int(combo_window * 1000.0)
+ 
++func _is_ranged() -> bool:
++	return player.get_current_member().data.projectile != null
++
+ func _damage_for(is_crit : bool) -> int:
+ 	var dmg : float = float(player.get_atk())
+ 	if combo_index == 1:
+ 		dmg *= combo_damage_mult
+ 	if is_crit:
+-		dmg *= PartyMember.CRIT_MULT
+-	return roundi(dmg)
++		dmg *= player.get_crit_dmg()
++	return maxi(1, roundi(dmg))
+ 
+ func _shoot(projectile : PackedScene, is_crit : bool) -> void:
+ 	var arrow : Arrow = projectile.instantiate()
+diff --git a/actors/player/states/state_idle.gd b/actors/player/states/state_idle.gd
+index 40cd9b6..d85b664 100644
+--- a/actors/player/states/state_idle.gd
++++ b/actors/player/states/state_idle.gd
+@@ -2,7 +2,7 @@ class_name State_Idle extends State
+ 
+ @onready var walk : State = $"../Walk"
+ @onready var sprite = $"../../Sprite2D"
+-@onready var attack : State = $"../Attack"
++@onready var attack : State_Attack = $"../Attack"
+ @onready var skill : State = $"../Skill"
+ 
+ func enter() -> void:
+@@ -21,7 +21,7 @@ func physics(_delta:float) -> State:
+ 	return null
+ 
+ func handle_input(_event: InputEvent) -> State:
+-	if _event.is_action_pressed("attack"):
++	if _event.is_action_pressed("attack") and attack.can_attack():
+ 		return attack
+ 	if _event.is_action_pressed("skill") and skill.try_cast(PartyMember.Slot.SKILL):
+ 		return skill
+diff --git a/actors/player/states/state_skill.gd b/actors/player/states/state_skill.gd
+index e0f9c5c..e4dbb25 100644
+--- a/actors/player/states/state_skill.gd
++++ b/actors/player/states/state_skill.gd
+@@ -26,7 +26,13 @@ func enter() -> void:
+ 	casting = true
+ 
+ 	player.update_animation(skill.anim_name)
+-	hurt_box.damage = maxi(1, roundi(member.get_atk() * skill.damage_mult))
++
++	var is_crit : bool = randf() < player.get_crit_rate()
++	var dmg : float = member.get_atk() * skill.damage_mult
++	if is_crit:
++		dmg *= player.get_crit_dmg()
++	hurt_box.damage = maxi(1, roundi(dmg))
++	hurt_box.is_crit = is_crit
+ 	hurt_box.scale = Vector2.ONE * skill.hitbox_scale
+ 
+ 	await get_tree().create_timer(windup).timeout
+diff --git a/actors/player/states/state_walk.gd b/actors/player/states/state_walk.gd
+index 24125d8..02e23c0 100644
+--- a/actors/player/states/state_walk.gd
++++ b/actors/player/states/state_walk.gd
+@@ -1,7 +1,7 @@
+ class_name State_Walk extends State
+ 
+ @onready var idle : State = $"../Idle"
+-@onready var attack : State = $"../Attack"
++@onready var attack : State_Attack = $"../Attack"
+ @onready var skill : State = $"../Skill"
+ 
+ func enter() -> void:
+@@ -25,7 +25,7 @@ func physics(_delta:float) -> State:
+ 	return null
+ 
+ func handle_input(_event: InputEvent) -> State:
+-	if _event.is_action_pressed("attack"):
++	if _event.is_action_pressed("attack") and attack.can_attack():
+ 		return attack
+ 	if _event.is_action_pressed("skill") and skill.try_cast(PartyMember.Slot.SKILL):
+ 		return skill
+diff --git a/core/combat/damage_number.gd b/core/combat/damage_number.gd
+index 5b3beb5..ec5c2e9 100644
+--- a/core/combat/damage_number.gd
++++ b/core/combat/damage_number.gd
+@@ -74,8 +74,10 @@ func _play_bounce() -> void:
+ 	fade.tween_property(self, "modulate:a", 0.0, DURATION * 0.45)
+ 	fade.tween_callback(queue_free)
+ 
+-## bianco -> giallo -> rosso
++## crit: azzurro -> blu scuro. normale: bianco -> giallo -> rosso
+ func _color_for(t : float) -> Color:
++	if _is_crit:
++		return COL_CRIT_LOW.lerp(COL_CRIT_HIGH, t)
+ 	if t < 0.5:
+ 		return Color.WHITE.lerp(Color.YELLOW, t * 2.0)
+ 	return Color.YELLOW.lerp(Color(1.0, 0.25, 0.15), (t - 0.5) * 2.0)
+diff --git a/core/resources/character_data.gd b/core/resources/character_data.gd
+index 440bba7..f43b3d9 100644
+--- a/core/resources/character_data.gd
++++ b/core/resources/character_data.gd
+@@ -9,6 +9,8 @@ class_name CharacterData extends Resource
+ @export var atk : int = 2
+ ## Probabilita' di colpo critico, 0.0 - 1.0
+ @export_range(0.0, 1.0, 0.01) var crit_rate : float = 0.05
++## Moltiplicatore di danno del critico. 1.5 = +50%
++@export_range(1.0, 5.0, 0.05) var crit_dmg : float = 1.5
+ ## Tasto E
+ @export var skill : SkillData
+ ## Tasto Q
+diff --git a/core/resources/equipment_data.gd b/core/resources/equipment_data.gd
+index becff0a..14734cc 100644
+--- a/core/resources/equipment_data.gd
++++ b/core/resources/equipment_data.gd
+@@ -8,3 +8,7 @@ enum Slot { WEAPON, ARMOR, ACCESSORY }
+ @export var bonus_max_hp : int = 0
+ @export var bonus_atk : int = 0
+ @export var bonus_speed : float = 0.0
++## Sommato al crit_rate del personaggio. 0.1 = +10% di probabilita'
++@export_range(0.0, 1.0, 0.01) var bonus_crit_rate : float = 0.0
++## Sommato al crit_dmg del personaggio. 0.2 = +20% di danno critico
++@export_range(0.0, 3.0, 0.05) var bonus_crit_dmg : float = 0.0

@@ -9,6 +9,8 @@ class_name CharacterData extends Resource
 @export var atk : int = 2
 ## Probabilita' di colpo critico, 0.0 - 1.0
 @export_range(0.0, 1.0, 0.01) var crit_rate : float = 0.05
+## Moltiplicatore di danno del critico. 1.5 = +50%
+@export_range(1.0, 5.0, 0.05) var crit_dmg : float = 1.5
 ## Tasto E
 @export var skill : SkillData
 ## Tasto Q

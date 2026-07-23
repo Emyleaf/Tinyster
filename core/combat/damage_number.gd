@@ -19,8 +19,8 @@ const COL_LOW := Color.WHITE
 const COL_MID := Color.YELLOW
 const COL_HIGH := Color(1.0, 0.25, 0.15)
 ## Palette critico: azzurro chiaro -> blu scuro
-const COL_CRIT_LOW := Color(0.65, 0.88, 1.0)
-const COL_CRIT_HIGH := Color(0.10, 0.20, 0.75)
+const COL_CRIT_LOW := Color(0.0, 0.577, 0.773, 1.0)
+const COL_CRIT_HIGH := Color(0.075, 0.157, 0.722, 1.0)
 
 var _amount : int = 0
 var _is_crit : bool = false
@@ -74,8 +74,10 @@ func _play_bounce() -> void:
 	fade.tween_property(self, "modulate:a", 0.0, DURATION * 0.45)
 	fade.tween_callback(queue_free)
 
-## bianco -> giallo -> rosso
+## crit: azzurro -> blu scuro. normale: bianco -> giallo -> rosso
 func _color_for(t : float) -> Color:
+	if _is_crit:
+		return COL_CRIT_LOW.lerp(COL_CRIT_HIGH, t)
 	if t < 0.5:
 		return Color.WHITE.lerp(Color.YELLOW, t * 2.0)
 	return Color.YELLOW.lerp(Color(1.0, 0.25, 0.15), (t - 0.5) * 2.0)

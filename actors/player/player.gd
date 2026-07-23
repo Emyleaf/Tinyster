@@ -46,6 +46,9 @@ func get_atk() -> int:
 func get_crit_rate() -> float:
 	return current_member.get_crit_rate() if current_member else 0.0
 
+func get_crit_dmg() -> float:
+	return current_member.get_crit_dmg() if current_member else 1.0
+
 func get_current_member() -> PartyMember:
 	return current_member
 

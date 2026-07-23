@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://b0p68xg6a26lu"]
 
-[ext_resource type="Script" uid="uid://bgyhthkokjkv4" path="res://dungeon/scenes/door.gd" id="1_556a7"]
-[ext_resource type="Texture2D" uid="uid://cghgkntewd33v" path="res://assets/stairs.png" id="2_ylnqg"]
-[ext_resource type="PackedScene" uid="uid://d0l0smnegiw30" path="res://generalnodes/level_transition.tscn" id="3_3oglj"]
+[ext_resource type="Script" uid="uid://bgyhthkokjkv4" path="res://dungeon/rooms/door.gd" id="1_556a7"]
+[ext_resource type="Texture2D" uid="uid://cghgkntewd33v" path="res://dungeon/rooms/art/stairs.png" id="2_ylnqg"]
+[ext_resource type="PackedScene" uid="uid://d0l0smnegiw30" path="res://ui/transition/level_transition.tscn" id="3_3oglj"]
 
 [sub_resource type="Animation" id="Animation_8w0ar"]
 length = 0.001
@@ -42,7 +42,10 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k83vi"]
-size = Vector2(92, 98)
+size = Vector2(96, 96)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fkt8v"]
+size = Vector2(114, 120)
 
 [node name="Door" type="Node2D" unique_id=1175052282]
 scale = Vector2(0.25, 0.25)
@@ -55,13 +58,23 @@ libraries/ = SubResource("AnimationLibrary_8w0ar")
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1403826508]
 position = Vector2(2, -52)
 texture = ExtResource("2_ylnqg")
+hframes = 2
+frame = 1
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1520286555]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=187176663]
-position = Vector2(2, -53)
+position = Vector2(4, -52)
 shape = SubResource("RectangleShape2D_k83vi")
 
 [node name="LevelTransition" parent="." unique_id=75343586 instance=ExtResource("3_3oglj")]
 position = Vector2(4, -52)
 scale = Vector2(1.5, 1.5)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1684631557]
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D" unique_id=1899155462]
+position = Vector2(4, -52)
+shape = SubResource("RectangleShape2D_fkt8v")

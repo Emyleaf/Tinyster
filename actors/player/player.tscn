@@ -380,10 +380,7 @@ script = ExtResource("5_qlg0r")
 [node name="Attack" type="Node" parent="StateMachine" unique_id=1095584913]
 script = ExtResource("6_tuyoq")
 attack_sound = ExtResource("8_smehm")
-decelerate_speed = null
-muzzle_offset = null
 combo_window = 0.3
-combo_damage_mult = null
 
 [node name="Skill" type="Node" parent="StateMachine" unique_id=1604522533]
 script = ExtResource("9_tqiix")

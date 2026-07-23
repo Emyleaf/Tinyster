@@ -26,7 +26,13 @@ func enter() -> void:
 	casting = true
 
 	player.update_animation(skill.anim_name)
-	hurt_box.damage = maxi(1, roundi(member.get_atk() * skill.damage_mult))
+
+	var is_crit : bool = randf() < player.get_crit_rate()
+	var dmg : float = member.get_atk() * skill.damage_mult
+	if is_crit:
+		dmg *= player.get_crit_dmg()
+	hurt_box.damage = maxi(1, roundi(dmg))
+	hurt_box.is_crit = is_crit
 	hurt_box.scale = Vector2.ONE * skill.hitbox_scale
 
 	await get_tree().create_timer(windup).timeout
