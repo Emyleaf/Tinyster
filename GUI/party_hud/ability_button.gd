@@ -26,6 +26,7 @@ func _process(_delta : float) -> void:
 		return
 
 	icon.texture = skill.icon
+	key_label.visible = skill.icon == null  
 	ring.charge = member.get_charge(slot)
 
 	var left : float = member.cooldowns[slot]

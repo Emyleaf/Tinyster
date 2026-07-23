@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://cfqr58osc7575" path="res://player/character_data.gd" id="1_yh3qc"]
 [ext_resource type="Texture2D" uid="uid://dxa4m6kclw4q7" path="res://player/Sprites/all.png" id="2_g373e"]
+[ext_resource type="Resource" path="res://player/skills/warrior_skill.tres" id="90_skill"]
+[ext_resource type="Resource" path="res://player/skills/warrior_ultimate.tres" id="91_ult"]
 
 [resource]
 script = ExtResource("1_yh3qc")
@@ -10,4 +12,6 @@ sprite_sheet = ExtResource("2_g373e")
 speed = 100.0
 max_hp = 6
 atk = 1
+skill = ExtResource("90_skill")
+ultimate = ExtResource("91_ult")
 metadata/_custom_type_script = "uid://cfqr58osc7575"

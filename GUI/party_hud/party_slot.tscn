@@ -18,6 +18,7 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [node name="PartySlot" type="Control" unique_id=860334028]
+visible = false
 custom_minimum_size = Vector2(320, 84)
 layout_mode = 3
 anchors_preset = 0

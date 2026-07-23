@@ -28,30 +28,30 @@ func generate_new_map() -> void:
 	floors_climbed = 0
 	last_room = null
 	
-func enter_room(room: Room):
-	if is_transitioning:
-		return
-	
-	is_transitioning = true
-	
-	last_room = room
-	floors_climbed += 1
-	
-	if current_room_node:
-		current_room_node.queue_free()
-		current_room_node = null
-
-	var main = get_node("/root/Main")
-	for child in main.get_children():
-		if child is Enemy:
-			child.queue_free()
-
-	var scene = ROOM_SCENES.get(room.type)
-	if scene:
-		current_room_node = scene.instantiate()
-		main.call_deferred("add_child", current_room_node)
-
-	call_deferred("_finish_transition")
+#func enter_room(room: Room):
+	#if is_transitioning:
+		#return
+	#
+	#is_transitioning = true
+	#
+	#last_room = room
+	#floors_climbed += 1
+	#
+	#if current_room_node:
+		#current_room_node.queue_free()
+		#current_room_node = null
+#
+	#var main = get_node("/root/Main")
+	#for child in main.get_children():
+		#if child is Enemy:
+			#child.queue_free()
+#
+	#var scene = ROOM_SCENES.get(room.type)
+	#if scene:
+		#current_room_node = scene.instantiate()
+		#main.call_deferred("add_child", current_room_node)
+#
+	#call_deferred("_finish_transition")
 	
 func _finish_transition() -> void:
 	await get_tree().create_timer(0.3).timeout   # piccolo buffer prima di riabilitare
@@ -68,6 +68,7 @@ func get_save_data() -> Dictionary:
 				"type": room.type,
 				"row": room.row,
 				"column": room.column,
+				"selected": room.selected,
 				"position": {"x": room.position.x, "y": room.position.y},
 				"next_rooms": []   # indici (colonna, riga) delle stanze collegate
 			}
@@ -84,19 +85,20 @@ func get_save_data() -> Dictionary:
 
 		
 func load_from_data(data: Dictionary) -> void:
-	floors_climbed = int(data["floors_climbed"])
+	floors_climbed = int(data.get("floors_climbed", 0))
 
 	# 1. Ricostruisci tutte le stanze e crea un dizionario (colonna, riga) → Room
 	map_data.clear()
 	var room_lookup: Dictionary = {}   # chiave: Vector2i(column, row)
 
-	for floor_rooms_data in data["map_data"]:
+	for floor_rooms_data in data.get("map_data", []):
 		var floor: Array[Room] = []
 		for room_dict in floor_rooms_data:
 			var room = Room.new()
-			room.type = room_dict["type"]
+			room.type = int(room_dict["type"])
 			room.row = int(room_dict["row"])
 			room.column = int(room_dict["column"])
+			room.selected = room_dict.get("selected", false)
 			room.position = Vector2(
 				float(room_dict["position"]["x"]),
 				float(room_dict["position"]["y"])
@@ -106,13 +108,13 @@ func load_from_data(data: Dictionary) -> void:
 		map_data.append(floor)
 
 	# 2. Collega i next_rooms usando il lookup
-	for floor_rooms_data in data["map_data"]:
+	for floor_rooms_data in data.get("map_data", []):
 		for room_dict in floor_rooms_data:
 			var col = int(room_dict["column"])
 			var row = int(room_dict["row"])
 			var current_room = room_lookup[Vector2i(col, row)]
 			
-			for conn in room_dict["next_rooms"]:
+			for conn in room_dict.get("next_rooms", []):
 				var target_col = int(conn["col"])
 				var target_row = int(conn["row"])
 				var target_key = Vector2i(target_col, target_row)
@@ -123,7 +125,7 @@ func load_from_data(data: Dictionary) -> void:
 					push_warning("Connessione a stanza inesistente ignorata: %d,%d" % [target_col, target_row])
 
 	# 3. Recupera last_room
-	var lr = data["last_room"]
+	var lr = data.get("last_room", null)
 	if lr != null:
 		var col = int(lr["col"])
 		var row = int(lr["row"])

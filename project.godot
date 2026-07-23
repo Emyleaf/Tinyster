@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Tinyster"
-run/main_scene="uid://dijxrefydpkrn"
+run/main_scene="uid://chottk576xe66"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 

@@ -21,11 +21,22 @@ var is_map_open := false
 
 func _ready() -> void:
 	camera_edge_y = MapGenerator.Y_DIST * (MapGenerator.FLOORS - 1)
-	if DungeonManager.map_data.is_empty():
-		DungeonManager.generate_new_map()
-	create_map()
-		
-	unlock_floor(0)
+
+	if SaveManager.pending_load:
+		# Load: la mappa è già stata ricostruita da DungeonManager.load_from_data().
+		# Ricostruiamo la parte visiva e sblocchiamo la frontiera (prossime stanze).
+		SaveManager.pending_load = false
+		create_map()
+		if DungeonManager.floors_climbed > 0 and DungeonManager.last_room != null:
+			unlock_next_rooms()
+		else:
+			unlock_floor(0)
+	else:
+		# Nuova partita: se non c'è già una mappa, generane una.
+		if DungeonManager.map_data.is_empty():
+			DungeonManager.generate_new_map()
+		create_map()
+		unlock_floor(0)
 	if not PlayerManager.player:
 		await get_tree().process_frame  # aspetta un frame, oppure connetti il segnale
 	_update_player_camera_reference()
@@ -36,17 +47,6 @@ func _unhandled_input(event: InputEvent) -> void:
 func generate_new_map() -> void:
 	DungeonManager.generate_new_map()
 	create_map()
-	
-func load_map(map: Array[Array], floors_completed: int, last_room_climbed: Room) -> void:
-	DungeonManager.floors_climbed = floors_completed
-	DungeonManager.map_data = map
-	DungeonManager.last_room = last_room_climbed
-	create_map()
-	
-	if DungeonManager.floors_climbed > 0:
-		unlock_next_rooms()
-	else:
-		unlock_floor()
 
 func create_map() -> void:
 	for current_floor: Array in DungeonManager.map_data:

@@ -1,12 +1,11 @@
 [gd_scene format=3 uid="uid://cit5lu20j0ttv"]
 
 [ext_resource type="Script" uid="uid://urj1ip6unro6" path="res://GUI/party_hud/party_hud.gd" id="1_bwdsk"]
-[ext_resource type="PackedScene" path="res://GUI/party_hud/party_slot.tscn" id="1_slot"]
-[ext_resource type="PackedScene" path="res://GUI/party_hud/ability_button.tscn" id="2_ability"]
+[ext_resource type="PackedScene" uid="uid://o4kgmpiulbxg" path="res://GUI/party_hud/party_slot.tscn" id="1_slot"]
+[ext_resource type="PackedScene" uid="uid://c74uo8q80syy" path="res://GUI/party_hud/ability_button.tscn" id="2_ability"]
 
 [node name="PartyHud" type="CanvasLayer" unique_id=975993780 groups=["PartyHUD"]]
 layer = 3
-visible = false
 script = ExtResource("1_bwdsk")
 
 [node name="Root" type="Control" parent="." unique_id=1756627438]

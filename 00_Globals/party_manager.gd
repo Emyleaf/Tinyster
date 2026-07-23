@@ -11,10 +11,42 @@ var members : Array[PartyMember] = []
 var active_index : int = -1
 
 func _ready() -> void:
+	new_game()
+
+## Party iniziale a full HP. Usato all'avvio e da SaveManager.new_game().
+func new_game() -> void:
 	var warrior : CharacterData = preload("res://player/warrior.tres")
 	var archer : CharacterData = preload("res://player/archer.tres")
 	var starting : Array[CharacterData] = [warrior, archer]
 	initialize_party(starting)
+
+# --- Save / Load --------------------------------------------------------------
+
+func get_save_data() -> Dictionary:
+	var members_data : Array = []
+	for m in members:
+		members_data.append({ "hp": m.current_hp })
+	return {
+		"active_index": active_index,
+		"members": members_data,
+	}
+
+## La composizione del party è fissa (warrior + archer): ricrea i membri a full
+## HP e poi sovrascrive solo gli HP salvati. Così resta robusto anche se in
+## futuro cambiano le stat base dei personaggi.
+func load_from_data(data : Dictionary) -> void:
+	new_game()
+
+	var members_data : Array = data.get("members", [])
+	for i in mini(members_data.size(), members.size()):
+		var hp : int = int(members_data[i].get("hp", members[i].get_max_hp()))
+		members[i].current_hp = clampi(hp, 0, members[i].get_max_hp())
+		member_hp_changed.emit(i, members[i])
+
+	var idx : int = int(data.get("active_index", 0))
+	active_index = clampi(idx, 0, maxi(members.size() - 1, 0))
+	if not members.is_empty():
+		member_changed.emit(active_index, members[active_index])
 
 ## I cooldown scorrono per TUTTI i membri, anche fuori campo (come in Genshin)
 func _process(delta : float) -> void:

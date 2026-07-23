@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://chottk576xe66"]
+
+[ext_resource type="Script" uid="uid://bc5y067ymnne6" path="res://main_menu.gd" id="1_menu"]
+
+[node name="MainMenu" type="Control" unique_id=1485649054]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu")
+
+[node name="Background" type="ColorRect" parent="." unique_id=720664665]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.086, 0.098, 0.137, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=677636021]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="CenterContainer" unique_id=100661660]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Title" type="Label" parent="CenterContainer/VBox" unique_id=1269217575]
+layout_mode = 2
+theme_override_font_sizes/font_size = 96
+text = "TINYSTER"
+horizontal_alignment = 1
+
+[node name="StartButton" type="Button" parent="CenterContainer/VBox" unique_id=1075651376]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Nuova Partita"
+
+[node name="LoadButton" type="Button" parent="CenterContainer/VBox" unique_id=590332100]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Continua"
+
+[connection signal="pressed" from="CenterContainer/VBox/StartButton" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="CenterContainer/VBox/LoadButton" to="." method="_on_load_pressed"]
