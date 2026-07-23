@@ -16,15 +16,15 @@ func _ready() -> void:
 	generator.exit_ready.connect(_on_exit_ready)
 	generator.generate_map()
 	generator.place_spawn_and_exit()
-	
+
 	randomize()
 	enemy_count = randi_range(10, 15)
 
 	#_position_player_on_entry()
-	
+
 	await get_tree().create_timer(1.0).timeout
 	spawn_enemies()
-	
+
 func spawn_enemies() -> void:
 	var run_node = get_parent()
 
@@ -38,14 +38,25 @@ func spawn_enemies() -> void:
 	valid_cells = valid_cells.filter(func(c): return c != spawn_cell and c != exit_cell)
 	valid_cells.shuffle()
 
+	var to_spawn : int = mini(enemy_count, valid_cells.size())
+	if to_spawn <= 0:
+		enemy_count = 0
+		return
+
+	# Deciso PRIMA del loop: il loop ha degli await e il player potrebbe
+	# uccidere un nemico prima che l'assegnazione avvenga
+	var key_index : int = randi_range(0, to_spawn - 1)
+
 	var spawned := 0
 	for cell in valid_cells:
-		if spawned >= enemy_count:
+		if spawned >= to_spawn:
 			break
 
 		var world_pos = tilemap.map_to_local(cell)
 		var enemy = enemy_scene.instantiate()
-		enemy.enemy_destroyed.connect(_on_slime_enemy_destroyed)
+		enemy.has_key = (spawned == key_index)
+		# bind: enemy_destroyed passa solo la HurtBox, ci serve anche chi e' morto
+		enemy.enemy_destroyed.connect(_on_slime_enemy_destroyed.bind(enemy))
 		enemy.global_position = world_pos
 
 		run_node.call_deferred("add_child", enemy)
@@ -55,14 +66,17 @@ func spawn_enemies() -> void:
 		await get_tree().create_timer(0.1).timeout
 
 	enemy_count = spawned
-	
-func _on_slime_enemy_destroyed(hurt_box: HurtBox) -> void:
+
+func _on_slime_enemy_destroyed(_hurt_box: HurtBox, enemy: Enemy) -> void:
 	enemy_count -= 1
 	print(enemy_count)
+
+	if enemy.has_key:
+		# self, non enemy: il nemico viene queue_free() a fine animazione destroy
+		Pickup.spawn(self, enemy.global_position, Pickup.Kind.KEY)
+
 	if enemy_count <= 0:
 		print("STANZA COMPLETA, ENEMY COUNTER %s" % enemy_count)
-		await get_tree().create_timer(0.5).timeout
-		
 
 func _on_spawn_ready(world_pos: Vector2) -> void:
 	print("Spawn ricevuto: ", world_pos)
