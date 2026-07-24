@@ -1,10 +1,10 @@
 [gd_scene format=4 uid="uid://m15co7c1hoee"]
 
-[ext_resource type="Script" uid="uid://bisghiseja2qh" path="res://dungeon/scenes/room_monster.gd" id="1_jo2km"]
-[ext_resource type="Texture2D" uid="uid://cmjcjnyoylinu" path="res://dungeon/art/tileset_free_miniwarriors/Water Background color.png" id="2_s67or"]
-[ext_resource type="Script" uid="uid://gv6eu8bp6g6l" path="res://dungeon/walker_generator.gd" id="3_1e1os"]
-[ext_resource type="Texture2D" uid="uid://cekytqlncodmh" path="res://dungeon/art/tileset_free_miniwarriors/Tilemap_color5.png" id="5_4lth7"]
-[ext_resource type="Texture2D" uid="uid://cx5npccdpigqb" path="res://dungeon/art/tileset_free_miniwarriors/Tilemap_color3.png" id="8_dntdx"]
+[ext_resource type="Script" uid="uid://bisghiseja2qh" path="res://dungeon/rooms/room_monster.gd" id="1_jo2km"]
+[ext_resource type="Texture2D" uid="uid://cmjcjnyoylinu" path="res://dungeon/rooms/tilesets/art/Water Background color.png" id="2_s67or"]
+[ext_resource type="Script" uid="uid://gv6eu8bp6g6l" path="res://dungeon/generation/walker_generator.gd" id="3_1e1os"]
+[ext_resource type="Texture2D" uid="uid://cekytqlncodmh" path="res://dungeon/rooms/tilesets/art/Tilemap_color5.png" id="5_4lth7"]
+[ext_resource type="Texture2D" uid="uid://cx5npccdpigqb" path="res://dungeon/rooms/tilesets/art/Tilemap_color3.png" id="8_dntdx"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jo2km"]
 texture = ExtResource("5_4lth7")

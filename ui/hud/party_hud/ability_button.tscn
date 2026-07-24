@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c74uo8q80syy"]
 
-[ext_resource type="Script" uid="uid://dky1lgng0nlqo" path="res://GUI/party_hud/ability_button.gd" id="1_ability"]
-[ext_resource type="Script" uid="uid://dlbw0ne58s430" path="res://GUI/party_hud/cooldown_ring.gd" id="2_ring"]
+[ext_resource type="Script" uid="uid://dky1lgng0nlqo" path="res://ui/hud/party_hud/ability_button.gd" id="1_ability"]
+[ext_resource type="Script" uid="uid://dlbw0ne58s430" path="res://ui/hud/party_hud/cooldown_ring.gd" id="2_ring"]
 [ext_resource type="Texture2D" uid="uid://yxhovo54sndw" path="res://icon.svg" id="3_dyyws"]
 
 [node name="AbilityButton" type="Control" unique_id=652290695]

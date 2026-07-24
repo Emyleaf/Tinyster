@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="SkillData" load_steps=3 format=3]
 
-[ext_resource type="Script" uid="uid://ccpqg0ooqkxty" path="res://player/skill_data.gd" id="1_skill"]
+[ext_resource type="Script" uid="uid://ccpqg0ooqkxty" path="res://core/resources/skill_data.gd" id="1_skill"]
 [ext_resource type="Texture2D" path="res://actors/player/art/skill_warrior.svg" id="2_icon"]
 
 [resource]
@@ -8,6 +8,7 @@ script = ExtResource("1_skill")
 skill_name = "Fendente"
 icon = ExtResource("2_icon")
 cooldown = 4.0
+energy_gain = 20.0
 damage_mult = 2.5
 anim_name = "attack_side"
 cast_time = 0.35

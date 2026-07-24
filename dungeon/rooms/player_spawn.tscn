@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dev804nrhko7n"]
 
-[ext_resource type="Script" uid="uid://dg8wcnmovkded" path="res://generalnodes/playerspawn/player_spawn.gd" id="1_8n7r2"]
-[ext_resource type="Texture2D" uid="uid://dcu4jbhgb8ugj" path="res://player/Sprites/PlayerSprite02.png" id="2_2oql1"]
+[ext_resource type="Script" uid="uid://dg8wcnmovkded" path="res://dungeon/rooms/player_spawn.gd" id="1_8n7r2"]
+[ext_resource type="Texture2D" uid="uid://dcu4jbhgb8ugj" path="res://actors/player/art/PlayerSprite02.png" id="2_2oql1"]
 
 [node name="PlayerSpawn" type="Node2D" unique_id=442468290]
 script = ExtResource("1_8n7r2")

@@ -55,6 +55,8 @@ func enter() -> void:
 	audio.play()
 	attacking = true
 
+	PartyManager.add_energy(BalanceConfig.ENERGY_PER_BASIC_ATTACK)
+
 	await get_tree().create_timer(0.075).timeout
 	if attacking == true:
 		if projectile:

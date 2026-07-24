@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://djms65jjb33jy"]
 
-[ext_resource type="Script" uid="uid://csnj57je285pf" path="res://dungeon/scenes/map_room.gd" id="1_cuibe"]
-[ext_resource type="Texture2D" uid="uid://wnei4t31yt7w" path="res://dungeon/art/monster_room_icon.png" id="2_cuibe"]
+[ext_resource type="Script" uid="uid://csnj57je285pf" path="res://dungeon/map/map_room.gd" id="1_cuibe"]
+[ext_resource type="Texture2D" uid="uid://wnei4t31yt7w" path="res://dungeon/map/art/monster_room_icon.png" id="2_cuibe"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hl4ru"]
 radius = 8.0

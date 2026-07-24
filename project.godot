@@ -19,14 +19,15 @@ config/icon="res://icon.svg"
 
 Events="*uid://dq58reqng8q8f"
 GameManager="*uid://bkc3u7elu4tkp"
+BalanceConfig="*res://autoload/balance_config.gd"
 DungeonManager="*uid://dmkbv7fs27fk5"
 SaveManager="*uid://bdlhvwxmpuqrk"
 PlayerManager="*uid://ddk83mt7ja2an"
 LevelManager="*uid://ddgdgjmm3pofn"
 PauseMenu="*uid://8137607nxqpf"
+RunState="*uid://bx0xit5d7p11x"
 PartyManager="*uid://clxg2xv2q2iae"
 PartyHud="*uid://cit5lu20j0ttv"
-RunState="*uid://bx0xit5d7p11x"
 TransitionScreen="*uid://drnyt783bkvk"
 
 [display]

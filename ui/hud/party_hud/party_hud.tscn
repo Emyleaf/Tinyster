@@ -4,6 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://o4kgmpiulbxg" path="res://ui/hud/party_hud/party_slot.tscn" id="1_slot"]
 [ext_resource type="PackedScene" uid="uid://c74uo8q80syy" path="res://ui/hud/party_hud/ability_button.tscn" id="2_ability"]
 [ext_resource type="Script" uid="uid://bk1f7bp7o3ipi" path="res://ui/hud/party_hud/gold_label.gd" id="4_fsyr1"]
+[ext_resource type="Script" path="res://ui/hud/party_hud/key_counter.gd" id="5_keyui"]
+[ext_resource type="Texture2D" uid="uid://cj2j3uh0r6q6d" path="res://props/pickups/art/key.png" id="6_keytex"]
 
 [node name="PartyHud" type="CanvasLayer" unique_id=975993780 groups=["PartyHUD"]]
 layer = 3
@@ -72,3 +74,27 @@ offset_top = 975.0
 offset_right = 144.0
 offset_bottom = 998.0
 script = ExtResource("4_fsyr1")
+
+[node name="Keys" type="HBoxContainer" parent="Root"]
+layout_mode = 0
+offset_left = 168.0
+offset_top = 971.0
+offset_right = 240.0
+offset_bottom = 1001.0
+mouse_filter = 2
+theme_override_constants/separation = 6
+script = ExtResource("5_keyui")
+
+[node name="Icon" type="TextureRect" parent="Root/Keys"]
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("6_keytex")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Amount" type="Label" parent="Root/Keys"]
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2

@@ -28,7 +28,7 @@ func get_save_data() -> Dictionary:
 		var equip : Dictionary = {}
 		for slot in m.equipment:
 			equip[str(slot)] = m.equipment[slot].resource_path   # chiavi JSON = stringhe
-		members_data.append({ "hp": m.current_hp, "equipment": equip })
+		members_data.append({ "hp": m.current_hp, "energy": m.energy, "equipment": equip })
 	return {
 		"active_index": active_index,
 		"members": members_data,
@@ -52,6 +52,7 @@ func load_from_data(data : Dictionary) -> void:
 
 		var hp : int = int(members_data[i].get("hp", members[i].get_max_hp()))
 		members[i].current_hp = clampi(hp, 0, members[i].get_max_hp())
+		members[i].energy = float(members_data[i].get("energy", 0.0))
 		member_hp_changed.emit(i, members[i])
 
 	var idx : int = int(data.get("active_index", 0))
@@ -113,13 +114,23 @@ func damage_active(amount : int) -> void:
 func heal_active(amount : int) -> void:
 	damage_active(-amount)
 
+## Unico punto in cui l'energia della ultimate viene generata.
+## Chi e' in campo prende il 100%, gli altri una quota ridotta in base alla
+## dimensione del party: identico a Genshin Impact.
+func add_energy(amount : float) -> void:
+	if amount <= 0.0 or members.is_empty():
+		return
+	var off_mult : float = BalanceConfig.ENERGY_OFFFIELD_MULT[mini(members.size(), 4) - 1]
+	for i in members.size():
+		members[i].add_energy(amount if i == active_index else amount * off_mult)
+
 ## Unico punto in cui una skill viene consumata.
 ## Ritorna false se il membro attivo non ha quella skill o e' in cooldown.
 func try_use_skill(slot : PartyMember.Slot) -> bool:
 	var member := get_active()
 	if member == null or not member.is_ready(slot):
 		return false
-	member.start_cooldown(slot)
+	member.consume(slot)
 	return true
 
 ## Unico punto in cui il dash viene consumato.

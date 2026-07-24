@@ -29,6 +29,10 @@ func enter() -> void:
 
 	player.update_animation(skill.anim_name)
 
+	# Genshin: l'elemental skill e' la fonte principale di energia per la ultimate
+	if slot == PartyMember.Slot.SKILL:
+		PartyManager.add_energy(skill.energy_gain)
+
 	var is_crit : bool = randf() < player.get_crit_rate()
 	var dmg : float = member.get_atk() * skill.damage_mult
 	if is_crit:

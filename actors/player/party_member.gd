@@ -13,16 +13,20 @@ var dash_cooldown : float = 0.0
 ## Bonus ATK temporaneo (es. abilita' post-dash del Warrior)
 var atk_buff : int = 0
 var atk_buff_time : float = 0.0
+## Energia accumulata per la ultimate. Parte da 0 a inizio dungeon.
+var energy : float = 0.0
 
 func _init(character_data : CharacterData) -> void:
 	data = character_data
 	current_hp = get_max_hp()
 
 func get_max_hp() -> int:
-	return data.max_hp + int(_bonus("bonus_max_hp"))
+	var flat : float = data.max_hp + _bonus("bonus_max_hp")
+	return maxi(1, roundi(flat * (1.0 + _buff_sum("pct_max_hp"))))
 
 func get_atk() -> int:
-	return data.atk + int(_bonus("bonus_atk")) + atk_buff
+	var flat : float = data.atk + _bonus("bonus_atk") + atk_buff
+	return maxi(1, roundi(flat * (1.0 + _buff_sum("pct_atk"))))
 
 func get_crit_rate() -> float:
 	return clampf(data.crit_rate + _bonus("bonus_crit_rate"), 0.0, 1.0)
@@ -54,19 +58,55 @@ func tick_cooldowns(delta : float) -> void:
 			atk_buff = 0
 
 func is_ready(slot : Slot) -> bool:
-	return get_skill_data(slot) != null and cooldowns[slot] <= 0.0
+	if get_skill_data(slot) == null:
+		return false
+	if cooldowns[slot] > 0.0:
+		return false
+	# La ultimate ha un secondo gate: l'energia deve essere piena
+	if slot == Slot.ULTIMATE:
+		return energy >= get_energy_cost()
+	return true
 
-func start_cooldown(slot : Slot) -> void:
+## Unico punto in cui una skill viene "pagata": cooldown e, per la ultimate,
+## l'energia accumulata che torna a zero.
+func consume(slot : Slot) -> void:
 	var skill := get_skill_data(slot)
-	if skill:
-		cooldowns[slot] = skill.cooldown
+	if skill == null:
+		return
+	cooldowns[slot] = skill.cooldown
+	if slot == Slot.ULTIMATE:
+		energy = 0.0
 
-## 0.0 = appena usata, 1.0 = pronta. Usato dalla HUD per riempire l'anello.
+## Riempimento dell'anello nella HUD.
+## SKILL: avanzamento del cooldown. ULTIMATE: energia accumulata.
 func get_charge(slot : Slot) -> float:
+	if slot == Slot.ULTIMATE:
+		return get_energy_ratio()
 	var skill := get_skill_data(slot)
 	if skill == null or skill.cooldown <= 0.0:
 		return 1.0
 	return 1.0 - cooldowns[slot] / skill.cooldown
+
+# --- Energia ultimate ---------------------------------------------------------
+
+func get_energy_cost() -> float:
+	var ult := get_skill_data(Slot.ULTIMATE)
+	return ult.energy_cost if ult else 0.0
+
+## 0.0 = vuota, 1.0 = ultimate carica
+func get_energy_ratio() -> float:
+	var cost : float = get_energy_cost()
+	if cost <= 0.0:
+		return 1.0
+	return clampf(energy / cost, 0.0, 1.0)
+
+func get_energy_recharge() -> float:
+	return maxf(0.0, 1.0 + _buff_sum("energy_recharge"))
+
+func add_energy(amount : float) -> void:
+	if amount <= 0.0:
+		return
+	energy = minf(energy + amount * get_energy_recharge(), get_energy_cost())
 
 # --- Dash ---------------------------------------------------------------------
 
@@ -91,8 +131,18 @@ func unequip(slot : EquipmentData.Slot) -> void:
 	equipment.erase(slot)
 	current_hp = clampi(current_hp, 0, get_max_hp())
 
+## Bonus piatti: equip indossato + buff della run (stessi nomi di campo)
 func _bonus(field : String) -> float:
 	var total : float = 0.0
 	for item in equipment.values():
 		total += item.get(field)
+	for buff in RunState.buffs:
+		total += buff.get(field)
+	return total
+
+## Campi che esistono solo sui buff (percentuali, ricarica energia)
+func _buff_sum(field : String) -> float:
+	var total : float = 0.0
+	for buff in RunState.buffs:
+		total += buff.get(field)
 	return total

@@ -29,6 +29,7 @@ func _process(_delta : float) -> void:
 	key_label.visible = skill.icon == null  
 	ring.charge = member.get_charge(slot)
 
+	# Per la ultimate "pronta" vuol dire cooldown finito E energia piena
 	var left : float = member.cooldowns[slot]
-	content.modulate = Color(1, 1, 1, 1) if left <= 0.0 else Color(0.55, 0.6, 0.7, 1)
+	content.modulate = Color(1, 1, 1, 1) if member.is_ready(slot) else Color(0.55, 0.6, 0.7, 1)
 	timer_label.text = "" if left <= 0.0 else ("%.1f" % left)

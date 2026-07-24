@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://o4kgmpiulbxg"]
 
-[ext_resource type="Script" uid="uid://do262s6chyr2t" path="res://GUI/party_hud/party_slot.gd" id="1_slot"]
-[ext_resource type="Script" uid="uid://dlbw0ne58s430" path="res://GUI/party_hud/cooldown_ring.gd" id="2_ring"]
+[ext_resource type="Script" uid="uid://do262s6chyr2t" path="res://ui/hud/party_hud/party_slot.gd" id="1_slot"]
+[ext_resource type="Script" uid="uid://dlbw0ne58s430" path="res://ui/hud/party_hud/cooldown_ring.gd" id="2_ring"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
 bg_color = Color(0, 0, 0, 0.6)

@@ -1,11 +1,11 @@
 [gd_resource type="Resource" script_class="EnemyStats" format=3 uid="uid://ct8o2kpbu3g55"]
 
-[ext_resource type="Script" uid="uid://b0qr047oe60bl" path="res://enemies/scripts/enemy_stats.gd" id="1_xeand"]
+[ext_resource type="Script" uid="uid://b0qr047oe60bl" path="res://core/resources/enemy_stats.gd" id="1_xeand"]
 
 [resource]
 script = ExtResource("1_xeand")
-max_hp = 3.0
+max_hp = 40.0
 speed = 30.0
-attack_damage = 2.0
+attack_damage = 10.0
 experience_reward = 1
 metadata/_custom_type_script = "uid://b0qr047oe60bl"

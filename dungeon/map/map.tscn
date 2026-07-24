@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://d0tgltkm5w12x"]
 
-[ext_resource type="Script" uid="uid://0n16fxsfron3" path="res://dungeon/map_generator.gd" id="1_ngjdg"]
-[ext_resource type="Script" uid="uid://cf3e1fkyxmaa1" path="res://dungeon/scenes/map.gd" id="1_ymosu"]
-[ext_resource type="Texture2D" uid="uid://hlebndwru55t" path="res://assets/map.png" id="3_y2wp4"]
+[ext_resource type="Script" uid="uid://0n16fxsfron3" path="res://dungeon/generation/map_generator.gd" id="1_ngjdg"]
+[ext_resource type="Script" uid="uid://cf3e1fkyxmaa1" path="res://dungeon/map/map.gd" id="1_ymosu"]
+[ext_resource type="Texture2D" uid="uid://hlebndwru55t" path="res://dungeon/map/art/map_background.png" id="3_y2wp4"]
 
 [node name="Map" type="Node2D" unique_id=1183846057 groups=["Map"]]
 process_mode = 3

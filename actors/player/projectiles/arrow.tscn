@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cxbl6qc4wi84k"]
 
-[ext_resource type="Script" uid="uid://3msbgf0wsdc8" path="res://player/scripts/arrow.gd" id="1_arrow"]
-[ext_resource type="Texture2D" uid="uid://bgne3a33tpb8n" path="res://assets/Arrow.png" id="2_6ha8w"]
+[ext_resource type="Script" uid="uid://3msbgf0wsdc8" path="res://actors/player/projectiles/arrow.gd" id="1_arrow"]
+[ext_resource type="Texture2D" uid="uid://bgne3a33tpb8n" path="res://actors/player/projectiles/art/arrow.png" id="2_6ha8w"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_arrow"]
 size = Vector2(14, 4)

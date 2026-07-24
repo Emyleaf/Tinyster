@@ -71,6 +71,8 @@ func _on_slime_enemy_destroyed(_hurt_box: HurtBox, enemy: Enemy) -> void:
 	enemy_count -= 1
 	print(enemy_count)
 
+	PartyManager.add_energy(BalanceConfig.ENERGY_PER_KILL)
+
 	if enemy.has_key:
 		# self, non enemy: il nemico viene queue_free() a fine animazione destroy
 		Pickup.spawn(self, enemy.global_position, Pickup.Kind.KEY)

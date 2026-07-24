@@ -10,5 +10,5 @@ cooldown = 1.0
 iframe_start = 0.06
 iframe_duration = 0.1
 anim_speed = 2.0
-buff_atk = 2
+buff_atk = 5
 buff_duration = 3.0

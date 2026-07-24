@@ -7,10 +7,13 @@ extends Node
 signal gold_changed(amount : int)
 signal keys_changed(amount : int)
 signal inventory_changed()
+signal buffs_changed()
 
 var gold : int = 0
 var keys : int = 0
 var inventory : Array[EquipmentData] = []
+## Buff scelti alle scale. Valgono per TUTTO il party e muoiono con la run.
+var buffs : Array[RunBuff] = []
 var enemies_killed : int = 0
 var rooms_cleared : int = 0
 
@@ -19,11 +22,13 @@ func new_game() -> void:
 	gold = 0
 	keys = 0
 	inventory.clear()
+	buffs.clear()
 	enemies_killed = 0
 	rooms_cleared = 0
 	gold_changed.emit(gold)
 	keys_changed.emit(keys)
 	inventory_changed.emit()
+	buffs_changed.emit()
 
 # --- Oro ----------------------------------------------------------------------
 
@@ -63,16 +68,30 @@ func remove_item(item : EquipmentData) -> void:
 	inventory.erase(item)
 	inventory_changed.emit()
 
+# --- Buff ---------------------------------------------------------------------
+
+## Unico punto in cui un buff entra nella run.
+func add_buff(buff : RunBuff) -> void:
+	if buff == null:
+		return
+	buffs.append(buff)
+	buffs_changed.emit()
+
 # --- Save / Load --------------------------------------------------------------
 
 func get_save_data() -> Dictionary:
 	var paths : Array = []
 	for item in inventory:
 		paths.append(item.resource_path)
+	var buff_ids : Array = []
+	for buff in buffs:
+		buff_ids.append(buff.id)
+
 	return {
 		"gold": gold,
 		"keys": keys,
 		"inventory": paths,
+		"buffs": buff_ids,
 		"enemies_killed": enemies_killed,
 		"rooms_cleared": rooms_cleared,
 	}
@@ -90,6 +109,14 @@ func load_from_data(data : Dictionary) -> void:
 		else:
 			push_warning("Item del salvataggio non trovato: %s" % path)
 
+	for id : String in data.get("buffs", []):
+		var buff := BalanceConfig.get_buff(id)
+		if buff:
+			buffs.append(buff)
+		else:
+			push_warning("Buff del salvataggio non trovato: %s" % id)
+
 	gold_changed.emit(gold)
 	keys_changed.emit(keys)
 	inventory_changed.emit()
+	buffs_changed.emit()

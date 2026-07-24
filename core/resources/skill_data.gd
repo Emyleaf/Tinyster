@@ -4,6 +4,11 @@ class_name SkillData extends Resource
 ## Icona mostrata nella HUD. Se null, la HUD mostra la lettera del tasto.
 @export var icon : Texture2D
 @export var cooldown : float = 5.0
+## Solo ULTIMATE: energia da accumulare prima di poterla lanciare (sistema Genshin).
+## La ultimate ha due gate: cooldown a zero E energia piena.
+@export var energy_cost : float = 60.0
+## Solo SKILL: energia generata a ogni lancio (le "particelle" di Genshin).
+@export var energy_gain : float = 0.0
 ## Danno finale = atk del membro * damage_mult
 @export var damage_mult : float = 1.0
 ## Animazione nella libreria del personaggio (es. "attack_side").
