@@ -4,6 +4,8 @@ class_name State_Skill extends State
 
 @export var windup : float = 0.075
 @export_range(1, 20, 0.5) var decelerate_speed : float = 8.0
+## La HurtBox e' condivisa con Attack: va riscritta a ogni cast
+@export_range(0.0, 400.0, 10.0) var knockback_force : float = 200.0
 
 var slot : PartyMember.Slot = PartyMember.Slot.SKILL
 var casting : bool = false
@@ -33,6 +35,7 @@ func enter() -> void:
 		dmg *= player.get_crit_dmg()
 	hurt_box.damage = maxi(1, roundi(dmg))
 	hurt_box.is_crit = is_crit
+	hurt_box.knockback_force = knockback_force
 	hurt_box.scale = Vector2.ONE * skill.hitbox_scale
 
 	await get_tree().create_timer(windup).timeout

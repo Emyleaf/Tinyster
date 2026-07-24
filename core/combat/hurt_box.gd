@@ -1,6 +1,8 @@
 class_name HurtBox extends Area2D
 
 @export var damage : int = 1
+## Spinta applicata al bersaglio. Impostata da chi genera il colpo.
+@export var knockback_force : float = 50.0
 
 ## Impostato da chi genera il colpo. Serve solo alla presentazione (colore del numero).
 var is_crit : bool = false

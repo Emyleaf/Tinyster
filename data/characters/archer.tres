@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://c8f4kfj5womsd" path="res://actors/player/art/all2.png" id="2_gudgr"]
 [ext_resource type="Resource" path="res://data/skills/archer_skill.tres" id="3_8njga"]
 [ext_resource type="Resource" path="res://data/skills/archer_ultimate.tres" id="5_0bbdr"]
+[ext_resource type="Resource" path="res://data/dashes/archer_dash.tres" id="6_adash"]
 
 [resource]
 script = ExtResource("1_gudgr")
@@ -16,5 +17,6 @@ atk = 3
 crit_rate = 1.0
 skill = ExtResource("3_8njga")
 ultimate = ExtResource("5_0bbdr")
+dash = ExtResource("6_adash")
 projectile = ExtResource("1_4638g")
 metadata/_custom_type_script = "uid://cfqr58osc7575"

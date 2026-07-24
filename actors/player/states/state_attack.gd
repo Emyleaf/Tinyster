@@ -14,6 +14,10 @@ var aim_direction : Vector2 = Vector2.RIGHT
 @export_range(1.0, 3.0, 0.1) var combo_damage_mult : float = 1.5
 ## Pausa forzata dopo l'ultimo colpo della catena: impedisce lo spam a raffica
 @export_range(0.0, 2.0, 0.05) var attack_cooldown : float = 0.25
+## Spinta del colpo base: il nemico arretra poco e continua ad avanzare
+@export_range(0.0, 400.0, 10.0) var knockback_light : float = 50.0
+## Spinta del colpo finale di combo: allontana davvero il nemico
+@export_range(0.0, 400.0, 10.0) var knockback_heavy : float = 240.0
 
 ## 0 = primo colpo, 1 = secondo colpo
 var combo_index : int = 0
@@ -58,6 +62,7 @@ func enter() -> void:
 		else:
 			hurt_box.damage = _damage_for(is_crit)
 			hurt_box.is_crit = is_crit
+			hurt_box.knockback_force = knockback_heavy if combo_index == 1 else knockback_light
 			hurt_box.monitoring = true
 	pass
 	

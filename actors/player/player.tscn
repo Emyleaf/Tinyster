@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://bba4rkyv8agg5" path="res://actors/player/player_interactions_host.gd" id="10_d2wvv"]
 [ext_resource type="Script" uid="uid://bqmhb0dvoetk5" path="res://actors/player/states/state_stun.gd" id="10_kb6p2"]
 [ext_resource type="PackedScene" uid="uid://b7e5y80fvd4ia" path="res://core/combat/hurt_box.tscn" id="10_y4r1p"]
+[ext_resource type="Script" uid="uid://3adlwhr806qv" path="res://actors/player/states/state_dodge.gd" id="11_qrxv1"]
 [ext_resource type="PackedScene" uid="uid://w5gedwn5m48d" path="res://core/combat/hit_box.tscn" id="12_ebec5"]
 [ext_resource type="Texture2D" uid="uid://cmmamg8pmr5hf" path="res://core/combat/art/healthbar_under.png" id="14_32hag"]
 [ext_resource type="AudioStream" uid="uid://rh3a0mii86hr" path="res://actors/player/audio/hit_player.wav" id="14_wodsf"]
@@ -387,6 +388,9 @@ script = ExtResource("9_tqiix")
 
 [node name="Stun" type="Node" parent="StateMachine" unique_id=968790545]
 script = ExtResource("10_kb6p2")
+
+[node name="Dodge" type="Node" parent="StateMachine" unique_id=1375925346]
+script = ExtResource("11_qrxv1")
 
 [node name="Audio" type="Node2D" parent="." unique_id=1057433978]
 

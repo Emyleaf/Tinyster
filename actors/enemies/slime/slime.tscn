@@ -916,9 +916,10 @@ script = ExtResource("6_bkm6f")
 next_state = NodePath("../Idle")
 chase_state = NodePath("../Chase")
 
-[node name="Stun" type="Node" parent="EnemyStateMachine" unique_id=659333872 node_paths=PackedStringArray("next_state")]
+[node name="Stun" type="Node" parent="EnemyStateMachine" unique_id=659333872 node_paths=PackedStringArray("next_state", "chase_state")]
 script = ExtResource("11_im24l")
 next_state = NodePath("../Idle")
+chase_state = NodePath("../Chase")
 
 [node name="Destroy" type="Node" parent="EnemyStateMachine" unique_id=1507170745]
 script = ExtResource("12_0oddt")

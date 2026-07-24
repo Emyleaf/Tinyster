@@ -122,6 +122,14 @@ func try_use_skill(slot : PartyMember.Slot) -> bool:
 	member.start_cooldown(slot)
 	return true
 
+## Unico punto in cui il dash viene consumato.
+func try_dash() -> bool:
+	var member := get_active()
+	if member == null or not member.is_dash_ready():
+		return false
+	member.start_dash_cooldown()
+	return true
+
 func _on_active_died() -> void:
 	var next := _find_next_alive()
 	if next == -1:

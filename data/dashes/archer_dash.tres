@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="DashData" format=3]
+
+[ext_resource type="Script" path="res://core/resources/dash_data.gd" id="1_adash"]
+
+[resource]
+script = ExtResource("1_adash")
+speed = 650.0
+duration = 0.2
+cooldown = 0.7
+iframe_start = 0.03
+iframe_duration = 0.14
+anim_speed = 3.0
+buff_atk = 0
+buff_duration = 0.0
