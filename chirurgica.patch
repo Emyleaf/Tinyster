@@ -1,0 +1,57 @@
+--- a/actors/player/party_member.gd
++++ b/actors/player/party_member.gd
+@@ -1,10 +1,12 @@
+ func get_max_hp() -> int:
+ 	var flat : float = data.max_hp + _bonus("bonus_max_hp")
+-	return maxi(1, roundi(flat * (1.0 + _buff_sum("pct_max_hp"))))
++	var pct : float = clampf(_buff_sum("pct_max_hp"), 0.0, BalanceConfig.PCT_HP_CAP)
++	return maxi(1, roundi(flat * (1.0 + pct)))
+ 
+ func get_atk() -> int:
+ 	var flat : float = data.atk + _bonus("bonus_atk") + atk_buff
+-	return maxi(1, roundi(flat * (1.0 + _buff_sum("pct_atk"))))
++	var pct : float = clampf(_buff_sum("pct_atk"), 0.0, BalanceConfig.PCT_ATK_CAP)
++	return maxi(1, roundi(flat * (1.0 + pct)))
+ 
+ func get_crit_rate() -> float:
+ 	return clampf(data.crit_rate + _bonus("bonus_crit_rate"), 0.0, 1.0)
+@@ -12,7 +14,8 @@
+ 	return clampf(energy / cost, 0.0, 1.0)
+ 
+ func get_energy_recharge() -> float:
+-	return maxf(0.0, 1.0 + _buff_sum("energy_recharge"))
++	## Il Sigillo contribuisce alla ricarica: _bonus somma equip + buff
++	return maxf(0.0, 1.0 + _bonus("energy_recharge"))
+ 
+ func add_energy(amount : float) -> void:
+ 	if amount <= 0.0:
+--- a/autoload/party_manager.gd
++++ b/autoload/party_manager.gd
+@@ -2,7 +2,9 @@
+ 	for m in members:
+ 		var equip : Dictionary = {}
+ 		for slot in m.equipment:
+-			equip[str(slot)] = m.equipment[slot].resource_path   # chiavi JSON = stringhe
++			# Chiavi JSON = stringhe. Il valore e' un dizionario perche' un equip
++			# generato a runtime non ha resource_path.
++			equip[str(slot)] = EquipmentGenerator.to_dict(m.equipment[slot])
+ 		members_data.append({ "hp": m.current_hp, "energy": m.energy, "equipment": equip })
+ 	return {
+ 	# filler 0
+@@ -15,8 +17,13 @@
+ 	# filler 7
+ 		var equip : Dictionary = members_data[i].get("equipment", {})
+ 		for slot_str in equip:
+-			var path : String = equip[slot_str]
+-			if ResourceLoader.exists(path):
+-				members[i].equip(load(path))
++			var saved = equip[slot_str]
++			# I salvataggi vecchi contengono un path: non sono piu' ricostruibili,
++			# vengono ignorati invece di far crashare il caricamento.
++			var item : EquipmentData = null
++			if saved is Dictionary:
++				item = EquipmentGenerator.from_dict(saved)
++			if item != null:
++				members[i].equip(item)
+ 
+ 		var hp : int = int(members_data[i].get("hp", members[i].get_max_hp()))

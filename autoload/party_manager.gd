@@ -114,6 +114,18 @@ func damage_active(amount : int) -> void:
 func heal_active(amount : int) -> void:
 	damage_active(-amount)
 
+## Unico punto in cui viene curato TUTTO il party (cuore della stanza falo').
+## pct e' una frazione degli HP massimi di ciascun membro: 0.30 = 30%.
+## Chi e' a 0 HP non viene resuscitato: il falo' cura, non riporta in vita.
+func heal_party(pct : float) -> void:
+	for i in members.size():
+		var member : PartyMember = members[i]
+		if not member.is_alive():
+			continue
+		var amount : int = maxi(1, roundi(member.get_max_hp() * pct))
+		member.current_hp = mini(member.current_hp + amount, member.get_max_hp())
+		member_hp_changed.emit(i, member)
+
 ## Unico punto in cui l'energia della ultimate viene generata.
 ## Chi e' in campo prende il 100%, gli altri una quota ridotta in base alla
 ## dimensione del party: identico a Genshin Impact.

@@ -127,10 +127,12 @@ func complete_room() -> void:
 		current_room_node.queue_free()
 		current_room_node = null
 
-	# 2. Tre carte buff: si sceglie prima di rivedere la mappa
-	var cards : Array[RunBuff] = BalanceConfig.roll_buffs(BalanceConfig.BUFF_CARDS)
-	var buff : RunBuff = await BuffSelect.open(get_tree().root, cards)
-	RunState.add_buff(buff)
+	# 2. Tre carte buff: si sceglie prima di rivedere la mappa.
+	#    La stanza falo' non le da': la sua ricompensa e' la cura del cuore.
+	if last_room == null or last_room.type != Room.Type.CAMPFIRE:
+		var cards : Array[RunBuff] = BalanceConfig.roll_buffs(BalanceConfig.BUFF_CARDS)
+		var buff : RunBuff = await BuffSelect.open(get_tree().root, cards)
+		RunState.add_buff(buff)
 
 	# 3. Riapri la mappa e sblocca le stanze adiacenti a quella appena completata
 	#    (last_room è già quella giusta: viene settato in map.gd al momento della

@@ -155,15 +155,18 @@ physics_layer_0/collision_layer = 16
 physics_layer_0/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_5s76m")
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_heart"]
+radius = 40.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dr6ng"]
+resource_local_to_scene = true
+size = Vector2(199, 92)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cbwyf"]
 resource_local_to_scene = true
 size = Vector2(199, 92)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y8rx5"]
-resource_local_to_scene = true
-size = Vector2(199, 92)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_vvc06"]
 resource_local_to_scene = true
 size = Vector2(199, 92)
 
@@ -178,27 +181,33 @@ tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAEAAAAAAAIAAAAAAAI
 tile_set = SubResource("TileSet_7fqpt")
 script = ExtResource("2_eedlx")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=526225689]
-position = Vector2(875.00006, 518.00006)
-scale = Vector2(5, 5)
-texture = ExtResource("4_wl401")
-
 [node name="Spawnpoint" type="Marker2D" parent="." unique_id=1271243676]
 position = Vector2(210, 506)
+
+[node name="Heart" type="Area2D" parent="." unique_id=418209374]
+position = Vector2(882, 502)
+collision_layer = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="Heart" unique_id=418209375]
+scale = Vector2(3, 3)
+texture = ExtResource("4_wl401")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Heart" unique_id=418209376]
+shape = SubResource("CircleShape2D_heart")
 
 [node name="LevelTransition" parent="." unique_id=75343586 instance=ExtResource("5_dr6ng")]
 position = Vector2(814, 32)
 
 [node name="CollisionShape2D" parent="LevelTransition" index="0" unique_id=1639941441]
 position = Vector2(67.5, 14)
-shape = SubResource("RectangleShape2D_cbwyf")
+shape = SubResource("RectangleShape2D_dr6ng")
 
 [node name="LevelTransition2" parent="." unique_id=1035564729 instance=ExtResource("5_dr6ng")]
 position = Vector2(798, 1021)
 
 [node name="CollisionShape2D" parent="LevelTransition2" index="0" unique_id=1639941441]
 position = Vector2(67.5, 14)
-shape = SubResource("RectangleShape2D_y8rx5")
+shape = SubResource("RectangleShape2D_cbwyf")
 
 [node name="LevelTransition3" parent="." unique_id=361941049 instance=ExtResource("5_dr6ng")]
 position = Vector2(1886, 462)
@@ -206,7 +215,7 @@ rotation = 1.5707964
 
 [node name="CollisionShape2D" parent="LevelTransition3" index="0" unique_id=1639941441]
 position = Vector2(67.5, 14)
-shape = SubResource("RectangleShape2D_vvc06")
+shape = SubResource("RectangleShape2D_y8rx5")
 
 [editable path="LevelTransition"]
 [editable path="LevelTransition2"]
